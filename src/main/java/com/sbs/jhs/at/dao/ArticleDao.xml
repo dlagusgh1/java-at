@@ -7,19 +7,22 @@
 		SELECT *
 		FROM article
 		WHERE displayStatus = 1
+		AND delStatus = 0
 		ORDER BY id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
-	<select id="getOne" resultType="Article">
+	<select id="getForPrintArticle" resultType="Article">
 		SELECT *
 		FROM article
 		WHERE displayStatus = 1
+		AND delStatus = 0
 		AND id = #{id}
 	</select>
 	<select id="getForPrintListArticlesCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM article
 		WHERE displayStatus = 1
+		AND delStatus = 0
 	</select>
 	<insert id="write">
 		INSERT INTO article
@@ -27,12 +30,16 @@
 		updateDate = NOW(), 
 		title = #{title}, 
 		`body`= #{body},
-		displayStatus = 1
+		displayStatus = 1,
+		delDate = NOW()
 	</insert>
-	<delete id="delete">
-		DELETE from article 
-		WHERE id= #{id}
-	</delete>
+	<update id="delete">
+		UPDATE article
+		SET delStatus = 1
+		, delDate = NOW()
+		, displayStatus = 1
+		WHERE id = #{id}
+	</update>
 	<update id="modify">
 		UPDATE article
 		SET title = #{title}

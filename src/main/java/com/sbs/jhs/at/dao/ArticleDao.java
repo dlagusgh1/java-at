@@ -11,7 +11,7 @@ import com.sbs.jhs.at.dto.Article;
 public interface ArticleDao {
 	List<Article> getForPrintArticles(int limitFrom, int itemsInAPage);
 	
-	Article getOne(@Param("id") int id);
+	Article getForPrintArticle(@Param("id") int id);
 
 	void write(String title, String body);
 

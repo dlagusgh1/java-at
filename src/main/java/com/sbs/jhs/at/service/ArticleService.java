@@ -13,10 +13,6 @@ public class ArticleService {
 	@Autowired
 	private ArticleDao articleDao;
 	
-	public int getCount() {
-		return 2;
-	}
-	
 	// 게시물 리스트
 	public List<Article> getForPrintArticles(int page, int itemsInAPage) {
 		int limitFrom = (page-1) * itemsInAPage;
@@ -27,8 +23,8 @@ public class ArticleService {
 	}
 
 	// 게시물 상세보기
-	public Article getOne(int id) {		
-		Article article = articleDao.getOne(id);
+	public Article getForPrintArticle(int id) {		
+		Article article = articleDao.getForPrintArticle(id);
 	
 		return article;
 	}
@@ -48,6 +44,7 @@ public class ArticleService {
 		return articleDao.getForPrintListArticlesCount();
 	}
 
+	// 게시물 수정
 	public void modify(int id, String title, String body) {
 		articleDao.modify(id, title, body);
 	}

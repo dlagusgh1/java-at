@@ -19,10 +19,17 @@
 		margin: 20px;
 	}
 	
-	.write-box .form-row button {
+	.write-box .form-row .submit-button {
 		cursor: pointer;
 		padding: 10px 50px;
 		margin: 10px;
+		background: #f0f6f9;
+		border: 1px solid #168;
+	}
+	
+	.write-box .form-row .submit-button:hover {
+		color: white;
+		background: #afafaf;
 	}
 	
 	.write-box .form-row>.label {
@@ -50,6 +57,28 @@
 
 </style>
 
+<script type="text/javascript">
+	function submitAddForm(form) {
+		form.title.value = form.title.value.trim();
+		if (form.title.value.length == 0) {
+			alert('제목을 입력해주세요.');
+			form.title.focus();
+
+			return false;
+		}
+
+		form.body.value = form.body.value.trim();
+		if (form.body.value.length == 0) {
+			alert('내용을 입력해주세요.');
+			form.body.focus();
+
+			return false;
+		}
+
+		form.submit();
+	}
+</script>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +90,7 @@
 <h1>게시물 작성</h1>
 
 <div class="write-box">
-	<form action="doWrite" method="POST">
+	<form action="doWrite" method="POST" onsubmit="submitAddForm(this); return false;">
 		<div class="form-row">
 			<div class="label">제목</div>
 			<div class="input">
@@ -76,7 +105,7 @@
 		</div>
 		<div class="form-row">
 			<div class="input">
-				<button type="submit" value="로그인">작성</button>
+				<input class="submit-button" type="submit" value="작성"></input>
 			</div>
 		</div>
 	</form>

@@ -13,6 +13,11 @@
 		text-align: center;
 	}
 	
+	.total {
+		display: flex;
+		justify-content: center;
+	}
+	
 	.table-box {
 		display: flex;
 		justify-content: center;
@@ -42,10 +47,17 @@
 		justify-content: center;
 	}
 	
-	button {
+	.write-button {
 		padding: 10px;
 		margin: 10px;
 		cursor: pointer;
+		background: #f0f6f9;
+		border: 1px solid #168;
+	}
+	
+	.write-button:hover {
+		color: white;
+		background: #afafaf;
 	}
 	
 	.page-box {
@@ -56,6 +68,10 @@
 	.page-box tr > td > a {
 		font-size: 1.5rem;
 		padding: 10px;
+	}
+	.search-box {
+		display: flex;
+		justify-content: center;
 	}
 </style>
 
@@ -68,6 +84,17 @@
 <body>
 
 <h1>게시물 리스트</h1>
+
+<div class="search-box">
+	<div class="input-box">
+		<form action="http://localhost:8085/article/list">
+			<input type="hidden" name="page" value="1" /> 
+			<input type="hidden" name="searchKeywordType" value="title" /> 
+			<input type="text" name="searchKeyword" value="${param.searchKeyword}" />
+			<button type="submit">검색</button>
+		</form>
+	</div>
+</div>
 
 <div class="table-box">
 	<table class="article-table">
@@ -85,6 +112,10 @@
 		</c:forEach>
 	</table>
 </div>
+<div class="total">
+	전체 게시물 수 : ${totalCount}
+</div>
+
 
 <div class="page-box">
 	<table>
@@ -107,7 +138,7 @@
 </div>
 
 <div class="button-box">
-	<button onclick="location.replace('write');">게시물 작성</button>
+	<a class="write-button" onclick="location.replace('write');">게시물 작성</a>
 </div>
 
 </body>

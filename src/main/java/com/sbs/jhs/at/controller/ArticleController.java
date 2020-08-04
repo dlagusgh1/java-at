@@ -15,22 +15,20 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
-	// 게시물 리스트
+	// 게시물 리스트	
 	@RequestMapping("/article/list")
 	public String showList(Model model, int page) {
-			
+		
 		int itemsInAPage = 5;
 		int totalCount = articleService.getForPrintListArticlesCount();
 		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
 		
-		int count = articleService.getCount();
 		List<Article> articles = articleService.getForPrintArticles(page, itemsInAPage);
 		
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
 		
-		model.addAttribute("count", count);
 		model.addAttribute("articles", articles);
 		
 		int pageCount = 5;
@@ -48,6 +46,7 @@ public class ArticleController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		
+		
 		return "article/list";
 	}
 	
@@ -55,9 +54,13 @@ public class ArticleController {
 	@RequestMapping("/article/detail")
 	public String showDetail(Model model, int id) {
 		
-		Article article = articleService.getOne(id);
+		Article article = articleService.getForPrintArticle(id);
 		
 		model.addAttribute("article", article);
+		
+		int totalCount = articleService.getForPrintListArticlesCount();
+		
+		model.addAttribute("totalCount", totalCount);
 		
 		return "article/detail";
 	}
@@ -74,8 +77,12 @@ public class ArticleController {
 	public String doWrite(Model model, String title, String body) {
 		
 		articleService.write(title, body);
-	
-		return showList(model, 1);
+		
+		String redirectUrl = "/article/list?page=1";
+
+		model.addAttribute("locationReplace", redirectUrl);
+
+		return "common/redirect";
 	}
 	
 	// 게시물 삭제
@@ -83,15 +90,19 @@ public class ArticleController {
 	public String delete(Model model, int id) {
 		
 		articleService.delete(id);
-	
-		return showList(model, 1);
+		
+		String redirectUrl = "/article/list?page=1";
+
+		model.addAttribute("locationReplace", redirectUrl);
+
+		return "common/redirect";
 	}
 	
 	// 게시물 수정 폼
 	@RequestMapping("/article/modify")
 	public String modify(Model model, int id) {
 		
-		Article article = articleService.getOne(id);
+		Article article = articleService.getForPrintArticle(id);
 		
 		model.addAttribute("article", article);
 		
@@ -103,7 +114,11 @@ public class ArticleController {
 	public String doModify(Model model, int id, String title, String body) {
 		
 		articleService.modify(id, title, body);
-	
-		return showList(model, 1);
+		
+		String redirectUrl = "/article/detail?id=" + id;
+
+		model.addAttribute("locationReplace", redirectUrl);
+
+		return "common/redirect";
 	}
 }
