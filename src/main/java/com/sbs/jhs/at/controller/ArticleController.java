@@ -17,7 +17,13 @@ public class ArticleController {
 	
 	// 게시물 리스트	
 	@RequestMapping("/article/list")
-	public String showList(Model model, int page) {
+	public String showList(Model model, String pagee) {
+		
+		if (pagee == null) {
+			pagee = "1";
+		}
+		
+		int page = Integer.parseInt(pagee);
 		
 		int itemsInAPage = 5;
 		int totalCount = articleService.getForPrintListArticlesCount();
@@ -46,7 +52,7 @@ public class ArticleController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		
-		
+
 		return "article/list";
 	}
 	
