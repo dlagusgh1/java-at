@@ -3,6 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <style>
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+	
 	h1 {
 		margin: 10px;
 		text-align: center;
@@ -104,8 +109,9 @@
 			</div>
 		</div>
 		<div class="form-row">
-			<div class="input">
+			<div class="input" style="display: flex;">
 				<input class="submit-button" type="submit" value="작성"></input>
+				<a class="submit-button" href="list?page=1">취소</a>
 			</div>
 		</div>
 	</form>
