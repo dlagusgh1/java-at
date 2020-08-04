@@ -47,4 +47,20 @@
 		, updateDate = NOW()
 		WHERE id = #{id}
 	</update>
+	<select id="getForPrintSearchArticle" resultType="Article">
+		SELECT *
+		FROM article
+		WHERE displayStatus = 1
+		AND delStatus = 0
+		AND title = #{searchKeyword}
+		ORDER BY id DESC
+		LIMIT #{limitFrom}, #{itemsInAPage}
+	</select>
+	<select id="getForPrintListSearchArticlesCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM article
+		WHERE displayStatus = 1
+		AND delStatus = 0
+		AND title = #{searchKeyword}
+	</select>
 </mapper>

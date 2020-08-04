@@ -120,18 +120,35 @@
 <div class="page-box">
 	<table>
 		<tr>
-			<c:if test="${page != 1}">
-				<c:set var="k" value="${page}" />
-					<td><a href="?page=${k-1}"><</a></td>
+			<c:if test="${searchKeyword == null}">
+				<c:if test="${page != 1}">
+					<c:set var="k" value="${page}" />
+						<td><a href="?page=${k-1}"><</a></td>
+				</c:if>
+				<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+					<td class="${i == page ? 'current' : ''}" >
+						<a href="?page=${i}" class="block" >${i}</a>
+					</td>
+				</c:forEach>
+				<c:if test="${page != totalPage}">
+					<c:set var="k" value="${page}" />
+						<td><a href="?page=${k+1}">></a></td>
+				</c:if>
 			</c:if>
-			<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
-				<td class="${i == page ? 'current' : ''}" >
-					<a href="?page=${i}" class="block" >${i}</a>
-				</td>
-			</c:forEach>
-			<c:if test="${page != totalPage}">
-				<c:set var="k" value="${page}" />
-					<td><a href="?page=${k+1}">></a></td>
+			<c:if test="${searchKeyword != null}">
+				<c:if test="${page != 1}">
+					<c:set var="k" value="${page}" />
+						<td><a href="?page=${k-1}"><</a></td>
+				</c:if>
+				<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+					<td class="${i == page ? 'current' : ''}" >
+						<a href="?page=${i}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}" class="block" >${i}</a>
+					</td>
+				</c:forEach>
+				<c:if test="${page != totalPage}">
+					<c:set var="k" value="${page}" />
+						<td><a href="?page=${k+1}">></a></td>
+				</c:if>
 			</c:if>
 		</tr>
 	</table>

@@ -17,16 +17,51 @@ public class ArticleController {
 	
 	// 게시물 리스트	
 	@RequestMapping("/article/list")
-	public String showList(Model model, String page) {
+	public String showList(Model model, String page, String searchKeywordType, String searchKeyword) {
 		
 		if (page == null) {
 			page = "1";
-		}
+		} 
 		
 		int Spage = Integer.parseInt(page);
 		
 		int itemsInAPage = 5;
 		int limitFrom = (Spage-1) * itemsInAPage;
+		
+		if (searchKeywordType != null && searchKeyword != null) {
+			List<Article> articles = articleService.getForPrintSearchArticle(limitFrom, itemsInAPage, searchKeywordType, searchKeyword);
+			
+			int totalCount = articleService.getForPrintListSearchArticlesCount(searchKeywordType, searchKeyword);
+			int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
+			
+			model.addAttribute("totalCount", totalCount);
+			model.addAttribute("totalPage", totalPage);
+			model.addAttribute("page", page);
+			
+			model.addAttribute("searchKeywordType", searchKeywordType);
+			model.addAttribute("searchKeyword", searchKeyword);
+			
+			model.addAttribute("articles", articles);
+			
+			int pageCount = 5;
+			int startPage = ((Spage - 1) / pageCount) * pageCount + 1;
+			int endPage = startPage + pageCount - 1;
+			
+			if( totalPage < Spage) {
+				Spage = totalPage;
+			}
+			if ( endPage > totalPage) {
+				endPage = totalPage;
+			}
+			
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			
+			return "article/list";
+		}
+		
+		
 		int totalCount = articleService.getForPrintListArticlesCount();
 		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
 		

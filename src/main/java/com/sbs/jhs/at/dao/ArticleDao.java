@@ -20,4 +20,8 @@ public interface ArticleDao {
 	int getForPrintListArticlesCount();
 
 	void modify(int id, String title, String body);
+
+	List<Article> getForPrintSearchArticle(int limitFrom, int itemsInAPage, String searchKeywordType, String searchKeyword);
+
+	int getForPrintListSearchArticlesCount(String searchKeywordType, String searchKeyword);
 }

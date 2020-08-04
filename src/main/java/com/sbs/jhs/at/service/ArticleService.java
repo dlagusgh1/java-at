@@ -47,6 +47,20 @@ public class ArticleService {
 	public void modify(int id, String title, String body) {
 		articleDao.modify(id, title, body);
 	}
+
+	// 검색 게시물 리스트
+	public List<Article> getForPrintSearchArticle(int limitFrom, int itemsInAPage, String searchKeywordType, String searchKeyword) {
+		
+		List<Article> articles = articleDao.getForPrintSearchArticle(limitFrom, itemsInAPage, searchKeywordType, searchKeyword);
+		
+		return articles;	
+	}
+
+	// 검색 게시물 수 출력
+	public int getForPrintListSearchArticlesCount(String searchKeywordType, String searchKeyword) {
+		return articleDao.getForPrintListSearchArticlesCount(searchKeywordType, searchKeyword);
+	}
+	
 }
 
 
