@@ -52,7 +52,7 @@
 		FROM article
 		WHERE displayStatus = 1
 		AND delStatus = 0
-		AND title = #{searchKeyword}
+		AND title LIKE CONCAT('%', #{searchKeyword} , '%')
 		ORDER BY id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
@@ -61,6 +61,6 @@
 		FROM article
 		WHERE displayStatus = 1
 		AND delStatus = 0
-		AND title = #{searchKeyword}
+		AND title LIKE CONCAT('%', #{searchKeyword} , '%')
 	</select>
 </mapper>

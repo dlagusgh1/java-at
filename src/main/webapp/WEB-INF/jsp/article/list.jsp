@@ -135,10 +135,11 @@
 						<td><a href="?page=${k+1}">></a></td>
 				</c:if>
 			</c:if>
+			
 			<c:if test="${searchKeyword != null}">
 				<c:if test="${page != 1}">
 					<c:set var="k" value="${page}" />
-						<td><a href="?page=${k-1}"><</a></td>
+						<td><a href="?page=${k-1}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}"><</a></td>
 				</c:if>
 				<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
 					<td class="${i == page ? 'current' : ''}" >
@@ -147,7 +148,7 @@
 				</c:forEach>
 				<c:if test="${page != totalPage}">
 					<c:set var="k" value="${page}" />
-						<td><a href="?page=${k+1}">></a></td>
+						<td><a href="?page=${k+1}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}">></a></td>
 				</c:if>
 			</c:if>
 		</tr>
