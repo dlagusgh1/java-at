@@ -17,19 +17,20 @@ public class ArticleController {
 	
 	// 게시물 리스트	
 	@RequestMapping("/article/list")
-	public String showList(Model model, String pagee) {
+	public String showList(Model model, String page) {
 		
-		if (pagee == null) {
-			pagee = "1";
+		if (page == null) {
+			page = "1";
 		}
 		
-		int page = Integer.parseInt(pagee);
+		int Spage = Integer.parseInt(page);
 		
 		int itemsInAPage = 5;
+		int limitFrom = (Spage-1) * itemsInAPage;
 		int totalCount = articleService.getForPrintListArticlesCount();
 		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
 		
-		List<Article> articles = articleService.getForPrintArticles(page, itemsInAPage);
+		List<Article> articles = articleService.getForPrintArticles(limitFrom, itemsInAPage);
 		
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("totalPage", totalPage);
@@ -38,11 +39,11 @@ public class ArticleController {
 		model.addAttribute("articles", articles);
 		
 		int pageCount = 5;
-		int startPage = ((page - 1) / pageCount) * pageCount + 1;
+		int startPage = ((Spage - 1) / pageCount) * pageCount + 1;
 		int endPage = startPage + pageCount - 1;
 		
-		if( totalPage < page) {
-			page = totalPage;
+		if( totalPage < Spage) {
+			Spage = totalPage;
 		}
 		if ( endPage > totalPage) {
 			endPage = totalPage;

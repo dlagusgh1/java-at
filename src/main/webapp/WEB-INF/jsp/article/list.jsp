@@ -88,7 +88,7 @@
 <div class="search-box">
 	<div class="input-box">
 		<form action="http://localhost:8085/article/list">
-			<input type="hidden" name="searchPage" value="1" /> 
+			<input type="hidden" name="page" value="1" /> 
 			<input type="hidden" name="searchKeywordType" value="title" /> 
 			<input type="text" name="searchKeyword" value="${param.searchKeyword}" />
 			<button type="submit">검색</button>

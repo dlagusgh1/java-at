@@ -14,8 +14,7 @@ public class ArticleService {
 	private ArticleDao articleDao;
 	
 	// 게시물 리스트
-	public List<Article> getForPrintArticles(int page, int itemsInAPage) {
-		int limitFrom = (page-1) * itemsInAPage;
+	public List<Article> getForPrintArticles(int limitFrom, int itemsInAPage) {
 		
 		List<Article> articles = articleDao.getForPrintArticles(limitFrom, itemsInAPage);
 		
