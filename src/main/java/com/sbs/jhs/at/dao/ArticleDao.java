@@ -1,6 +1,7 @@
 package com.sbs.jhs.at.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,7 +27,7 @@ public interface ArticleDao {
 
 	int getForPrintListSearchArticlesCount(String searchKeywordType, String searchKeyword);
 
-	void writeReply(int articleId, String body);
+	void writeArticleReply(Map<String, Object> param);
 
 	int getForPrintListArticleRepliesCount(int id);
 

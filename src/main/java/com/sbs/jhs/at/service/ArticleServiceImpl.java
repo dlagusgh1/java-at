@@ -1,6 +1,8 @@
 package com.sbs.jhs.at.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.sbs.jhs.at.dao.ArticleDao;
 import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.ArticleReply;
+import com.sbs.jhs.at.util.CUtil;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -72,8 +75,15 @@ public class ArticleServiceImpl implements ArticleService {
 
 	// 댓글 작성 기능
 	@Override
-	public void writeReply(int articleId, String body) {
-		 articleDao.writeReply(articleId, body);	
+	public Map<String, Object> writeReply(Map<String, Object> param) {
+		articleDao.writeArticleReply(param);
+		int id = CUtil.getAsInt(param.get("id"));
+		Map<String, Object> rs = new HashMap<>();
+
+		rs.put("resultCode", "S-1");
+		rs.put("msg", String.format("%d번 게시물 댓글이 생성되었습니다.", id));
+
+		return rs;
 	}
 
 	// 특정 게시물 댓글 수 출력

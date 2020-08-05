@@ -63,7 +63,7 @@
 		AND delStatus = 0
 		AND title LIKE CONCAT('%', #{searchKeyword} , '%')
 	</select>
-	<insert id="writeReply">
+	<insert id="writeArticleReply" parameterType="map" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO articleReply
 		SET regDate = NOW(), 
 		updateDate = NOW(), 

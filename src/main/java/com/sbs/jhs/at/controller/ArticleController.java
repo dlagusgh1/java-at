@@ -1,11 +1,16 @@
 package com.sbs.jhs.at.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.ArticleReply;
@@ -197,15 +202,26 @@ public class ArticleController {
 	
 	// 댓글 작성 기능
 	@RequestMapping("/article/doWriteReply")
-	public String doWriteReply(Model model, int articleId, String body) {
+	public String doWriteReply(Model model, @RequestParam Map<String, Object> param, HttpServletRequest request) {
 		
-		articleService.writeReply(articleId, body);
+		Map<String, Object> rs = articleService.writeReply(param);
+		
+		String msg = (String) rs.get("msg");
+		String redirectUrl = (String) param.get("redirectUrl");
 
-		String redirectUrl = "/article/detail?id=" + articleId;
-
+		model.addAttribute("alertMsg", msg);
 		model.addAttribute("locationReplace", redirectUrl);
 
 		return "common/redirect";
+	}
+	
+	@RequestMapping("article/doWriteReplyAjax")
+	@ResponseBody
+	public Map<String, Object> doWriteReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
+		
+		Map<String, Object> rs = articleService.writeReply(param);
+		
+		return rs;
 	}
 	
 	// 댓글 삭제

@@ -185,17 +185,31 @@
 	}
 </style>
 
-<script type="text/javascript">
-	function submitArticleReplyWriteForm(form) {
+<script>
+	function WriteReply__submitForm(form) {
 		form.body.value = form.body.value.trim();
+		
 		if (form.body.value.length == 0) {
-			alert('내용을 입력해주세요.');
+			alert('댓글을 입력해주세요.');
 			form.body.focus();
 
-			return false;
+			return;
 		}
 
-		form.submit();
+		$.post('./doWriteReplyAjax', {
+			articleId : form.articleId.value,
+			body : form.body.value
+		}, function(data) {
+			if (data.msg) {
+				alert(data.msg);
+			}
+
+			if ( data.resultCode.substr(0, 2) == 'S-' ) {
+				location.reload(); // 임시
+			}
+		}, 'json');
+
+		form.body.value = '';
 	}
 </script>
 	
@@ -300,7 +314,7 @@
 
 	<h2>댓글 작성</h2>
 	<div class="write-box">
-		<form action="doWriteReply" method="POST" onsubmit="submitArticleReplyWriteForm(this); return false;">
+		<form action="" onsubmit="WriteReply__submitForm(this); return false;">
 			<input type="hidden" name="articleId" value="${param.id}" />
 			<div class="form-row">
 				<div class="label">내용</div>

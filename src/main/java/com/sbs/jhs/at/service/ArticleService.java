@@ -1,6 +1,7 @@
 package com.sbs.jhs.at.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.ArticleReply;
@@ -32,7 +33,7 @@ public interface ArticleService {
 	public int getForPrintListSearchArticlesCount(String searchKeywordType, String searchKeyword);
 
 	// 댓글 작성 기능
-	public void writeReply(int articleId, String body);
+	Map<String, Object> writeReply(Map<String, Object> param);
 
 	// 특정 게시물 댓글 수 출력
 	public int getForPrintListArticleRepliesCount(int id);
