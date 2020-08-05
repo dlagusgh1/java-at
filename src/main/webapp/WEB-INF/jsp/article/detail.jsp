@@ -8,7 +8,7 @@
 		text-decoration: none;
 	}
 	
-	h1, h3 {
+	h1, h2, h3 {
 		margin: 10px;
 		text-align: center;
 	}
@@ -176,7 +176,6 @@
 		font-size: 1.5rem;
 		padding: 10px;
 	}
-	
 </style>
 
 <script type="text/javascript">
@@ -245,7 +244,7 @@
 	</c:if>
 </div>
 
-<h1>댓글 리스트</h1>
+<h2>댓글 리스트</h1>
 
 <div class="total">
 	전체 댓글 수 : ${totalCount}
@@ -293,7 +292,7 @@
 	</table>
 </div>
 
-<h1>댓글 작성</h1>
+<h2>댓글 작성</h1>
 <div class="write-box">
 	<form action="doWriteReply" method="POST" onsubmit="submitArticleReplyWriteForm(this); return false;">
 		<input type="hidden" name="articleId" value="${param.id}" />
