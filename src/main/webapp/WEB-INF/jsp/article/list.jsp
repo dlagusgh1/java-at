@@ -87,7 +87,7 @@
 
 <div class="search-box">
 	<div class="input-box">
-		<form action="http://localhost:8085/article/list">
+		<form action="list">
 			<input type="hidden" name="page" value="1" /> 
 			<input type="hidden" name="searchKeywordType" value="title" /> 
 			<input type="text" name="searchKeyword" value="${param.searchKeyword}" />
@@ -106,7 +106,7 @@
 		<c:forEach items="${articles}" var="article">
 		<tr>
 			<td>${article.id}</td>
-			<td><a href="http://localhost:8085/article/detail?id=${article.id}" >${article.title}</a></td>
+			<td><a href="detail?id=${article.id}" >${article.title}</a></td>
 			<td>${article.regDate}</td>
 		</tr>
 		</c:forEach>

@@ -106,15 +106,15 @@
 </c:if>
 <div class="button-box">
 	<c:if test="${article.id-1 != 0}">	
-		<a href="http://localhost:8085/article/detail?id=${param.id-1}">이전 글</a>
+		<a href="detail?id=${param.id-1}">이전 글</a>
 	</c:if>
 		<a onclick="location.replace('list?page=1');">뒤로가기</a>
 	<c:if test="${article.delStatus == false}">
-		<a href="http://localhost:8085/article/modify?id=${param.id}">게시물 수정</a>
+		<a href="modify?id=${param.id}">게시물 수정</a>
 		<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;" href="http://localhost:8085/article/delete?id=${article.id}">게시물 삭제</a>
 	</c:if>
 	<c:if test="${article.id+1 != totalCount}">
-		<a href="http://localhost:8085/article/detail?id=${param.id+1}">다음 글</a>
+		<a href="detail?id=${param.id+1}">다음 글</a>
 	</c:if>
 
 </div>
