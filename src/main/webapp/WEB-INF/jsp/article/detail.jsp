@@ -243,74 +243,78 @@
 	</c:if>
 </div>
 
-<h2>댓글 리스트</h1>
-
-<div class="total">
-	전체 댓글 수 : ${totalCount}
-</div>
-
-<div class="table-box">
-	<table class="articleReply-table">
-		<tr>
-			<th style="width:10px;">번호</th>
-			<th style="width:30px;">작성일</th>
-			<th>내용</th>	
-			<th style="width:10px;">수정</th>
-			<th style="width:10px;">삭제</th>			
-		</tr>
-		<c:forEach items="${articleReplies}" var="articleReply">
+<c:if test="${article.delStatus == false}">
+	<h2>댓글 리스트</h2>
+	
+	<div class="total">
+		전체 댓글 수 : ${totalCount}
+	</div>
+	
+	<div class="table-box">
+		<table class="articleReply-table">
 			<tr>
-				<td style="width:10px;">${articleReply.id}</td>
-				<td style="width:30px;">${articleReply.regDate}</td>
-				<td>${articleReply.body}</td>
-				<td style="width:10px;"><a href="replyModify?articleId=${articleReply.articleId}&articleReplyId=${articleReply.id}">수정</a></td>
-				<td style="width:10px;"><a onclick="if ( confirm('댓글을 삭제하시겠습니까?') == false ) return false;" href="replyDelete?articleId=${param.id}&articleReplyId=${articleReply.id}">삭제</a></td>
+				<th style="width:10px;">번호</th>
+				<th style="width:30px;">작성일</th>
+				<th>내용</th>	
+				<th style="width:10px;">수정</th>
+				<th style="width:10px;">삭제</th>			
 			</tr>
-		</c:forEach>
-	</table>
-</div>
-
-<div class="page-box">
-	<table>
-		<tr>
-			<c:if test="${totalPage == 0}">
-					<h3>댓글이 없습니다.</h1>
-			</c:if>
-			<c:if test="${totalPage != 0}">
-				<c:if test="${page != 1}">
-					<c:set var="k" value="${page}" />
-						<td><a href="detail?id=${param.id}&page=${k-1}"><</a></td>
+			<c:forEach items="${articleReplies}" var="articleReply">
+				<tr>
+					<td style="width:10px;">${articleReply.id}</td>
+					<td style="width:30px;">${articleReply.regDate}</td>
+					<td>${articleReply.body}</td>
+					<td style="width:10px;"><a href="replyModify?articleId=${articleReply.articleId}&articleReplyId=${articleReply.id}">수정</a></td>
+					<td style="width:10px;"><a onclick="if ( confirm('댓글을 삭제하시겠습니까?') == false ) return false;" href="replyDelete?articleId=${param.id}&articleReplyId=${articleReply.id}">삭제</a></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	
+	
+	<div class="page-box">
+		<table>
+			<tr>
+				<c:if test="${totalPage == 0}">
+						<h3>댓글이 없습니다.</h1>
 				</c:if>
-				<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
-					<td class="${i == page ? 'current' : ''}" >
-						<a href="detail?id=${param.id}&page=${i}" class="block" >${i}</a>
-					</td>
-				</c:forEach>
-				<c:if test="${page != totalPage}">
-					<c:set var="k" value="${page}" />
-						<td><a href="detail?id=${param.id}&page=${k+1}">></a></td>
+				<c:if test="${totalPage != 0}">
+					<c:if test="${page != 1}">
+						<c:set var="k" value="${page}" />
+							<td><a href="detail?id=${param.id}&page=${k-1}"><</a></td>
+					</c:if>
+					<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
+						<td class="${i == page ? 'current' : ''}" >
+							<a href="detail?id=${param.id}&page=${i}" class="block" >${i}</a>
+						</td>
+					</c:forEach>
+					<c:if test="${page != totalPage}">
+						<c:set var="k" value="${page}" />
+							<td><a href="detail?id=${param.id}&page=${k+1}">></a></td>
+					</c:if>
 				</c:if>
-			</c:if>
-		</tr>
-	</table>
-</div>
+			</tr>
+		</table>
+	</div>
 
-<h2>댓글 작성</h1>
-<div class="write-box">
-	<form action="doWriteReply" method="POST" onsubmit="submitArticleReplyWriteForm(this); return false;">
-		<input type="hidden" name="articleId" value="${param.id}" />
-		<div class="form-row">
-			<div class="label">내용</div>
-			<div class="input">
-				<textarea  name="body" placeholder="댓글의 내용을 입력해주세요."></textarea>
+
+	<h2>댓글 작성</h2>
+	<div class="write-box">
+		<form action="doWriteReply" method="POST" onsubmit="submitArticleReplyWriteForm(this); return false;">
+			<input type="hidden" name="articleId" value="${param.id}" />
+			<div class="form-row">
+				<div class="label">내용</div>
+				<div class="input">
+					<textarea  name="body" placeholder="댓글의 내용을 입력해주세요."></textarea>
+				</div>
 			</div>
-		</div>
-		<div class="form-row">
-			<div class="input" style="display: flex; justify-content: center;">
-				<input class="submit-button" type="submit" value="작성">	
+			<div class="form-row">
+				<div class="input" style="display: flex; justify-content: center;">
+					<input class="submit-button" type="submit" value="작성">	
+				</div>
 			</div>
-		</div>
-	</form>
-</div>
+		</form>
+	</div>
+</c:if>
 	
 <%@ include file="../part/foot.jspf"%>
