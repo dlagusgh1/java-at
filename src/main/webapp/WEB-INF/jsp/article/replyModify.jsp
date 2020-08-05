@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="../part/head.jspf"%>
+
+<title>댓글 수정하기</title>
 
 <style>
 	a {
@@ -75,14 +78,6 @@
 	}
 </script>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>댓글 수정하기</title>
-</head>
-<body>
-
 <h1>댓글 수정</h1>
 
 <div class="write-box">
@@ -108,5 +103,5 @@
 		</div>
 	</form>
 </div>
-</body>
-</html>
+
+<%@ include file="../part/foot.jspf"%>

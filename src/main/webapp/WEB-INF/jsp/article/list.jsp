@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="../part/head.jspf"%>
 
 <style>
-	a {
-		color: inherit;
-		text-decoration: none;
-	}
-	
 	h1 {
 		margin: 10px;
 		text-align: center;
@@ -75,14 +71,6 @@
 		justify-content: center;
 	}
 </style>
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>게시물 리스트</title>
-</head>
-<body>
 
 <h1>게시물 리스트</h1>
 
@@ -160,5 +148,4 @@
 	<a class="write-button" onclick="location.replace('write');">게시물 작성</a>
 </div>
 
-</body>
-</html>
+<%@ include file="../part/foot.jspf"%>
