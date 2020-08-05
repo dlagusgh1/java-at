@@ -112,7 +112,7 @@ public class ArticleController {
 		
 		model.addAttribute("article", article);
 		
-		List<ArticleReply> articleReplies = articleService.getForPrintArticleReply(id, limitFrom, itemsInAPage);
+		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id, limitFrom, itemsInAPage);
 		
 		model.addAttribute("articleReplies", articleReplies);
 		
@@ -200,9 +200,6 @@ public class ArticleController {
 	public String doWriteReply(Model model, int articleId, String body) {
 		
 		articleService.writeReply(articleId, body);
-		
-		System.out.println("articleId : " + articleId);
-		System.out.println("body : " + body);
 
 		String redirectUrl = "/article/detail?id=" + articleId;
 
@@ -216,6 +213,32 @@ public class ArticleController {
 	public String replyDelete(Model model, int articleId, int articleReplyId) {
 		
 		articleService.replyDelete(articleId, articleReplyId);
+		
+		String redirectUrl = "/article/detail?id=" + articleId;
+
+		model.addAttribute("locationReplace", redirectUrl);
+
+		return "common/redirect";
+	}
+	
+	// 게시물 수정 폼
+	@RequestMapping("/article/replyModify")
+	public String replyModify(Model model, int articleId, int articleReplyId) {
+		
+		ArticleReply articleReply = articleService.getForPrintArticleReply(articleId, articleReplyId);	
+		
+		model.addAttribute("articleId", articleId);
+		model.addAttribute("articleReplyId", articleReplyId);
+		model.addAttribute("articleReply", articleReply);
+		
+		return "article/replyModify";
+	}
+	
+	// 게시물 수정 기능
+	@RequestMapping("/article/doReplyModify")
+	public String doReplyModify(Model model, int articleId, int articleReplyId, String body) {
+		
+		articleService.replyModify(articleId, articleReplyId, body);
 		
 		String redirectUrl = "/article/detail?id=" + articleId;
 

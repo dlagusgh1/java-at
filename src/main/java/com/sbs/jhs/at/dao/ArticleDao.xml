@@ -79,7 +79,7 @@
 		AND delStatus = 0
 		AND articleId = #{id}
 	</select>
-	<select id="getForPrintArticleReply" resultType="ArticleReply">
+	<select id="getForPrintArticleReplies" resultType="ArticleReply">
 		SELECT *
 		FROM articleReply
 		WHERE displayStatus = 1
@@ -93,6 +93,21 @@
 		SET delStatus = 1
 		, delDate = NOW()
 		, displayStatus = 1
+		WHERE id = #{articleReplyId}
+		AND articleId = #{articleId}
+	</update>
+	<select id="getForPrintArticleReply" resultType="ArticleReply">
+		SELECT *
+		FROM articleReply
+		WHERE displayStatus = 1
+		AND delStatus = 0
+		AND id = #{articleReplyId}
+		AND articleId = #{articleId}
+	</select>
+	<update id="replyModify">
+		UPDATE articleReply
+		SET `body` = #{body}
+		, updateDate = NOW()
 		WHERE id = #{articleReplyId}
 		AND articleId = #{articleId}
 	</update>

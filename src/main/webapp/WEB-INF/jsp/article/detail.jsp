@@ -268,7 +268,7 @@
 				<td style="width:10px;">${articleReply.id}</td>
 				<td style="width:30px;">${articleReply.regDate}</td>
 				<td>${articleReply.body}</td>
-				<td style="width:10px;"><a href="replyModify?id=${articleReply.id}">수정</a></td>
+				<td style="width:10px;"><a href="replyModify?articleId=${articleReply.articleId}&articleReplyId=${articleReply.id}">수정</a></td>
 				<td style="width:10px;"><a onclick="if ( confirm('댓글을 삭제하시겠습니까?') == false ) return false;" href="replyDelete?articleId=${param.id}&articleReplyId=${articleReply.id}">삭제</a></td>
 			</tr>
 		</c:forEach>

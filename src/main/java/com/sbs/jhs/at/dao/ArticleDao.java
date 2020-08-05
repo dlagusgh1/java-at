@@ -30,9 +30,12 @@ public interface ArticleDao {
 
 	int getForPrintListArticleRepliesCount(int id);
 
-	List<ArticleReply> getForPrintArticleReply(int id, int limitFrom, int itemsInAPage);
+	List<ArticleReply> getForPrintArticleReplies(int id, int limitFrom, int itemsInAPage);
 
 	void replyDelete(int articleId, int articleReplyId);
 
+	ArticleReply getForPrintArticleReply(int articleId, int articleReplyId);
+
+	void replyModify(int articleId, int articleReplyId, String body);
 	
 }

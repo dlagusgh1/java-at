@@ -84,9 +84,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 	// 특정 게시물 내 댓글 리스트
 	@Override
-	public List<ArticleReply> getForPrintArticleReply(int id, int limitFrom, int itemsInAPage) {
+	public List<ArticleReply> getForPrintArticleReplies(int id, int limitFrom, int itemsInAPage) {
 		
-		List<ArticleReply> articleReplies = articleDao.getForPrintArticleReply(id, limitFrom, itemsInAPage);
+		List<ArticleReply> articleReplies = articleDao.getForPrintArticleReplies(id, limitFrom, itemsInAPage);
 		
 		return articleReplies;
 	}
@@ -96,5 +96,16 @@ public class ArticleServiceImpl implements ArticleService {
 	public void replyDelete(int articleId, int articleReplyId) {
 		articleDao.replyDelete(articleId, articleReplyId);
 	}
-	
+
+	// 특정 댓글 가져오기(수정 위함)
+	@Override
+	public ArticleReply getForPrintArticleReply(int articleId, int articleReplyId) {
+		return articleDao.getForPrintArticleReply(articleId, articleReplyId);
+	}
+
+	// 댓글 수정 기능
+	@Override
+	public void replyModify(int articleId, int articleReplyId, String body) {
+		articleDao.replyModify(articleId, articleReplyId, body);
+	}	
 }
