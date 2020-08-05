@@ -210,4 +210,17 @@ public class ArticleController {
 
 		return "common/redirect";
 	}
+	
+	// 댓글 삭제
+	@RequestMapping("/article/replyDelete")
+	public String replyDelete(Model model, int articleId, int articleReplyId) {
+		
+		articleService.replyDelete(articleId, articleReplyId);
+		
+		String redirectUrl = "/article/detail?id=" + articleId;
+
+		model.addAttribute("locationReplace", redirectUrl);
+
+		return "common/redirect";
+	}
 }

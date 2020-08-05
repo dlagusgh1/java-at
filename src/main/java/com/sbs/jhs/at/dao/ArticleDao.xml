@@ -88,4 +88,12 @@
 		ORDER BY id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
+	<update id="replyDelete">
+		UPDATE articleReply
+		SET delStatus = 1
+		, delDate = NOW()
+		, displayStatus = 1
+		WHERE id = #{articleReplyId}
+		AND articleId = #{articleId}
+	</update>
 </mapper>

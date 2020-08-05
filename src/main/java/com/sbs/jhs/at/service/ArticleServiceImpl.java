@@ -90,4 +90,11 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		return articleReplies;
 	}
+
+	//댓글 삭제 기능
+	@Override
+	public void replyDelete(int articleId, int articleReplyId) {
+		articleDao.replyDelete(articleId, articleReplyId);
+	}
+	
 }

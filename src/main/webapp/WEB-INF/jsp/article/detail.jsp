@@ -176,6 +176,10 @@
 		font-size: 1.5rem;
 		padding: 10px;
 	}
+	.articleReply-table tr > td:hover > a {
+		color: red;
+		font-weight: bold;
+	}
 </style>
 
 <script type="text/javascript">
@@ -253,15 +257,19 @@
 <div class="table-box">
 	<table class="articleReply-table">
 		<tr>
-			<th style="width:30px;">번호</th>
-			<th style="width:50px;">작성일</th>
-			<th>내용</th>				
+			<th style="width:10px;">번호</th>
+			<th style="width:30px;">작성일</th>
+			<th>내용</th>	
+			<th style="width:10px;">수정</th>
+			<th style="width:10px;">삭제</th>			
 		</tr>
 		<c:forEach items="${articleReplies}" var="articleReply">
 			<tr>
-				<td style="width:30px;">${articleReply.id}</td>
-				<td style="width:50px;">${articleReply.regDate}</td>
+				<td style="width:10px;">${articleReply.id}</td>
+				<td style="width:30px;">${articleReply.regDate}</td>
 				<td>${articleReply.body}</td>
+				<td style="width:10px;"><a href="replyModify?id=${articleReply.id}">수정</a></td>
+				<td style="width:10px;"><a onclick="if ( confirm('댓글을 삭제하시겠습니까?') == false ) return false;" href="replyDelete?articleId=${param.id}&articleReplyId=${articleReply.id}">삭제</a></td>
 			</tr>
 		</c:forEach>
 	</table>

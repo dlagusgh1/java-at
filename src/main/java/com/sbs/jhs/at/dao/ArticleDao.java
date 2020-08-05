@@ -32,5 +32,7 @@ public interface ArticleDao {
 
 	List<ArticleReply> getForPrintArticleReply(int id, int limitFrom, int itemsInAPage);
 
+	void replyDelete(int articleId, int articleReplyId);
+
 	
 }
