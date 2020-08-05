@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.sbs.jhs.at.dao.ArticleDao;
 import com.sbs.jhs.at.dto.Article;
+import com.sbs.jhs.at.dto.ArticleReply;
 
 @Service
 public class ArticleService {
@@ -59,6 +60,24 @@ public class ArticleService {
 	// 검색 게시물 수 출력
 	public int getForPrintListSearchArticlesCount(String searchKeywordType, String searchKeyword) {
 		return articleDao.getForPrintListSearchArticlesCount(searchKeywordType, searchKeyword);
+	}
+
+	// 댓글 작성 기능
+	public void writeReply(int articleId, String body) {
+		 articleDao.writeReply(articleId, body);	
+	}
+
+	// 특정 게시물 댓글 수 출력
+	public int getForPrintListArticleRepliesCount(int id) {
+		return articleDao.getForPrintListArticleRepliesCount(id);
+	}
+
+	// 특정 게시물 내 댓글 리스트
+	public List<ArticleReply> getForPrintArticleReply(int id, int limitFrom, int itemsInAPage) {
+		
+		List<ArticleReply> articleReplies = articleDao.getForPrintArticleReply(id, limitFrom, itemsInAPage);
+		
+		return articleReplies;
 	}
 	
 }

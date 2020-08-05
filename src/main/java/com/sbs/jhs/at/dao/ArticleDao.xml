@@ -63,4 +63,29 @@
 		AND delStatus = 0
 		AND title LIKE CONCAT('%', #{searchKeyword} , '%')
 	</select>
+	<insert id="writeReply">
+		INSERT INTO articleReply
+		SET regDate = NOW(), 
+		updateDate = NOW(), 
+		`body`= #{body},
+		articleId = #{articleId},
+		displayStatus = 1,
+		delDate = NOW()
+	</insert>
+	<select id="getForPrintListArticleRepliesCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM articleReply
+		WHERE displayStatus = 1
+		AND delStatus = 0
+		AND articleId = #{id}
+	</select>
+	<select id="getForPrintArticleReply" resultType="ArticleReply">
+		SELECT *
+		FROM articleReply
+		WHERE displayStatus = 1
+		AND delStatus = 0
+		AND articleId = #{id}
+		ORDER BY id DESC
+		LIMIT #{limitFrom}, #{itemsInAPage}
+	</select>
 </mapper>

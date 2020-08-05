@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.jhs.at.dto.Article;
+import com.sbs.jhs.at.dto.ArticleReply;
 
 @Mapper
 public interface ArticleDao {
@@ -24,4 +25,12 @@ public interface ArticleDao {
 	List<Article> getForPrintSearchArticle(int limitFrom, int itemsInAPage, String searchKeywordType, String searchKeyword);
 
 	int getForPrintListSearchArticlesCount(String searchKeywordType, String searchKeyword);
+
+	void writeReply(int articleId, String body);
+
+	int getForPrintListArticleRepliesCount(int id);
+
+	List<ArticleReply> getForPrintArticleReply(int id, int limitFrom, int itemsInAPage);
+
+	
 }

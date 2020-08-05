@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sbs.jhs.at.dto.Article;
+import com.sbs.jhs.at.dto.ArticleReply;
 import com.sbs.jhs.at.service.ArticleService;
 
 @Controller
@@ -61,7 +62,6 @@ public class ArticleController {
 			return "article/list";
 		}
 		
-		
 		int totalCount = articleService.getForPrintListArticlesCount();
 		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
 		
@@ -94,15 +94,46 @@ public class ArticleController {
 	
 	// 게시물 상세보기
 	@RequestMapping("/article/detail")
-	public String showDetail(Model model, int id) {
+	public String showDetail(Model model, String page, int id) {
+		
+		if (page == null) {
+			page = "1";
+		} 
+		
+		int Spage = Integer.parseInt(page);
+		
+		int itemsInAPage = 5;
+		int limitFrom = (Spage-1) * itemsInAPage;
+		
+		int totalCount = articleService.getForPrintListArticleRepliesCount(id);
+		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
 		
 		Article article = articleService.getForPrintArticle(id);
 		
 		model.addAttribute("article", article);
 		
-		int totalCount = articleService.getForPrintListArticlesCount();
+		List<ArticleReply> articleReplies = articleService.getForPrintArticleReply(id, limitFrom, itemsInAPage);
+		
+		model.addAttribute("articleReplies", articleReplies);
 		
 		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+		
+		int pageCount = 5;
+		int startPage = ((Spage - 1) / pageCount) * pageCount + 1;
+		int endPage = startPage + pageCount - 1;
+		
+		if( totalPage < Spage) {
+			Spage = totalPage;
+		}
+		if ( endPage > totalPage) {
+			endPage = totalPage;
+		}
+		
+		model.addAttribute("pageCount", pageCount);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 		
 		return "article/detail";
 	}
@@ -158,6 +189,22 @@ public class ArticleController {
 		articleService.modify(id, title, body);
 		
 		String redirectUrl = "/article/detail?id=" + id;
+
+		model.addAttribute("locationReplace", redirectUrl);
+
+		return "common/redirect";
+	}
+	
+	// 댓글 작성 기능
+	@RequestMapping("/article/doWriteReply")
+	public String doWriteReply(Model model, int articleId, String body) {
+		
+		articleService.writeReply(articleId, body);
+		
+		System.out.println("articleId : " + articleId);
+		System.out.println("body : " + body);
+
+		String redirectUrl = "/article/detail?id=" + articleId;
 
 		model.addAttribute("locationReplace", redirectUrl);
 
