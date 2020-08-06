@@ -94,11 +94,14 @@ public class ArticleServiceImpl implements ArticleService {
 
 	// 특정 게시물 내 댓글 리스트
 	@Override
-	public List<ArticleReply> getForPrintArticleReplies(int id, int limitFrom, int itemsInAPage) {
+	public List<ArticleReply> getForPrintArticleReplies(int articleId) {
 		
-		List<ArticleReply> articleReplies = articleDao.getForPrintArticleReplies(id, limitFrom, itemsInAPage);
-		
-		return articleReplies;
+		return articleDao.getForPrintArticleReplies(articleId);
+	}
+	
+	@Override
+	public List<ArticleReply> getForPrintArticleReplies(int articleId, int from) {
+		return articleDao.getForPrintArticleRepliesFrom(articleId, from);
 	}
 
 	//댓글 삭제 기능

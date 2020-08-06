@@ -39,7 +39,8 @@ public interface ArticleService {
 	public int getForPrintListArticleRepliesCount(int id);
 
 	// 특정 게시물 내 댓글 리스트
-	public List<ArticleReply> getForPrintArticleReplies(int id, int limitFrom, int itemsInAPage);
+	public List<ArticleReply> getForPrintArticleReplies(int articleId);
+	public List<ArticleReply> getForPrintArticleReplies(int articleId, int from);
 
 	// 댓글 삭제 기능
 	public void replyDelete(int articleId, int articleReplyId);

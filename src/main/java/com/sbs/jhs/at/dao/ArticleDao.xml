@@ -11,6 +11,7 @@
 		ORDER BY id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
+	
 	<select id="getForPrintArticle" resultType="Article">
 		SELECT *
 		FROM article
@@ -18,12 +19,14 @@
 		AND delStatus = 0
 		AND id = #{id}
 	</select>
+	
 	<select id="getForPrintListArticlesCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM article
 		WHERE displayStatus = 1
 		AND delStatus = 0
 	</select>
+	
 	<insert id="write">
 		INSERT INTO article
 		SET regDate = NOW(), 
@@ -33,6 +36,7 @@
 		displayStatus = 1,
 		delDate = NOW()
 	</insert>
+	
 	<update id="delete">
 		UPDATE article
 		SET delStatus = 1
@@ -40,6 +44,7 @@
 		, displayStatus = 1
 		WHERE id = #{id}
 	</update>
+	
 	<update id="modify">
 		UPDATE article
 		SET title = #{title}
@@ -47,6 +52,7 @@
 		, updateDate = NOW()
 		WHERE id = #{id}
 	</update>
+	
 	<select id="getForPrintSearchArticle" resultType="Article">
 		SELECT *
 		FROM article
@@ -56,6 +62,7 @@
 		ORDER BY id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
+	
 	<select id="getForPrintListSearchArticlesCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM article
@@ -63,6 +70,7 @@
 		AND delStatus = 0
 		AND title LIKE CONCAT('%', #{searchKeyword} , '%')
 	</select>
+	
 	<insert id="writeArticleReply" parameterType="map" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO articleReply
 		SET regDate = NOW(), 
@@ -72,6 +80,7 @@
 		displayStatus = 1,
 		delDate = NOW()
 	</insert>
+	
 	<select id="getForPrintListArticleRepliesCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM articleReply
@@ -79,15 +88,26 @@
 		AND delStatus = 0
 		AND articleId = #{id}
 	</select>
+	
 	<select id="getForPrintArticleReplies" resultType="ArticleReply">
 		SELECT *
 		FROM articleReply
 		WHERE displayStatus = 1
 		AND delStatus = 0
-		AND articleId = #{id}
+		AND articleId = #{articleId}
 		ORDER BY id DESC
-		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
+	
+	<select id="getForPrintArticleRepliesFrom" resultType="ArticleReply">
+		SELECT *
+		FROM articleReply
+		WHERE displayStatus = 1
+		AND delStatus = 0
+		AND articleId = #{articleId}
+		AND id >= #{from}
+		ORDER BY id DESC
+	</select>
+	
 	<update id="replyDelete">
 		UPDATE articleReply
 		SET delStatus = 1
@@ -96,6 +116,7 @@
 		WHERE id = #{articleReplyId}
 		AND articleId = #{articleId}
 	</update>
+	
 	<select id="getForPrintArticleReply" resultType="ArticleReply">
 		SELECT *
 		FROM articleReply
@@ -104,6 +125,7 @@
 		AND id = #{articleReplyId}
 		AND articleId = #{articleId}
 	</select>
+	
 	<update id="replyModify">
 		UPDATE articleReply
 		SET `body` = #{body}

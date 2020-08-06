@@ -206,46 +206,39 @@
 			articleId : form.articleId.value,
 			body : form.body.value
 		}, function(data) {
-			if (data.msg) {
-				alert(data.msg);
-			}
-
-			if ( data.resultCode.substr(0, 2) == 'S-' ) {
-				location.reload(); // 임시
-			}
+			
 		}, 'json');
 
 		form.body.value = '';
 	}
 
 	// 댓글 리스트 AJAX
+	var ArticleReply__lastLoadedArticleReplyId = 0;
 	function ArticleReply__loadList() {
 		$.get('./getForPrintArticleRepliesRs', {
-			id : ${article.id}
+			id : ${article.id},
+			from : ArticleReply__lastLoadedArticleReplyId + 1
 		}, function(data) {
-			for (var i = 0; i < data.articleReplies.length; i++) {
+			data.articleReplies = data.articleReplies.reverse();
+			
+			for (var i = data.articleReplies.length - 1; i >= 0 ; i--) {
 				var articleReply = data.articleReplies[i];
 				ArticleReply__drawReply(articleReply);
+
+				ArticleReply__lastLoadedArticleReplyId = articleReply.id;
 			}
+			setTimeout(ArticleReply__loadList, 1000);
 		}, 'json');
 	}
 
 	var ArticleReply__$listTbody;
 
 	function ArticleReply__drawReply(articleReply) {
-		var html = '';
+		var html = $('.template-box-1 tbody').html();
 
-		html = '<tr data-article-reply-id="' + articleReply.id + '">';
-		html += '<td>' + articleReply.id + '</td>';
-		html += '<td>' + articleReply.regDate + '</td>';
-		html += '<td>' + articleReply.body + '</td>';
-		html += '<td>';
-		html += '<a href="#">수정</a>';
-		html += '</td>';
-		html += '<td>';
-		html += '<a href="#">삭제</a>';
-		html += '</td>';
-		html += '</tr>';
+		html = replaceAll(html, "{$번호}", articleReply.id);
+		html = replaceAll(html, "{$날짜}", articleReply.regDate);
+		html = replaceAll(html, "{$내용}", articleReply.body);
 
 		ArticleReply__$listTbody.prepend(html);
 	}
@@ -253,8 +246,7 @@
 	$(function() {
 		ArticleReply__$listTbody = $('.article-reply-list-box > table tbody');
 
-		ArticleReply__loadList();
-		//setInterval(ArticleReply__loadList, 1000);
+		setInterval(ArticleReply__loadList, 1000);
 	});
 </script>
 	
@@ -306,7 +298,21 @@
 	<h2>댓글 리스트</h2>
 	
 	<div class="total">
-		전체 댓글 수 : ${totalCount}
+		전체 댓글 수 : <!-- ${totalCount}  -->
+	</div>
+	
+	<div class="template-box template-box-1">
+		<table border="1">
+			<tbody>
+				<tr data-article-reply-id="{$번호}">
+					<td>{$번호}</td>
+					<td>{$날짜}</td>
+					<td>{$내용}</td>
+					<td><a href="#" onclick="return false;">수정</a></td>
+					<td><a href="#" onclick="if ( confirm('정말 삭제하시겠습니까?') ) { ArticleReply__delete(this); } return false;">삭제</a></td>		
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	
 	<div class="article-reply-list-box table-box">
@@ -321,22 +327,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!--  
-				<c:forEach items="${articleReplies}" var="articleReply">
-					<tr>
-						<td style="width:10px;">${articleReply.id}</td>
-						<td style="width:30px;">${articleReply.regDate}</td>
-						<td>${articleReply.body}</td>
-						<td style="width:10px;"><a href="replyModify?articleId=${articleReply.articleId}&articleReplyId=${articleReply.id}">수정</a></td>
-						<td style="width:10px;"><a onclick="if ( confirm('댓글을 삭제하시겠습니까?') == false ) return false;" href="replyDelete?articleId=${param.id}&articleReplyId=${articleReply.id}">삭제</a></td>
-					</tr>
-				</c:forEach>
-				-->
+				
 			</tbody>
 		</table>
 	</div>
 	
-	
+	<!--
 	<div class="page-box">
 		<table>
 			<tr>
@@ -361,7 +357,7 @@
 			</tr>
 		</table>
 	</div>
-
+	 -->
 
 	<h2>댓글 작성</h2>
 	<div class="write-box">

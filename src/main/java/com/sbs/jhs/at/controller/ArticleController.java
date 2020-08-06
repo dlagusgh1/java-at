@@ -23,7 +23,7 @@ public class ArticleController {
 	private ArticleService articleService;
 	
 	// 게시물 리스트	
-	@RequestMapping("/article/list")
+	@RequestMapping("article/list")
 	public String showList(Model model, String page, String searchKeywordType, String searchKeyword) {
 		
 		if (page == null) {
@@ -99,92 +99,31 @@ public class ArticleController {
 	}
 	
 	// 게시물 상세보기
-	@RequestMapping("/article/detail")
-	public String showDetail(Model model, String page, int id) {
-		
-		if (page == null) {
-			page = "1";
-		} 
-		
-		int Spage = Integer.parseInt(page);
-		
-		int itemsInAPage = 5;
-		int limitFrom = (Spage-1) * itemsInAPage;
-		
-		int totalCount = articleService.getForPrintListArticleRepliesCount(id);
-		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
+	@RequestMapping("article/detail")
+	public String showDetail(Model model, int id) {
 		
 		Article article = articleService.getForPrintArticle(id);
-		
-		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id, limitFrom, itemsInAPage);
-		
+
 		model.addAttribute("article", article);
+
+		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id);
+
 		model.addAttribute("articleReplies", articleReplies);
-		
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("page", page);
-		
-		int pageCount = 5;
-		int startPage = ((Spage - 1) / pageCount) * pageCount + 1;
-		int endPage = startPage + pageCount - 1;
-		
-		if( totalPage < Spage) {
-			Spage = totalPage;
-		}
-		if ( endPage > totalPage) {
-			endPage = totalPage;
-		}
-		
-		model.addAttribute("pageCount", pageCount);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
 		
 		return "article/detail";
 	}
 	
 	@RequestMapping("article/getForPrintArticleRepliesRs")
 	@ResponseBody
-	public Map<String, Object> getForPrintArticleRepliesRs(String page, int id) {
+	public Map<String, Object> getForPrintArticleRepliesRs(int id, int from) {
 		
-		if (page == null) {
-			page = "1";
-		} 
-		
-		int Spage = Integer.parseInt(page);
-		
-		int itemsInAPage = 5;
-		int limitFrom = (Spage-1) * itemsInAPage;
-		
-		int totalCount = articleService.getForPrintListArticleRepliesCount(id);
-		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
-		
-		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id, limitFrom, itemsInAPage);
+		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id, from);
 
 		Map<String, Object> rs = new HashMap<>();
 		
 		rs.put("resultCode", "S-1");
 		rs.put("msg", String.format("총 %d개의 댓글이 있습니다.", articleReplies.size()));
 		rs.put("articleReplies", articleReplies);
-		
-		rs.put("totalCount", totalCount);
-		rs.put("totalPage", totalPage);
-		rs.put("page", page);
-		
-		int pageCount = 5;
-		int startPage = ((Spage - 1) / pageCount) * pageCount + 1;
-		int endPage = startPage + pageCount - 1;
-		
-		if( totalPage < Spage) {
-			Spage = totalPage;
-		}
-		if ( endPage > totalPage) {
-			endPage = totalPage;
-		}
-		
-		rs.put("pageCount", pageCount);
-		rs.put("startPage", startPage);
-		rs.put("endPage", endPage);
 
 		return rs;
 	}

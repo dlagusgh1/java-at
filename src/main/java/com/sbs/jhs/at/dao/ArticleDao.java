@@ -31,7 +31,8 @@ public interface ArticleDao {
 
 	int getForPrintListArticleRepliesCount(int id);
 
-	List<ArticleReply> getForPrintArticleReplies(int id, int limitFrom, int itemsInAPage);
+	List<ArticleReply> getForPrintArticleReplies(@Param("articleId") int articleId);
+	List<ArticleReply> getForPrintArticleRepliesFrom(@Param("articleId") int articleId, @Param("from") int from);
 
 	void replyDelete(int articleId, int articleReplyId);
 
