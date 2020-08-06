@@ -110,12 +110,6 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleDao.getForPrintArticleReply(articleId, articleReplyId);
 	}
 
-	// 댓글 수정 기능
-	@Override
-	public void replyModify(int articleId, int articleReplyId, String body) {
-		articleDao.replyModify(articleId, articleReplyId, body);
-	}
-
 	// 댓글 삭제 관련
 	@Override
 	public Map<String, Object> getArticleReplyDeleteAvailable(int id) {
@@ -152,6 +146,31 @@ public class ArticleServiceImpl implements ArticleService {
 
 		rs.put("resultCode", "S-1");
 		rs.put("msg", String.format("%d번 게시물 댓글이 삭제되었습니다.", id));
+
+		return rs;
+	}
+
+	// 댓글 수정 관련
+	@Override
+	public Map<String, Object> getArticleModifyReplyAvailable(int id) {
+		
+		Map<String, Object> rs = getArticleReplyDeleteAvailable(id);
+		String msg = (String)rs.get("msg");
+		msg = msg.replace("삭제", "수정");
+		rs.put("msg", msg);
+		
+		return rs;
+	}
+
+	// 댓글 수정 기능
+	@Override
+	public Map<String, Object> modifyReply(Map<String, Object> param) {
+		articleDao.modifyArticleReply(param);
+		int id = CUtil.getAsInt(param.get("id"));
+		Map<String, Object> rs = new HashMap<>();
+
+		rs.put("resultCode", "S-1");
+		rs.put("msg", String.format("%d번 게시물 댓글이 수정되었습니다.", id));
 
 		return rs;
 	}

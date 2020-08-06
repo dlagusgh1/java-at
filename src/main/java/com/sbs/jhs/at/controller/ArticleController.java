@@ -201,10 +201,7 @@ public class ArticleController {
 	@ResponseBody
 	public Map<String, Object> doDeleteReplyAjax(int id, String redirectUrl, HttpServletRequest request) {
 		
-		Map<String, Object> articleReplyDeleteAvailableRs = articleService.getArticleReplyDeleteAvailable(id);
-
-		System.out.println("delete id : " + id);
-		System.out.println("articleReplyDeleteAvailableRs : " + articleReplyDeleteAvailableRs);
+		Map<String, Object> articleReplyDeleteAvailableRs = articleService.getArticleReplyDeleteAvailable(id);	
 		
 		if (((String) articleReplyDeleteAvailableRs.get("resultCode")).startsWith("F-")) {
 			return articleReplyDeleteAvailableRs;
@@ -238,7 +235,7 @@ public class ArticleController {
 		return "article/replyModify";
 	}
 	
-	// 게시물 수정 기능
+	// 댓글 수정 기능
 	@RequestMapping("/article/doReplyModify")
 	public String doReplyModify(Model model, int articleId, int articleReplyId, String body) {
 		
@@ -249,5 +246,28 @@ public class ArticleController {
 		model.addAttribute("locationReplace", redirectUrl);
 
 		return "common/redirect";
+	}
+	
+	@RequestMapping("article/doModifyReplyAjax")
+	@ResponseBody
+	public Map<String, Object> doModifyReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
+
+		int id = Integer.parseInt((String) param.get("id"));
+		
+		Map<String, Object> articleModifyReplyAvailableRs = articleService.getArticleModifyReplyAvailable(id);
+
+		if (((String) articleModifyReplyAvailableRs.get("resultCode")).startsWith("F-")) {
+			return articleModifyReplyAvailableRs;
+		}
+
+		Map<String, Object> rs = articleService.modifyReply(param);
+
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		return rs;
 	}
 }

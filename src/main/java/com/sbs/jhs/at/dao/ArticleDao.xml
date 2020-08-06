@@ -125,12 +125,12 @@
 		AND articleId = #{articleId}
 	</select>
 	
-	<update id="replyModify">
+	<update id="modifyArticleReply">
 		UPDATE articleReply
-		SET `body` = #{body}
-		, updateDate = NOW()
-		WHERE id = #{articleReplyId}
-		AND articleId = #{articleId}
+		<set>
+			<if test="body != null">body = #{body},</if>
+		</set>
+		WHERE id = #{id}
 	</update>
 	
 	<select id="getArticleReply" resultType="ArticleReply">
