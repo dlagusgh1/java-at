@@ -103,13 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<ArticleReply> getForPrintArticleReplies(int articleId, int from) {
 		return articleDao.getForPrintArticleRepliesFrom(articleId, from);
 	}
-
-	//댓글 삭제 기능
-	@Override
-	public void replyDelete(int articleId, int articleReplyId) {
-		articleDao.replyDelete(articleId, articleReplyId);
-	}
-
+	
 	// 특정 댓글 가져오기(수정 위함)
 	@Override
 	public ArticleReply getForPrintArticleReply(int articleId, int articleReplyId) {
@@ -120,5 +114,45 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public void replyModify(int articleId, int articleReplyId, String body) {
 		articleDao.replyModify(articleId, articleReplyId, body);
-	}	
+	}
+
+	// 댓글 삭제 관련
+	@Override
+	public Map<String, Object> getArticleReplyDeleteAvailable(int id) {
+		ArticleReply articleReply = getArticleReply(id);
+
+		Map<String, Object> rs = new HashMap<>();
+		
+		/*
+		if (articleReply.getMemberId() == actorMemberId) {
+			rs.put("resultCode", "S-1");
+			rs.put("msg", "삭제권한이 있습니다.");
+		} else {
+			rs.put("resultCode", "F-1");
+			rs.put("msg", "삭제권한이 없습니다.");
+		}
+		*/
+		
+		rs.put("resultCode", "S-1");
+		rs.put("msg", "삭제권한이 있습니다.");
+		
+		return rs;
+	}
+
+	// 특정 댓글 가져오기(삭제 위함)
+	public ArticleReply getArticleReply(int id) {
+		return articleDao.getArticleReply(id);
+	}
+
+	// 댓글 삭제 기능
+	@Override
+	public Map<String, Object> deleteArticleReply(int id) {
+		articleDao.deleteArticleReply(id);
+		Map<String, Object> rs = new HashMap<>();
+
+		rs.put("resultCode", "S-1");
+		rs.put("msg", String.format("%d번 게시물 댓글이 삭제되었습니다.", id));
+
+		return rs;
+	}
 }

@@ -42,14 +42,17 @@ public interface ArticleService {
 	public List<ArticleReply> getForPrintArticleReplies(int articleId);
 	public List<ArticleReply> getForPrintArticleReplies(int articleId, int from);
 
-	// 댓글 삭제 기능
-	public void replyDelete(int articleId, int articleReplyId);
-
 	// 특정 댓글 가져오기(수정 위함)
 	public ArticleReply getForPrintArticleReply(int articleId, int articleReplyId);
 
 	// 댓글 수정 기능
 	public void replyModify(int articleId, int articleReplyId, String body);
+
+	// 댓글 삭제 관련
+	public Map<String, Object> getArticleReplyDeleteAvailable(int id);
+
+	// 댓글 삭제 기능
+	public Map<String, Object> deleteArticleReply(int id);
 	
 }
 

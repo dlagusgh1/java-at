@@ -108,13 +108,12 @@
 		ORDER BY id DESC
 	</select>
 	
-	<update id="replyDelete">
+	<update id="deleteArticleReply">
 		UPDATE articleReply
 		SET delStatus = 1
 		, delDate = NOW()
 		, displayStatus = 1
-		WHERE id = #{articleReplyId}
-		AND articleId = #{articleId}
+		WHERE id = #{id}
 	</update>
 	
 	<select id="getForPrintArticleReply" resultType="ArticleReply">
@@ -133,4 +132,10 @@
 		WHERE id = #{articleReplyId}
 		AND articleId = #{articleId}
 	</update>
+	
+	<select id="getArticleReply" resultType="ArticleReply">
+		SELECT *
+		FROM articleReply
+		WHERE id = #{id}
+	</select>
 </mapper>

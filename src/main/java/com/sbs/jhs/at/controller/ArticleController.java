@@ -98,7 +98,7 @@ public class ArticleController {
 		return "article/list";
 	}
 	
-	// 게시물 상세보기
+	
 	@RequestMapping("article/detail")
 	public String showDetail(Model model, int id) {
 		
@@ -113,6 +113,7 @@ public class ArticleController {
 		return "article/detail";
 	}
 	
+	// 게시물 상세보기 내 댓글 
 	@RequestMapping("article/getForPrintArticleRepliesRs")
 	@ResponseBody
 	public Map<String, Object> getForPrintArticleRepliesRs(int id, int from) {
@@ -186,20 +187,6 @@ public class ArticleController {
 	}
 	
 	// 댓글 작성 기능
-	@RequestMapping("/article/doWriteReply")
-	public String doWriteReply(Model model, @RequestParam Map<String, Object> param, HttpServletRequest request) {
-		
-		Map<String, Object> rs = articleService.writeReply(param);
-		
-		String msg = (String) rs.get("msg");
-		String redirectUrl = (String) param.get("redirectUrl");
-
-		model.addAttribute("alertMsg", msg);
-		model.addAttribute("locationReplace", redirectUrl);
-
-		return "common/redirect";
-	}
-	
 	@RequestMapping("article/doWriteReplyAjax")
 	@ResponseBody
 	public Map<String, Object> doWriteReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
@@ -209,18 +196,34 @@ public class ArticleController {
 		return rs;
 	}
 	
-	// 댓글 삭제
-	@RequestMapping("/article/replyDelete")
-	public String replyDelete(Model model, int articleId, int articleReplyId) {
+	// 댓글 삭제 기능
+	@RequestMapping("article/doDeleteReplyAjax")
+	@ResponseBody
+	public Map<String, Object> doDeleteReplyAjax(int id, String redirectUrl, HttpServletRequest request) {
 		
-		articleService.replyDelete(articleId, articleReplyId);
+		Map<String, Object> articleReplyDeleteAvailableRs = articleService.getArticleReplyDeleteAvailable(id);
+
+		System.out.println("delete id : " + id);
+		System.out.println("articleReplyDeleteAvailableRs : " + articleReplyDeleteAvailableRs);
 		
-		String redirectUrl = "/article/detail?id=" + articleId;
+		if (((String) articleReplyDeleteAvailableRs.get("resultCode")).startsWith("F-")) {
+			return articleReplyDeleteAvailableRs;
+		}
 
-		model.addAttribute("locationReplace", redirectUrl);
-
-		return "common/redirect";
+		Map<String, Object> rs = articleService.deleteArticleReply(id);
+		
+		/*
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		*/
+		
+		return rs;
 	}
+	
+	
 	
 	// 게시물 수정 폼
 	@RequestMapping("/article/replyModify")

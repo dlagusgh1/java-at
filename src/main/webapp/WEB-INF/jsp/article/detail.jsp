@@ -184,9 +184,19 @@
 		font-size: 1.5rem;
 		padding: 10px;
 	}
-	.articleReply-table tr > td:hover > a {
-		color: red;
-		font-weight: bold;
+	
+	.article-reply-list-box tr .loading-inline {
+	display:none;
+	font-weit:bold;
+	color:red;
+	}
+
+	.article-reply-list-box tr[data-loading="Y"] .loading-none {
+		display:none;
+	}
+	
+	.article-reply-list-box tr[data-loading="Y"] .loading-inline {
+		display:inline;
 	}
 </style>
 
@@ -246,8 +256,31 @@
 	$(function() {
 		ArticleReply__$listTbody = $('.article-reply-list-box > table tbody');
 
-		setInterval(ArticleReply__loadList, 1000);
+		ArticleReply__loadList();
 	});
+
+	// 댓글 삭제 AJAX
+	function ArticleReply__delete(obj) {
+		var $clickedBtn = $(obj);
+		var $tr = $clickedBtn.closest('tr');
+
+		var replyId = parseInt($tr.attr('data-article-reply-id'));
+
+		$tr.attr('data-loading', 'Y');
+
+		$.post(
+			'./doDeleteReplyAjax',
+			{
+				id: replyId
+			},
+			function(data) {
+				$tr.remove();
+				$tr.attr('data-loading', 'N');
+			},
+			'json'
+		);
+		
+	}
 </script>
 	
 <c:if test="${article.delStatus != false}">
@@ -308,8 +341,8 @@
 					<td>{$번호}</td>
 					<td>{$날짜}</td>
 					<td>{$내용}</td>
-					<td><a href="#" onclick="return false;">수정</a></td>
-					<td><a href="#" onclick="if ( confirm('정말 삭제하시겠습니까?') ) { ArticleReply__delete(this); } return false;">삭제</a></td>		
+					<td><span class="loading-inline">삭제중입니다...</span><a class="loading-none" href="#" onclick="return false;">수정</a>
+					<a class="loading-none" href="#" onclick="if ( confirm('정말 삭제하시겠습니까?') ) { ArticleReply__delete(this); } return false;">삭제</a></td>		
 				</tr>
 			</tbody>
 		</table>
@@ -320,10 +353,9 @@
 			<thead>
 				<tr>
 					<th style="width:10px;">번호</th>
-					<th style="width:30px;">작성일</th>
+					<th style="width:20px;">작성일</th>
 					<th>내용</th>	
-					<th style="width:10px;">수정</th>
-					<th style="width:10px;">삭제</th>			
+					<th style="width:10px;">수정/삭제</th>			
 				</tr>
 			</thead>
 			<tbody>

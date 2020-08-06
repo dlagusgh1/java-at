@@ -34,10 +34,12 @@ public interface ArticleDao {
 	List<ArticleReply> getForPrintArticleReplies(@Param("articleId") int articleId);
 	List<ArticleReply> getForPrintArticleRepliesFrom(@Param("articleId") int articleId, @Param("from") int from);
 
-	void replyDelete(int articleId, int articleReplyId);
-
 	ArticleReply getForPrintArticleReply(int articleId, int articleReplyId);
 
 	void replyModify(int articleId, int articleReplyId, String body);
+
+	ArticleReply getArticleReply(@Param("id") int id);
+
+	void deleteArticleReply(@Param("id") int id);
 	
 }
