@@ -220,34 +220,6 @@ public class ArticleController {
 		return rs;
 	}
 	
-	
-	
-	// 게시물 수정 폼
-	@RequestMapping("/article/replyModify")
-	public String replyModify(Model model, int articleId, int articleReplyId) {
-		
-		ArticleReply articleReply = articleService.getForPrintArticleReply(articleId, articleReplyId);	
-		
-		model.addAttribute("articleId", articleId);
-		model.addAttribute("articleReplyId", articleReplyId);
-		model.addAttribute("articleReply", articleReply);
-		
-		return "article/replyModify";
-	}
-	
-	// 댓글 수정 기능
-	@RequestMapping("/article/doReplyModify")
-	public String doReplyModify(Model model, int articleId, int articleReplyId, String body) {
-		
-		articleService.replyModify(articleId, articleReplyId, body);
-		
-		String redirectUrl = "/article/detail?id=" + articleId;
-
-		model.addAttribute("locationReplace", redirectUrl);
-
-		return "common/redirect";
-	}
-	
 	@RequestMapping("article/doModifyReplyAjax")
 	@ResponseBody
 	public Map<String, Object> doModifyReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
