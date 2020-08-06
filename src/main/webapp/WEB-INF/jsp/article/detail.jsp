@@ -221,7 +221,7 @@
 		}, function(data) {
 			data.articleReplies = data.articleReplies.reverse();
 			
-			for (var i = data.articleReplies.length - 1; i >= 0 ; i--) {
+			for (var i = 0; i < data.articleReplies.length; i++) {
 				var articleReply = data.articleReplies[i];
 				ArticleReply__drawReply(articleReply);
 
