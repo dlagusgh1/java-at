@@ -16,6 +16,11 @@
 		text-align: center;
 	}
 	
+	.article-reply-list-box {
+		display: flex;
+		justify-content: center;
+	}
+	
 	.table-box {
 		display: flex;
 		justify-content: center;
@@ -186,7 +191,8 @@
 </style>
 
 <script>
-	function WriteReply__submitForm(form) {
+	// 댓글 작성 AJAX 
+	function ArticleReply__submitWriteForm(form) {
 		form.body.value = form.body.value.trim();
 		
 		if (form.body.value.length == 0) {
@@ -211,10 +217,49 @@
 
 		form.body.value = '';
 	}
+
+	// 댓글 리스트 AJAX
+	function ArticleReply__loadList() {
+		$.get('./getForPrintArticleRepliesRs', {
+			id : ${article.id}
+		}, function(data) {
+			for (var i = 0; i < data.articleReplies.length; i++) {
+				var articleReply = data.articleReplies[i];
+				ArticleReply__drawReply(articleReply);
+			}
+		}, 'json');
+	}
+
+	var ArticleReply__$listTbody;
+
+	function ArticleReply__drawReply(articleReply) {
+		var html = '';
+
+		html = '<tr data-article-reply-id="' + articleReply.id + '">';
+		html += '<td>' + articleReply.id + '</td>';
+		html += '<td>' + articleReply.regDate + '</td>';
+		html += '<td>' + articleReply.body + '</td>';
+		html += '<td>';
+		html += '<a href="#">수정</a>';
+		html += '</td>';
+		html += '<td>';
+		html += '<a href="#">삭제</a>';
+		html += '</td>';
+		html += '</tr>';
+
+		ArticleReply__$listTbody.prepend(html);
+	}
+
+	$(function() {
+		ArticleReply__$listTbody = $('.article-reply-list-box > table tbody');
+
+		ArticleReply__loadList();
+		//setInterval(ArticleReply__loadList, 1000);
+	});
 </script>
 	
 <c:if test="${article.delStatus != false}">
-	<h1>삭제된 게시물 입니다.</h3>
+	<h1>삭제된 게시물 입니다.</h1>
 </c:if>
 <c:if test="${article.delStatus == false}">
 	<h1>게시물 상세보기</h1>
@@ -264,24 +309,30 @@
 		전체 댓글 수 : ${totalCount}
 	</div>
 	
-	<div class="table-box">
+	<div class="article-reply-list-box table-box">
 		<table class="articleReply-table">
-			<tr>
-				<th style="width:10px;">번호</th>
-				<th style="width:30px;">작성일</th>
-				<th>내용</th>	
-				<th style="width:10px;">수정</th>
-				<th style="width:10px;">삭제</th>			
-			</tr>
-			<c:forEach items="${articleReplies}" var="articleReply">
+			<thead>
 				<tr>
-					<td style="width:10px;">${articleReply.id}</td>
-					<td style="width:30px;">${articleReply.regDate}</td>
-					<td>${articleReply.body}</td>
-					<td style="width:10px;"><a href="replyModify?articleId=${articleReply.articleId}&articleReplyId=${articleReply.id}">수정</a></td>
-					<td style="width:10px;"><a onclick="if ( confirm('댓글을 삭제하시겠습니까?') == false ) return false;" href="replyDelete?articleId=${param.id}&articleReplyId=${articleReply.id}">삭제</a></td>
+					<th style="width:10px;">번호</th>
+					<th style="width:30px;">작성일</th>
+					<th>내용</th>	
+					<th style="width:10px;">수정</th>
+					<th style="width:10px;">삭제</th>			
 				</tr>
-			</c:forEach>
+			</thead>
+			<tbody>
+				<!--  
+				<c:forEach items="${articleReplies}" var="articleReply">
+					<tr>
+						<td style="width:10px;">${articleReply.id}</td>
+						<td style="width:30px;">${articleReply.regDate}</td>
+						<td>${articleReply.body}</td>
+						<td style="width:10px;"><a href="replyModify?articleId=${articleReply.articleId}&articleReplyId=${articleReply.id}">수정</a></td>
+						<td style="width:10px;"><a onclick="if ( confirm('댓글을 삭제하시겠습니까?') == false ) return false;" href="replyDelete?articleId=${param.id}&articleReplyId=${articleReply.id}">삭제</a></td>
+					</tr>
+				</c:forEach>
+				-->
+			</tbody>
 		</table>
 	</div>
 	
@@ -290,7 +341,7 @@
 		<table>
 			<tr>
 				<c:if test="${totalPage == 0}">
-						<h3>댓글이 없습니다.</h1>
+						<h3>댓글이 없습니다.</h3>
 				</c:if>
 				<c:if test="${totalPage != 0}">
 					<c:if test="${page != 1}">
@@ -314,7 +365,7 @@
 
 	<h2>댓글 작성</h2>
 	<div class="write-box">
-		<form action="" onsubmit="WriteReply__submitForm(this); return false;">
+		<form action="" onsubmit="ArticleReply__submitWriteForm(this); return false;">
 			<input type="hidden" name="articleId" value="${param.id}" />
 			<div class="form-row">
 				<div class="label">내용</div>

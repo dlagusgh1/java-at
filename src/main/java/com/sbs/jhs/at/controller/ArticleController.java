@@ -1,5 +1,6 @@
 package com.sbs.jhs.at.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -115,10 +116,9 @@ public class ArticleController {
 		
 		Article article = articleService.getForPrintArticle(id);
 		
-		model.addAttribute("article", article);
-		
 		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id, limitFrom, itemsInAPage);
 		
+		model.addAttribute("article", article);
 		model.addAttribute("articleReplies", articleReplies);
 		
 		model.addAttribute("totalCount", totalCount);
@@ -141,6 +141,52 @@ public class ArticleController {
 		model.addAttribute("endPage", endPage);
 		
 		return "article/detail";
+	}
+	
+	@RequestMapping("article/getForPrintArticleRepliesRs")
+	@ResponseBody
+	public Map<String, Object> getForPrintArticleRepliesRs(String page, int id) {
+		
+		if (page == null) {
+			page = "1";
+		} 
+		
+		int Spage = Integer.parseInt(page);
+		
+		int itemsInAPage = 5;
+		int limitFrom = (Spage-1) * itemsInAPage;
+		
+		int totalCount = articleService.getForPrintListArticleRepliesCount(id);
+		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
+		
+		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id, limitFrom, itemsInAPage);
+
+		Map<String, Object> rs = new HashMap<>();
+		
+		rs.put("resultCode", "S-1");
+		rs.put("msg", String.format("총 %d개의 댓글이 있습니다.", articleReplies.size()));
+		rs.put("articleReplies", articleReplies);
+		
+		rs.put("totalCount", totalCount);
+		rs.put("totalPage", totalPage);
+		rs.put("page", page);
+		
+		int pageCount = 5;
+		int startPage = ((Spage - 1) / pageCount) * pageCount + 1;
+		int endPage = startPage + pageCount - 1;
+		
+		if( totalPage < Spage) {
+			Spage = totalPage;
+		}
+		if ( endPage > totalPage) {
+			endPage = totalPage;
+		}
+		
+		rs.put("pageCount", pageCount);
+		rs.put("startPage", startPage);
+		rs.put("endPage", endPage);
+
+		return rs;
 	}
 	
 	// 게시물 작성 폼
