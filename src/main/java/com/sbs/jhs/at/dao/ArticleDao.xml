@@ -88,16 +88,7 @@
 		AND delStatus = 0
 		AND articleId = #{id}
 	</select>
-	
-	<select id="getForPrintArticleReplies" resultType="ArticleReply">
-		SELECT *
-		FROM articleReply
-		WHERE displayStatus = 1
-		AND delStatus = 0
-		AND articleId = #{articleId}
-		ORDER BY id DESC
-	</select>
-	
+		
 	<select id="getForPrintArticleRepliesFrom" resultType="ArticleReply">
 		SELECT *
 		FROM articleReply

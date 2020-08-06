@@ -94,12 +94,6 @@ public class ArticleServiceImpl implements ArticleService {
 
 	// 특정 게시물 내 댓글 리스트
 	@Override
-	public List<ArticleReply> getForPrintArticleReplies(int articleId) {
-		
-		return articleDao.getForPrintArticleReplies(articleId);
-	}
-	
-	@Override
 	public List<ArticleReply> getForPrintArticleReplies(int articleId, int from) {
 		return articleDao.getForPrintArticleRepliesFrom(articleId, from);
 	}

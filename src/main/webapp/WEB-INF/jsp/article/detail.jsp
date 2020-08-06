@@ -422,7 +422,7 @@
 	<h2>댓글 리스트</h2>
 	
 	<div class="total">
-		전체 댓글 수 : <!-- ${totalCount}  -->
+		전체 댓글 수 : ${articleReplies.size()} <!-- ${totalCount}  -->
 	</div>
 	
 	<div class="template-box template-box-1 con">

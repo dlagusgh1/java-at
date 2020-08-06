@@ -105,10 +105,6 @@ public class ArticleController {
 		Article article = articleService.getForPrintArticle(id);
 
 		model.addAttribute("article", article);
-
-		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id);
-
-		model.addAttribute("articleReplies", articleReplies);
 		
 		return "article/detail";
 	}
@@ -220,6 +216,7 @@ public class ArticleController {
 		return rs;
 	}
 	
+	// 댓글 수정 기능
 	@RequestMapping("article/doModifyReplyAjax")
 	@ResponseBody
 	public Map<String, Object> doModifyReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
