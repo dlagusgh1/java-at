@@ -112,23 +112,26 @@
 			<c:if test="${searchKeyword == null}">
 				<c:if test="${page != 1}">
 					<c:set var="k" value="${page}" />
-						<td><a href="?page=${k-1}"><</a></td>
+						<td><a href="?page=1"><i class="fas fa-angle-double-left"></i></a></td>
+						<td><a href="?page=${k-1}"><i class="fas fa-angle-left"></i></a></td>
 				</c:if>
 				<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
 					<td class="${i == page ? 'current' : ''}" >
-						<a href="?page=${i}" class="block" >${i}</a>
+						<a href="?page=${i}" class="block">${i}</a>
 					</td>
 				</c:forEach>
 				<c:if test="${page != totalPage}">
 					<c:set var="k" value="${page}" />
-						<td><a href="?page=${k+1}">></a></td>
+						<td><a href="?page=${k+1}"><i class="fas fa-angle-right"></i></a></td>
+						<td><a href="?page=${totalPage}"><i class="fas fa-angle-double-right"></i></a></td>
 				</c:if>
 			</c:if>
 			
 			<c:if test="${searchKeyword != null}">
 				<c:if test="${page != 1}">
 					<c:set var="k" value="${page}" />
-						<td><a href="?page=${k-1}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}"><</a></td>
+						<td><a href="?page=1&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}"><i class="fas fa-angle-double-left"></i></a></td>
+						<td><a href="?page=${k-1}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}"><i class="fas fa-angle-left"></i></a></td>
 				</c:if>
 				<c:forEach var="i" begin="${startPage}" end="${endPage}" step="1">
 					<td class="${i == page ? 'current' : ''}" >
@@ -137,7 +140,8 @@
 				</c:forEach>
 				<c:if test="${page != totalPage}">
 					<c:set var="k" value="${page}" />
-						<td><a href="?page=${k+1}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}">></a></td>
+						<td><a href="?page=${k+1}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}"><i class="fas fa-angle-right"></i></a></td>
+						<td><a href="?page=${totalPage}&searchKeywordType=${searchKeywordType}&searchKeyword=${searchKeyword}"><i class="fas fa-angle-double-right"></i></a></td>
 				</c:if>
 			</c:if>
 		</tr>
