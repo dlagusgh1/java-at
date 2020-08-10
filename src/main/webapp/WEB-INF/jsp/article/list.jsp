@@ -137,8 +137,41 @@
 	}
 </style>
 
-<h1>게시물 리스트</h1>
 
+<script type="text/javascript">
+	// 게시물 작성 AJAX 
+	function ArticleReply__submitWriteForm(form) {
+		form.title.value = form.title.value.trim();
+		form.body.value = form.body.value.trim();
+		
+		if (form.title.value.length == 0) {
+			alert('젝목을 입력해주세요.');
+			form.title.focus();
+
+			return;
+		}
+
+		if (form.body.value.length == 0) {
+			alert('내용을 입력해주세요.');
+			form.body.focus();
+
+			return;
+		}
+
+		$.post('./doWriteAjax', {
+			title : form.title.value,
+			body : form.body.value
+		}, function(data) {
+			
+		}, 'json');
+
+		form.title.value = '';
+		form.body.value = '';
+	}
+</script>
+
+
+<h1>게시물 리스트</h1>
 <div class="search-box">
 	<div class="input-box">
 		<form action="list">
@@ -213,32 +246,9 @@
 	</table>
 </div>
 
-<script type="text/javascript">
-	function submitAddForm(form) {
-		form.title.value = form.title.value.trim();
-		if (form.title.value.length == 0) {
-			alert('제목을 입력해주세요.');
-			form.title.focus();
-
-			return false;
-		}
-
-		form.body.value = form.body.value.trim();
-		if (form.body.value.length == 0) {
-			alert('내용을 입력해주세요.');
-			form.body.focus();
-
-			return false;
-		}
-
-		form.submit();
-	}
-</script>
-
-<h1>게시물 작성</h1>
-
+<h1 style="margin-top: 30px;">게시물 작성</h1>
 <div class="write-box">
-	<form action="doWrite" method="POST" onsubmit="submitAddForm(this); return false;">
+	<form action="" onsubmit="ArticleReply__submitWriteForm(this); return false;">
 		<div class="form-row">
 			<div class="label">제목</div>
 			<div class="input">

@@ -27,7 +27,7 @@
 		AND delStatus = 0
 	</select>
 	
-	<insert id="write">
+	<insert id="write" parameterType="map" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO article
 		SET regDate = NOW(), 
 		updateDate = NOW(), 

@@ -33,11 +33,18 @@ public class ArticleServiceImpl implements ArticleService {
 	
 		return article;
 	}
-
-	// 게시물 작성
+	
+	// 게시물 작성 기능
 	@Override
-	public void write(String title, String body) {
-		articleDao.write(title, body);	
+	public Map<String, Object> write(Map<String, Object> param) {
+		articleDao.write(param);
+		int id = CUtil.getAsInt(param.get("id"));
+		Map<String, Object> rs = new HashMap<>();
+
+		rs.put("resultCode", "S-1");
+		rs.put("msg", String.format("%d번 게시물이 생성되었습니다.", id));
+
+		return rs;
 	}
 
 	// 게시물 삭제

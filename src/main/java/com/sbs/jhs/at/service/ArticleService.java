@@ -15,7 +15,7 @@ public interface ArticleService {
 	public Article getForPrintArticle(int id);
 
 	// 게시물 작성
-	public void write(String title, String body);
+	Map<String, Object> write(Map<String, Object> param);
 
 	// 게시물 삭제
 	public void delete(int id);

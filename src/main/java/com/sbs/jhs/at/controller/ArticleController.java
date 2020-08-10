@@ -125,17 +125,14 @@ public class ArticleController {
 		return rs;
 	}
 	
-	// 게시물 작성
-	@RequestMapping("/article/doWrite")
-	public String doWrite(Model model, String title, String body) {
-				
-		articleService.write(title, body);
+	// 게시물 작성 기능
+	@RequestMapping("article/doWriteAjax")
+	@ResponseBody
+	public Map<String, Object> doWriteAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
 		
-		String redirectUrl = "/article/list?page=1";
-
-		model.addAttribute("locationReplace", redirectUrl);
-
-		return "common/redirect";
+		Map<String, Object> rs = articleService.write(param);
+		
+		return rs;
 	}
 	
 	// 게시물 삭제

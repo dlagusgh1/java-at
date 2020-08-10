@@ -15,7 +15,7 @@ public interface ArticleDao {
 	
 	Article getForPrintArticle(@Param("id") int id);
 
-	void write(String title, String body);
+	void write(Map<String, Object> param);
 
 	void delete(int id);
 
