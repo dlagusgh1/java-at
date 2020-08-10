@@ -240,6 +240,7 @@
 		}
 
 		$.post('./doWriteReplyAjax', {
+			memberId : 1,
 			articleId : form.articleId.value,
 			body : form.body.value
 		}, function(data) {
@@ -276,7 +277,8 @@
 		html = replaceAll(html, "{$번호}", articleReply.id);
 		html = replaceAll(html, "{$날짜}", articleReply.regDate);
 		html = replaceAll(html, "{$내용}", articleReply.body);
-
+		html = replaceAll(html, "{$작성자}", articleReply.extra.writer);
+		
 		ArticleReply__$listTbody.prepend(html);
 	}
 
@@ -440,6 +442,7 @@
 							</form>
 						</div>
 					</td>
+					<td>{$작성자}</td>
 					<td>
 						<span class="loading-delete-inline">삭제중입니다...</span> 
 						<a class="loading-none" href="#" onclick="if ( confirm('정말 삭제하시겠습니까?') ) { ArticleReply__delete(this); } return false;">삭제</a>
@@ -458,6 +461,7 @@
 					<th style="width:10px;">번호</th>
 					<th style="width:20px;">작성일</th>
 					<th>내용</th>	
+					<th>작성자</th>
 					<th style="width:10px;">삭제/수정</th>			
 				</tr>
 			</thead>
