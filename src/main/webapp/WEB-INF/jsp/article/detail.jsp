@@ -505,6 +505,12 @@
 				</div>
 			</div>
 			<div class="form-row">
+				<div class="label">파일 업로드</div>
+				<div class="input">
+					<input name="myFile" type="file" accept=".jpg, .png, .gif, .mp4"/>
+				</div>
+			</div>
+			<div class="form-row">
 				<div class="input" style="display: flex; justify-content: center;">
 					<input class="submit-button" type="submit" value="작성">	
 				</div>

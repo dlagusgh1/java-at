@@ -125,17 +125,10 @@ public class ArticleController {
 		return rs;
 	}
 	
-	// 게시물 작성 폼
-	@RequestMapping("/article/write")
-	public String write(Model model) {
-		
-		return "article/write";
-	}
-	
 	// 게시물 작성
 	@RequestMapping("/article/doWrite")
 	public String doWrite(Model model, String title, String body) {
-		
+				
 		articleService.write(title, body);
 		
 		String redirectUrl = "/article/list?page=1";
@@ -239,4 +232,17 @@ public class ArticleController {
 
 		return rs;
 	}
+	
+	// 파일 업로드
+		@RequestMapping("/article/upload")
+		public String doUpload(Model model, String file) {
+					
+			System.out.println(file);
+			
+			String redirectUrl = "/article/list?page=1";
+
+			model.addAttribute("locationReplace", redirectUrl);
+
+			return "common/redirect";
+		}
 }
