@@ -77,6 +77,7 @@
 		updateDate = NOW(), 
 		`body`= #{body},
 		articleId = #{articleId},
+		memberId = #{memberId},
 		displayStatus = 1,
 		delDate = NOW()
 	</insert>
@@ -89,14 +90,18 @@
 		AND articleId = #{id}
 	</select>
 		
-	<select id="getForPrintArticleRepliesFrom" resultType="ArticleReply">
-		SELECT *
-		FROM articleReply
-		WHERE displayStatus = 1
-		AND delStatus = 0
-		AND articleId = #{articleId}
-		AND id >= #{from}
-		ORDER BY id DESC
+	<select id="getForPrintArticleRepliesFrom" resultMap="articleReply">
+		<![CDATA[
+		SELECT AR.*,
+		M.nickname AS extra__writer
+		FROM articleReply AS AR
+		INNER JOIN member AS M
+		ON AR.memberId = M.id
+		WHERE AR.articleId = #{articleId}
+		AND AR.displayStatus = 1
+		AND AR.id >= #{from}
+		ORDER BY AR.id ASC
+		]]>
 	</select>
 	
 	<update id="deleteArticleReply">
@@ -129,4 +134,18 @@
 		FROM articleReply
 		WHERE id = #{id}
 	</select>
+	
+	<resultMap type="ArticleReply" id="articleReply">
+		<id property="id" column="id" />
+		<id property="regDate" column="regDate" />
+		<id property="updateDate" column="updateDate" />
+		<id property="delDate" column="delDate" />
+		<id property="delStatus" column="delStatus" />
+		<id property="body" column="body" />
+		<id property="memberId" column="memberId" />
+		<id property="articleId" column="articleId" />
+		<association property="extra" javaType="map">
+			<id property="writer" column="extra__writer" />
+		</association>
+	</resultMap>
 </mapper>
