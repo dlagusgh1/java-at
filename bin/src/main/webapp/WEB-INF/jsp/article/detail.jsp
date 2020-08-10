@@ -168,10 +168,16 @@
 		padding: 8px;
 	}
 	
-	textarea {
+	.reply-write {
 		padding: 10px;
 		width: 100%;
 		height: 100px;
+		resize: none;
+	}
+	
+	.reply-modify {
+		padding: 5px;
+		width: 100%;
 		resize: none;
 	}
 	
@@ -355,6 +361,7 @@
 			$tr.attr('data-loading', 'N');
 			$tr.attr('data-loading-delete', 'N');
 
+			// resultCode가 S-(성공)이면 삭제 진행.
 			if (data.resultCode.substr(0, 2) == 'S-') {
 				$tr.remove();
 			} else {
@@ -373,7 +380,7 @@
 <c:if test="${article.delStatus == false}">
 	<h1>게시물 상세보기</h1>
 	<div class="table-box">
-		<table class="detail-table">
+		<table class="detail-table ">
 			<tr>
 				<th colspan=4>상세보기</th>
 			</tr>
@@ -415,22 +422,20 @@
 	<h2>댓글 리스트</h2>
 	
 	<div class="total">
-		전체 댓글 수 : <!-- ${totalCount}  -->
+		전체 댓글 수 : ${articleReplies.size()} <!-- ${totalCount}  -->
 	</div>
 	
-	<div class="template-box template-box-1">
+	<div class="template-box template-box-1 con">
 		<table border="1">
 			<tbody>
 				<tr data-article-reply-id="{$번호}">
 					<td>{$번호}</td>
 					<td>{$날짜}</td>
-					<td>{$내용}</td>
 					<td>
 						<div class="reply-body-text modify-mode-none">{$내용}</div>
 						<div class="modify-mode-block">
-							<form
-								onsubmit="ArticleReply__submitModifyReplyForm(this); return false;">
-								<textarea name="body">{$내용}</textarea>
+							<form onsubmit="ArticleReply__submitModifyReplyForm(this); return false;">
+								<textarea class="reply-modify" name="body">{$내용}</textarea>
 								<br /> <input class="loading-none" type="submit" value="수정" />
 							</form>
 						</div>
@@ -496,7 +501,13 @@
 			<div class="form-row">
 				<div class="label">내용</div>
 				<div class="input">
-					<textarea  name="body" placeholder="댓글의 내용을 입력해주세요."></textarea>
+					<textarea class="reply-write" name="body" placeholder="댓글의 내용을 입력해주세요."></textarea>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="label">파일 업로드</div>
+				<div class="input">
+					<input name="myFile" type="file" accept=".jpg, .png, .gif, .mp4"/>
 				</div>
 			</div>
 			<div class="form-row">
