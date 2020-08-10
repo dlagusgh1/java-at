@@ -23,7 +23,7 @@ public class ArticleController {
 	private ArticleService articleService;
 	
 	// 게시물 리스트X	
-	@RequestMapping("article/list")
+	@RequestMapping("/usr/article/list")
 	public String showList(Model model, String page, String searchKeywordType, String searchKeyword) {
 		
 		if (page == null) {
@@ -99,7 +99,7 @@ public class ArticleController {
 	}
 	
 	
-	@RequestMapping("article/detail")
+	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
 		
 		Article article = articleService.getForPrintArticle(id);
@@ -110,7 +110,7 @@ public class ArticleController {
 	}
 	
 	// 게시물 상세보기 내 댓글 
-	@RequestMapping("article/getForPrintArticleRepliesRs")
+	@RequestMapping("/usr/article/getForPrintArticleRepliesRs")
 	@ResponseBody
 	public Map<String, Object> getForPrintArticleRepliesRs(int id, int from) {
 		
@@ -126,7 +126,7 @@ public class ArticleController {
 	}
 	
 	// 게시물 작성 기능
-	@RequestMapping("article/doWriteAjax")
+	@RequestMapping("/usr/article/doWriteAjax")
 	@ResponseBody
 	public Map<String, Object> doWriteAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
 		
@@ -136,12 +136,12 @@ public class ArticleController {
 	}
 	
 	// 게시물 삭제
-	@RequestMapping("/article/delete")
+	@RequestMapping("/usr/article/delete")
 	public String delete(Model model, int id) {
 		
 		articleService.delete(id);
 		
-		String redirectUrl = "/article/list?page=1";
+		String redirectUrl = "list?page=1";
 
 		model.addAttribute("locationReplace", redirectUrl);
 
@@ -149,7 +149,7 @@ public class ArticleController {
 	}
 	
 	// 게시물 수정 폼
-	@RequestMapping("/article/modify")
+	@RequestMapping("/usr/article/modify")
 	public String modify(Model model, int id) {
 		
 		Article article = articleService.getForPrintArticle(id);
@@ -160,12 +160,12 @@ public class ArticleController {
 	}
 	
 	// 게시물 수정 기능
-	@RequestMapping("/article/doModify")
+	@RequestMapping("/usr/article/doModify")
 	public String doModify(Model model, int id, String title, String body) {
 		
 		articleService.modify(id, title, body);
 		
-		String redirectUrl = "/article/detail?id=" + id;
+		String redirectUrl = "detail?id=" + id;
 
 		model.addAttribute("locationReplace", redirectUrl);
 
@@ -173,7 +173,7 @@ public class ArticleController {
 	}
 	
 	// 댓글 작성 기능
-	@RequestMapping("article/doWriteReplyAjax")
+	@RequestMapping("/usr/article/doWriteReplyAjax")
 	@ResponseBody
 	public Map<String, Object> doWriteReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
 		
@@ -183,7 +183,7 @@ public class ArticleController {
 	}
 	
 	// 댓글 삭제 기능
-	@RequestMapping("article/doDeleteReplyAjax")
+	@RequestMapping("/usr/article/doDeleteReplyAjax")
 	@ResponseBody
 	public Map<String, Object> doDeleteReplyAjax(int id, String redirectUrl, HttpServletRequest request) {
 		
@@ -207,7 +207,7 @@ public class ArticleController {
 	}
 	
 	// 댓글 수정 기능
-	@RequestMapping("article/doModifyReplyAjax")
+	@RequestMapping("/usr/article/doModifyReplyAjax")
 	@ResponseBody
 	public Map<String, Object> doModifyReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
 
@@ -231,12 +231,12 @@ public class ArticleController {
 	}
 	
 	// 파일 업로드
-		@RequestMapping("/article/upload")
+		@RequestMapping("/usr/article/upload")
 		public String doUpload(Model model, String file) {
 					
 			System.out.println(file);
 			
-			String redirectUrl = "/article/list?page=1";
+			String redirectUrl = "list?page=1";
 
 			model.addAttribute("locationReplace", redirectUrl);
 
