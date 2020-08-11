@@ -67,12 +67,21 @@ html>head+body:nth-child(2) .height-300 {
 .table-box > table {
 	width: 100%;
 	border-collapse: collapse;
+	border-top: 2px solid #168;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}
+
+.table-box > table th {
+	color: #168;
+	background: #f0f6f9;
 }
 
 .table-box>table th, .table-box>table td {
-	border: 1px solid black;
+	border: 0.5px solid black;
+	white-space:nowrap;
 	padding: 10px;
-	text-align: left;
 }
 
 /* 폼 관련 */
@@ -82,6 +91,11 @@ html>head+body:nth-child(2) .height-300 {
 	display: block;
 	box-sizing: border-box;
 	padding: 10px;
+	cursor: pointer;
+}
+
+button, input {
+	cursor: pointer;
 }
 
 .form1 .form-control-box>textarea {
@@ -122,46 +136,14 @@ html>head+body:nth-child(2) .height-300 {
 	justify-content: center;
 }
 
-.table-box {
-	display: flex;
-	justify-content: center;
-}
-	
-.article-table { 
-	border-collapse: collapse;
-	border-top: 2px solid #168;
-	width: 600px;
-	text-align: center;
-	padding: 10px;
-	margin: 10px;
-}	
-.article-table th {
-	color: #168;
-	background: #f0f6f9;
-}
-
-.article-table th, .article-table td {
-	border: 0.5px solid #ddd;
-	white-space:nowrap;
-	padding: 10px;
-}
-
 .button-box {
 	display: flex;
 	justify-content: center;
 }
 
-.write-button {
-	padding: 10px;
-	margin: 10px;
-	cursor: pointer;
-	background: #f0f6f9;
-	border: 1px solid #168;
-}
-
 .write-button:hover {
 	color: white;
-	background: #afafaf;
+	background: #168;
 }
 
 .page-box {
@@ -177,37 +159,6 @@ html>head+body:nth-child(2) .height-300 {
 .search-box {
 	display: flex;
 	justify-content: center;
-}
-
-
-.write-box {
-	display: flex;
-	justify-content: center;
-	width: 100%;
-}
-
-.write-box form {
-	width: 600px;
-	text-align: center;
-}
-
-.write-box .form-row {
-	align-items: center;
-	display: flex;
-	margin: 20px;
-}
-
-.write-box .form-row .submit-button {
-	cursor: pointer;
-	padding: 10px 50px;
-	margin: 10px;
-	background: #f0f6f9;
-	border: 1px solid #168;
-}
-
-.write-box .form-row .submit-button:hover {
-	color: white;
-	background: #afafaf;
 }
 
 .write-box .form-row>.label {
@@ -300,7 +251,7 @@ h1, h2, h3 {
 }
 .button-box a:hover {
 	color: white;
-	background: #afafaf;
+	background: #168;
 }
 
 .articleReply-table { 
@@ -372,7 +323,7 @@ h1, h2, h3 {
 
 .write-box .form-row .submit-button:hover {
 	color: white;
-	background: #afafaf;
+	background: #168;
 }
 
 .write-box .form-row>.label {
@@ -419,34 +370,6 @@ h1, h2, h3 {
 	display: none;
 	font-weight: bold;
 	color: red;
-}
-
-.article-reply-list-box tr[data-loading="Y"] .loading-none {
-	display: none;
-}
-
-.article-reply-list-box tr[data-loading="Y"][data-loading-delete="Y"] .loading-delete-inline {
-	display: inline;
-}
-
-.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-none {
-	display: none;
-}
-
-.article-reply-list-box tr .modify-mode-inline {
-	display: none;
-}
-
-.article-reply-list-box tr .modify-mode-block {
-	display: none;
-}
-
-.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-block {
-	display: block;
-}
-
-.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-inline {
-	display: inline;
 }
 
 /* article detail - 댓글 리스트 */
