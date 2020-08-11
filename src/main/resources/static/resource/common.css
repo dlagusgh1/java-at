@@ -114,3 +114,357 @@ html>head+body:nth-child(2) .height-300 {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
+
+
+/* article list */
+.total {
+	display: flex;
+	justify-content: center;
+}
+
+.table-box {
+	display: flex;
+	justify-content: center;
+}
+	
+.article-table { 
+	border-collapse: collapse;
+	border-top: 2px solid #168;
+	width: 600px;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}	
+.article-table th {
+	color: #168;
+	background: #f0f6f9;
+}
+
+.article-table th, .article-table td {
+	border: 0.5px solid #ddd;
+	white-space:nowrap;
+	padding: 10px;
+}
+
+.button-box {
+	display: flex;
+	justify-content: center;
+}
+
+.write-button {
+	padding: 10px;
+	margin: 10px;
+	cursor: pointer;
+	background: #f0f6f9;
+	border: 1px solid #168;
+}
+
+.write-button:hover {
+	color: white;
+	background: #afafaf;
+}
+
+.page-box {
+	display: flex;
+	justify-content: center;
+}
+
+.page-box tr > td > a {
+	font-size: 1.5rem;
+	padding: 10px;
+}
+
+.search-box {
+	display: flex;
+	justify-content: center;
+}
+
+
+.write-box {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.write-box form {
+	width: 600px;
+	text-align: center;
+}
+
+.write-box .form-row {
+	align-items: center;
+	display: flex;
+	margin: 20px;
+}
+
+.write-box .form-row .submit-button {
+	cursor: pointer;
+	padding: 10px 50px;
+	margin: 10px;
+	background: #f0f6f9;
+	border: 1px solid #168;
+}
+
+.write-box .form-row .submit-button:hover {
+	color: white;
+	background: #afafaf;
+}
+
+.write-box .form-row>.label {
+	width: 100px;
+}
+
+.write-box .form-row>.input {
+	flex-grow: 1;
+	flex-wrap: nowrap;
+	text-align: center;
+}
+
+.write-box .form-row > .input > input {
+	display: block;
+	width: 100%;
+	padding: 10px;
+}
+
+.write-box .form-row > .input > .submit-button {
+	display: block;
+	width: 200px;
+	padding: 10px;
+}
+
+.article-write {
+	padding: 10px;
+	width: 100%;
+	height: 100px;
+	resize: none;
+}
+
+/* article detail*/
+h1, h2, h3 {
+	margin: 10px;
+	text-align: center;
+}
+	
+.article-reply-list-box {
+	display: flex;
+	justify-content: center;
+}
+
+.table-box {
+	display: flex;
+	justify-content: center;
+}
+	
+.detail-table { 
+	border-collapse: collapse;
+	border-top: 2px solid #168;
+	width: 600px;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}	
+
+.detail-table th, .detail-table td {
+	border: 0.5px solid #ddd;
+	white-space:nowrap;
+	padding: 10px;
+}
+
+.detail-table th {
+	font-weight: bold;
+	color: #168;
+	background: #f0f6f9;
+}
+
+.detail-table tr td {
+	colspan: 2;
+}
+
+.detail-table tr td:first-child {
+	font-weight: bold;
+	color: #168;
+	background: #f0f6f9;
+}
+
+.button-box {
+	display: flex;
+	justify-content: center;
+}
+
+.button-box a {
+	padding: 10px;
+	margin: 10px;
+	cursor: pointer;
+	background: #f0f6f9;
+	border: 1px solid #168;
+}
+.button-box a:hover {
+	color: white;
+	background: #afafaf;
+}
+
+.articleReply-table { 
+	border-collapse: collapse;
+	border-top: 2px solid #168;
+	width: 600px;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}	
+	
+.articleReply-table th, .articleReply-table td {
+	border: 0.5px solid #ddd;
+	white-space:nowrap;
+	padding: 10px;
+}
+
+.articleReply-table th {
+	font-weight: bold;
+	color: #168;
+	background: #f0f6f9;
+}
+
+.articleReply-write { 
+	border-collapse: collapse;
+	border-top: 2px solid #168;
+	width: 600px;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}	
+
+.articleReply-write th, .articleReply-write td {
+	border: 0.5px solid #ddd;
+	white-space:nowrap;
+	padding: 10px;
+}
+
+.articleReply-write th {
+	font-weight: bold;
+	color: #168;
+	background: #f0f6f9;
+}
+
+.write-box {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.write-box form {
+	width: 600px;
+	text-align: center;
+}
+
+.write-box .form-row {
+	align-items: center;
+	display: flex;
+	margin: 20px;
+}
+
+.write-box .form-row .submit-button {
+	cursor: pointer;
+	padding: 10px 50px;
+	margin: 10px;
+	background: #f0f6f9;
+	border: 1px solid #168;
+}
+
+.write-box .form-row .submit-button:hover {
+	color: white;
+	background: #afafaf;
+}
+
+.write-box .form-row>.label {
+	width: 100px;
+}
+
+.write-box .form-row>.input {
+	flex-grow: 1;
+	flex-wrap: nowrap;
+	text-align: center;
+}
+
+.write-box .form-row>.input>input {
+	display: block;
+	width: 200px;
+	box-sizing: border-box;
+	padding: 8px;
+}
+
+.reply-write {
+	padding: 10px;
+	width: 100%;
+	height: 100px;
+	resize: none;
+}
+
+.reply-modify {
+	padding: 5px;
+	width: 100%;
+	resize: none;
+}
+
+.page-box {
+	display: flex;
+	justify-content: center;
+}
+
+.page-box tr > td > a {
+	font-size: 1.5rem;
+	padding: 10px;
+}
+
+.article-reply-list-box tr .loading-delete-inline {
+	display: none;
+	font-weight: bold;
+	color: red;
+}
+
+.article-reply-list-box tr[data-loading="Y"] .loading-none {
+	display: none;
+}
+
+.article-reply-list-box tr[data-loading="Y"][data-loading-delete="Y"] .loading-delete-inline {
+	display: inline;
+}
+
+.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-none {
+	display: none;
+}
+
+.article-reply-list-box tr .modify-mode-inline {
+	display: none;
+}
+
+.article-reply-list-box tr .modify-mode-block {
+	display: none;
+}
+
+.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-block {
+	display: block;
+}
+
+.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-inline {
+	display: inline;
+}
+
+/* article detail - 댓글 리스트 */
+.reply-list-box {
+	margin-bottom: 80px;
+}
+
+/* article detail - 댓글 수정 */
+.reply-modify-form-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: none;
+}
+
+.reply-modify-form-modal-actived .reply-modify-form-modal {
+	display: flex;
+}

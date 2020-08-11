@@ -22,7 +22,7 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
-	// 게시물 리스트X	
+	// 게시물 리스트
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model, String page, String searchKeywordType, String searchKeyword) {
 		

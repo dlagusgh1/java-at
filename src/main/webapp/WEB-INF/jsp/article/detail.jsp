@@ -5,244 +5,6 @@
 <c:set var="pageTitle" value="게시물 상세내용" />
 <%@ include file="../part/head.jspf"%>
 
-<style>
-	a {
-		color: inherit;
-		text-decoration: none;
-	}
-	
-	h1, h2, h3 {
-		margin: 10px;
-		text-align: center;
-	}
-	
-	.article-reply-list-box {
-		display: flex;
-		justify-content: center;
-	}
-	
-	.table-box {
-		display: flex;
-		justify-content: center;
-	}
-	
-	.detail-table { 
-		border-collapse: collapse;
-		border-top: 2px solid #168;
-		width: 600px;
-		text-align: center;
-		padding: 10px;
-		margin: 10px;
-	}	
-	
-	.detail-table th, .detail-table td {
-		border: 0.5px solid #ddd;
-		white-space:nowrap;
-		padding: 10px;
-	}
-	
-	.detail-table th {
-		font-weight: bold;
-		color: #168;
-		background: #f0f6f9;
-	}
-	
-	.detail-table tr td {
-		colspan: 2;
-	}
-	
-	.detail-table tr td:first-child {
-		font-weight: bold;
-		color: #168;
-		background: #f0f6f9;
-	}
-	
-	.button-box {
-		display: flex;
-		justify-content: center;
-	}
-	
-	.button-box a {
-		padding: 10px;
-		margin: 10px;
-		cursor: pointer;
-		background: #f0f6f9;
-		border: 1px solid #168;
-	}
-	.button-box a:hover {
-		color: white;
-		background: #afafaf;
-	}
-	
-	.articleReply-table { 
-		border-collapse: collapse;
-		border-top: 2px solid #168;
-		width: 600px;
-		text-align: center;
-		padding: 10px;
-		margin: 10px;
-	}	
-	
-	.articleReply-table th, .articleReply-table td {
-		border: 0.5px solid #ddd;
-		white-space:nowrap;
-		padding: 10px;
-	}
-	
-	.articleReply-table th {
-		font-weight: bold;
-		color: #168;
-		background: #f0f6f9;
-	}
-	
-	.total {
-		display: flex;
-		justify-content: center;
-	}
-	
-	.articleReply-write { 
-		border-collapse: collapse;
-		border-top: 2px solid #168;
-		width: 600px;
-		text-align: center;
-		padding: 10px;
-		margin: 10px;
-	}	
-	
-	.articleReply-write th, .articleReply-write td {
-		border: 0.5px solid #ddd;
-		white-space:nowrap;
-		padding: 10px;
-	}
-	
-	.articleReply-write th {
-		font-weight: bold;
-		color: #168;
-		background: #f0f6f9;
-	}
-	
-	.write-box {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-	}
-	
-	.write-box form {
-		width: 600px;
-		text-align: center;
-	}
-	
-	.write-box .form-row {
-		align-items: center;
-		display: flex;
-		margin: 20px;
-	}
-	
-	.write-box .form-row .submit-button {
-		cursor: pointer;
-		padding: 10px 50px;
-		margin: 10px;
-		background: #f0f6f9;
-		border: 1px solid #168;
-	}
-	
-	.write-box .form-row .submit-button:hover {
-		color: white;
-		background: #afafaf;
-	}
-	
-	.write-box .form-row>.label {
-		width: 100px;
-	}
-	
-	.write-box .form-row>.input {
-		flex-grow: 1;
-		flex-wrap: nowrap;
-		text-align: center;
-	}
-	
-	.write-box .form-row>.input>input {
-		display: block;
-		width: 200px;
-		box-sizing: border-box;
-		padding: 8px;
-	}
-	
-	.reply-write {
-		padding: 10px;
-		width: 100%;
-		height: 100px;
-		resize: none;
-	}
-	
-	.reply-modify {
-		padding: 5px;
-		width: 100%;
-		resize: none;
-	}
-	
-	.page-box {
-		display: flex;
-		justify-content: center;
-	}
-	
-	.page-box tr > td > a {
-		font-size: 1.5rem;
-		padding: 10px;
-	}
-	
-	.article-reply-list-box tr .loading-delete-inline {
-	display: none;
-	font-weight: bold;
-	color: red;
-	}
-	
-	.article-reply-list-box tr[data-loading="Y"] .loading-none {
-		display: none;
-	}
-	
-	.article-reply-list-box tr[data-loading="Y"][data-loading-delete="Y"] .loading-delete-inline
-		{
-		display: inline;
-	}
-	
-	.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-none {
-		display: none;
-	}
-	
-	.article-reply-list-box tr .modify-mode-inline {
-		display: none;
-	}
-	
-	.article-reply-list-box tr .modify-mode-block {
-		display: none;
-	}
-	
-	.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-block {
-		display: block;
-	}
-	
-	.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-inline {
-		display: inline;
-	}
-</style>
-
-<style>
-.reply-modify-form-modal {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0, 0, 0, 0.4);
-	display: none;
-}
-
-.reply-modify-form-modal-actived .reply-modify-form-modal {
-	display: flex;
-}
-</style>
-
 <c:if test="${article.delStatus != false}">
 	<h1>삭제된 게시물 입니다.</h1>
 </c:if>
@@ -389,151 +151,209 @@
 
 <script>
 	// 댓글 작성 AJAX 
-	function ArticleReply__submitWriteForm(form) {
+	function ArticleWriteReplyForm__submit(form) {
 		form.body.value = form.body.value.trim();
-		
 		if (form.body.value.length == 0) {
 			alert('댓글을 입력해주세요.');
+			form.body.focus();
+			return;
+		}
+
+		var startUploadFiles = function(onSuccess) {
+			if ( form.file__reply__0__common__attachment__1.value.length == 0 && form.file__reply__0__common__attachment__2.value.length == 0 ) {
+				onSuccess();
+				return;
+			}
+
+			var fileUploadFormData = new FormData(form); 
+			
+			fileUploadFormData.delete("relTypeCode");
+			fileUploadFormData.delete("relId");
+			fileUploadFormData.delete("body");
+
+			$.ajax({
+				url : './../file/doUploadAjax',
+				data : fileUploadFormData,
+				processData : false,
+				contentType : false,
+				dataType:"json",
+				type : 'POST',
+				success : onSuccess
+			});
+		}
+
+		var startWriteReply = function(fileIdsStr, onSuccess) {
+			$.ajax({
+				url : './../reply/doWriteReplyAjax',
+				data : {
+					fileIdsStr: fileIdsStr,
+					body: form.body.value,
+					relTypeCode: form.relTypeCode.value,
+					relId: form.relId.value
+				},
+				dataType:"json",
+				type : 'POST',
+				success : onSuccess
+			});
+		};
+
+		startUploadFiles(function(data) {
+			var idsStr = '';
+			if ( data && data.body && data.body.fileIdsStr ) {
+				idsStr = data.body.fileIdsStr;
+			}
+			startWriteReply(idsStr, function(data) {
+				if ( data.msg ) {
+					alert(data.msg);
+				}
+				
+				form.body.value = '';
+				form.file__reply__0__common__attachment__1.value = '';
+				form.file__reply__0__common__attachment__2.value = '';
+			});
+		});
+	}
+
+	// 댓글 리스트 AJAX
+	var ReplyList__$box = $('.reply-list-box');
+	var ReplyList__$tbody = ReplyList__$box.find('tbody');
+
+	var ReplyList__lastLodedId = 0;
+
+	var ReplyList__submitModifyFormDone = false;
+
+	function ReplyList__submitModifyForm(form) {
+		if (ReplyList__submitModifyFormDone) {
+			alert('처리중입니다.');
+			return;
+		}
+
+		form.body.value = form.body.value.trim();
+
+		if (form.body.value.length == 0) {
+			alert('내용을 입력해주세요.');
 			form.body.focus();
 
 			return;
 		}
 
-		$.post('./doWriteReplyAjax', {
-			memberId : 1,
-			articleId : form.articleId.value,
-			body : form.body.value
-		}, function(data) {
-			
-		}, 'json');
-
-		form.body.value = '';
-	}
-
-	// 댓글 리스트 AJAX
-	var ArticleReply__lastLoadedArticleReplyId = 0;
-	function ArticleReply__loadList() {
-		$.get('./getForPrintArticleRepliesRs', {
-			id : ${article.id},
-			from : ArticleReply__lastLoadedArticleReplyId + 1
-		}, function(data) {
-			data.articleReplies = data.articleReplies.reverse();
-			
-			for (var i = 0; i < data.articleReplies.length; i++) {
-				var articleReply = data.articleReplies[i];
-				ArticleReply__drawReply(articleReply);
-
-				ArticleReply__lastLoadedArticleReplyId = articleReply.id;
-			}
-			setTimeout(ArticleReply__loadList, 1000);
-		}, 'json');
-	}
-
-	var ArticleReply__$listTbody;
-
-	function ArticleReply__drawReply(articleReply) {
-		var html = $('.template-box-1 tbody').html();
-
-		html = replaceAll(html, "{$번호}", articleReply.id);
-		html = replaceAll(html, "{$날짜}", articleReply.regDate);
-		html = replaceAll(html, "{$내용}", articleReply.body);
-		html = replaceAll(html, "{$작성자}", articleReply.extra.writer);
-		
-		ArticleReply__$listTbody.prepend(html);
-	}
-
-	$(function() {
-		ArticleReply__$listTbody = $('.article-reply-list-box > table tbody');
-
-		ArticleReply__loadList();
-	});
-
-	// 댓글 수정 AJAX
-	function ArticleReply__enableModifyMode(obj) {
-		var $clickedBtn = $(obj);
-		var $tr = $clickedBtn.closest('tr');
-
-		var $replyBodyText = $tr.find('.reply-body-text');
-		var $textarea = $tr.find('form textarea');
-
-		$textarea.val($replyBodyText.text().trim());
-
-		$tr.attr('data-modify-mode', 'Y');
-	}
-
-	function ArticleReply__disableModifyMode(obj) {
-		var $clickedBtn = $(obj);
-		var $tr = $clickedBtn.closest('tr');
-
-		$tr.attr('data-modify-mode', 'N');
-	}
-
-	function ArticleReply__submitModifyReplyForm(form) {
-		var $tr = $(form).closest('tr');
-		form.body.value = form.body.value.trim();
-
-		if (form.body.value.length == 0) {
-			alert('댓글내용을 입력 해주세요.');
-			form.body.focus();
-
-			return false;
-		}
-
-		var replyId = parseInt($tr.attr('data-article-reply-id'));
+		var id = form.id.value;
 		var body = form.body.value;
 
-		$tr.attr('data-loading', 'Y');
-		$tr.attr('data-loading-modify', 'Y');
-
-		$.post('./doModifyReplyAjax', {
-			id : replyId,
+		ReplyList__submitModifyFormDone = true;
+		$.post('../reply/doModifyReplyAjax', {
+			id : id,
 			body : body
 		}, function(data) {
-			$tr.attr('data-loading', 'N');
-			$tr.attr('data-loading-modify', 'N');
-
-			ArticleReply__disableModifyMode(form);
-
-			if (data.resultCode.substr(0, 2) == 'S-') {
-				var $replyBodyText = $tr.find('.reply-body-text');
-				var $textarea = $tr.find('form textarea');
-
-				$replyBodyText.text($textarea.val());
-			} else {
-				if (data.msg) {
-					alert(data.msg)
-				}
+			if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
+				// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
+				var $tr = $('.reply-list-box tbody > tr[data-id="' + id
+						+ '"] .reply-body');
+				$tr.empty().append(body);
 			}
-		});
+
+			ReplyList__hideModifyFormModal();
+			ReplyList__submitModifyFormDone = false;
+		}, 'json');
+	}
+
+	// 댓글 수정 AJAX
+	function ReplyList__showModifyFormModal(el) {
+		$('html').addClass('reply-modify-form-modal-actived');
+		var $tr = $(el).closest('tr');
+		var originBody = $tr.data('data-originBody');
+
+		var id = $tr.attr('data-id');
+
+		var form = $('.reply-modify-form-modal form').get(0);
+
+		form.id.value = id;
+		form.body.value = originBody;
+	}
+
+	function ReplyList__hideModifyFormModal() {
+		$('html').removeClass('reply-modify-form-modal-actived');
+	}
+
+	function ReplyList__loadMoreCallback(data) {
+		if (data.body.replies && data.body.replies.length > 0) {
+			ReplyList__lastLodedId = data.body.replies[data.body.replies.length - 1].id;
+			ReplyList__drawReplies(data.body.replies);
+		}
+
+		setTimeout(ReplyList__loadMore, 2000);
+	}
+
+	function ReplyList__loadMore() {
+
+		$.get('../reply/getForPrintReplies', {
+			articleId : param.id,
+			from : ReplyList__lastLodedId + 1
+		}, ReplyList__loadMoreCallback, 'json');
+	}
+
+	function ReplyList__drawReplies(replies) {
+		for (var i = 0; i < replies.length; i++) {
+			var reply = replies[i];
+			ReplyList__drawReply(reply);
+		}
 	}
 
 	// 댓글 삭제 AJAX
-	function ArticleReply__delete(obj) {
-		var $clickedBtn = $(obj);
-		var $tr = $clickedBtn.closest('tr');
+	function ReplyList__delete(el) {
+		if (confirm('삭제 하시겠습니까?') == false) {
+			return;
+		}
 
-		var replyId = parseInt($tr.attr('data-article-reply-id'));
+		var $tr = $(el).closest('tr');
 
-		$tr.attr('data-loading', 'Y');
-		$tr.attr('data-loading-delete', 'Y');
+		var id = $tr.attr('data-id');
 
-		$.post('./doDeleteReplyAjax', {
-			id : replyId
+		$.post('./../reply/doDeleteReplyAjax', {
+			id : id
 		}, function(data) {
-			$tr.attr('data-loading', 'N');
-			$tr.attr('data-loading-delete', 'N');
-
-			// resultCode가 S-(성공)이면 삭제 진행.
-			if (data.resultCode.substr(0, 2) == 'S-') {
-				$tr.remove();
-			} else {
-				if (data.msg) {
-					alert(data.msg)
-				}
-			}
+			$tr.remove();
 		}, 'json');
-		
 	}
+
+	function ReplyList__drawReply(reply) {
+		var html = '';
+		html += '<tr data-id="' + reply.id + '">';
+		html += '<td>' + reply.id + '</td>';
+		html += '<td>' + reply.regDate + '</td>';
+		html += '<td>' + reply.extra.writer + '</td>';
+		html += '<td>';
+		html += '<div class="reply-body">' + reply.body + '</div>';
+		if (reply.extra.file__common__attachment__1) {
+            var file = reply.extra.file__common__attachment__1;
+            html += '<video controls src="/usr/file/streamVideo?id=' + file.id + '">video not supported</video>';
+        }
+
+		if (reply.extra.file__common__attachment__2) {
+            var file = reply.extra.file__common__attachment__2;
+            html += '<video controls src="/usr/file/streamVideo?id=' + file.id + '">video not supported</video>';
+        }
+		
+		html += '</td>';
+		html += '<td>';
+
+		if (reply.extra.actorCanDelete) {
+			html += '<button type="button" onclick="ReplyList__delete(this);">삭제</button>';
+		}
+		
+		if (reply.extra.actorCanModify) {
+			html += '<button type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
+		}
+		
+		html += '</td>';
+		html += '</tr>';
+
+		var $tr = $(html);
+		$tr.data('data-originBody', reply.body);
+		ReplyList__$tbody.prepend($tr);
+	}
+
+	ReplyList__loadMore();
 </script>
 	
 <%@ include file="../part/foot.jspf"%>
