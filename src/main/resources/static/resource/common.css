@@ -64,7 +64,7 @@ html>head+body:nth-child(2) .height-300 {
 }
 
 /* 테이블 관련 */
-.table-box>table {
+.table-box > table {
 	width: 100%;
 	border-collapse: collapse;
 }

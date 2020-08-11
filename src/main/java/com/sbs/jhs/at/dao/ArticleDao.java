@@ -49,23 +49,4 @@ public interface ArticleDao {
 	void modify(int id, String title, String body);
 	/* article modify 끝 */
 	
-
-	
-
-	void writeArticleReply(Map<String, Object> param);
-
-	int getForPrintListArticleRepliesCount(int id);
-
-	List<Reply> getForPrintArticleRepliesFrom(@Param("articleId") int articleId, @Param("from") int from);
-
-	Reply getForPrintArticleReply(int articleId, int articleReplyId);
-
-	void replyModify(int articleId, int articleReplyId, String body);
-
-	Reply getArticleReply(@Param("id") int id);
-
-	void deleteArticleReply(@Param("id") int id);
-
-	void modifyArticleReply(Map<String, Object> param);
-	
 }

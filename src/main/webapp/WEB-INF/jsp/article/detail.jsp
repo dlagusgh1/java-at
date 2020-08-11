@@ -247,8 +247,7 @@
 	<h1>삭제된 게시물 입니다.</h1>
 </c:if>
 <c:if test="${article.delStatus == false}">
-	<h1>게시물 상세보기</h1>
-	<div class="table-box">
+	<div class="table-box con">
 		<table class="detail-table ">
 			<tbody>
 				<tr>
@@ -298,8 +297,8 @@
 
 	<form class="table-box con form1"
 		onsubmit="ArticleWriteReplyForm__submit(this); return false;">
-		<input type="hidden" name="relTypeCode" value="article" /> <input
-			type="hidden" name="relId" value="${article.id}" />
+		<input type="hidden" name="relTypeCode" value="article" /> 
+		<input type="hidden" name="relId" value="${article.id}" />
 
 		<table>
 			<tbody>
@@ -307,8 +306,7 @@
 					<th>내용</th>
 					<td>
 						<div class="form-control-box">
-							<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요."
-								class="height-300"></textarea>
+							<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요." class="height-300"></textarea>
 						</div>
 					</td>
 				</tr>
@@ -316,8 +314,7 @@
 					<th>첨부1 비디오</th>
 					<td>
 						<div class="form-control-box">
-							<input type="file" accept="video/*" capture
-								name="file__reply__0__common__attachment__1">
+							<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__1">
 						</div>
 					</td>
 				</tr>
@@ -325,8 +322,7 @@
 					<th>첨부2 비디오</th>
 					<td>
 						<div class="form-control-box">
-							<input type="file" accept="video/*" capture
-								name="file__reply__0__common__attachment__2">
+							<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__2">
 						</div>
 					</td>
 				</tr>

@@ -6,10 +6,6 @@
 <%@ include file="../part/head.jspf"%>
 
 <style>
-	a {
-		color: inherit;
-		text-decoration: none;
-	}
 	
 	h1 {
 		margin: 10px;
@@ -172,8 +168,7 @@
 	}
 </script>
 
-
-<h1>게시물 리스트</h1>
+<!-- 게시물 리스트 내 검색 창-->
 <div class="search-box">
 	<div class="input-box">
 		<form action="list">
@@ -185,7 +180,8 @@
 	</div>
 </div>
 
-<div class="table-box">
+<!-- 게시물 리스트 -->
+<div class="table-box con">
 	<table class="article-table">
 		<tr>
 			<th>번호</th>
@@ -205,7 +201,7 @@
 	전체 게시물 수 : ${totalCount}
 </div>
 
-
+<!-- 게시물 리스트 네비게이션 -->
 <div class="page-box">
 	<table>
 		<tr>
@@ -248,6 +244,7 @@
 	</table>
 </div>
 
+<!-- 게시물 작성 -->
 <h1 style="margin-top: 30px;">게시물 작성</h1>
 <div class="write-box">
 	<form action="" onsubmit="ArticleReply__submitWriteForm(this); return false;">

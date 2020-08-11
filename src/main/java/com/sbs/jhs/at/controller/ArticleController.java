@@ -132,9 +132,7 @@ public class ArticleController {
 		
 		String redirectUrl = "list?page=1";
 
-		model.addAttribute("locationReplace", redirectUrl);
-
-		return "common/redirect";
+		return "redirect:" + redirectUrl;
 	}
 	
 	// 게시물 수정 폼
@@ -153,88 +151,10 @@ public class ArticleController {
 	public String doModify(Model model, int id, String title, String body) {
 		
 		articleService.modify(id, title, body);
-		
+
 		String redirectUrl = "detail?id=" + id;
 
-		model.addAttribute("locationReplace", redirectUrl);
-
-		return "common/redirect";
-	}
-	
-	
-	
-	// 게시물 상세보기 내 댓글 
-	@RequestMapping("/usr/article/getForPrintArticleRepliesRs")
-	@ResponseBody
-	public Map<String, Object> getForPrintArticleRepliesRs(int id, int from) {
-		
-		List<Reply> articleReplies = articleService.getForPrintArticleReplies(id, from);
-
-		Map<String, Object> rs = new HashMap<>();
-		
-		rs.put("resultCode", "S-1");
-		rs.put("msg", String.format("총 %d개의 댓글이 있습니다.", articleReplies.size()));
-		rs.put("articleReplies", articleReplies);
-
-		return rs;
-	}
-	
-	// 댓글 작성 기능
-	@RequestMapping("/usr/article/doWriteReplyAjax")
-	@ResponseBody
-	public Map<String, Object> doWriteReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
-		
-		Map<String, Object> rs = articleService.writeReply(param);
-		
-		return rs;
-	}
-	
-	// 댓글 삭제 기능
-	@RequestMapping("/usr/article/doDeleteReplyAjax")
-	@ResponseBody
-	public Map<String, Object> doDeleteReplyAjax(int id, String redirectUrl, HttpServletRequest request) {
-		
-		Map<String, Object> articleReplyDeleteAvailableRs = articleService.getArticleReplyDeleteAvailable(id);	
-		
-		if (((String) articleReplyDeleteAvailableRs.get("resultCode")).startsWith("F-")) {
-			return articleReplyDeleteAvailableRs;
-		}
-
-		Map<String, Object> rs = articleService.deleteArticleReply(id);
-		
-		/*
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		*/
-		
-		return rs;
-	}
-	
-	// 댓글 수정 기능
-	@RequestMapping("/usr/article/doModifyReplyAjax")
-	@ResponseBody
-	public Map<String, Object> doModifyReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
-
-		int id = Integer.parseInt((String) param.get("id"));
-		
-		Map<String, Object> articleModifyReplyAvailableRs = articleService.getArticleModifyReplyAvailable(id);
-
-		if (((String) articleModifyReplyAvailableRs.get("resultCode")).startsWith("F-")) {
-			return articleModifyReplyAvailableRs;
-		}
-
-		Map<String, Object> rs = articleService.modifyReply(param);
-
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		return rs;
+		return "redirect:" + redirectUrl;
 	}
 	
 }
