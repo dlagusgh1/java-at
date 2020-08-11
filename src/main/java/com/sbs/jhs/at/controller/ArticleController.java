@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.jhs.at.dto.Article;
-import com.sbs.jhs.at.dto.ArticleReply;
+import com.sbs.jhs.at.dto.Reply;
 import com.sbs.jhs.at.service.ArticleService;
 
 @Controller
@@ -100,7 +100,9 @@ public class ArticleController {
 	
 	
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, int id) {
+	public String showDetail(Model model, @RequestParam Map<String, Object> param) {
+		
+		int id = Integer.parseInt((String) param.get("id"));
 		
 		Article article = articleService.getForPrintArticle(id);
 
@@ -109,30 +111,17 @@ public class ArticleController {
 		return "article/detail";
 	}
 	
-	// 게시물 상세보기 내 댓글 
-	@RequestMapping("/usr/article/getForPrintArticleRepliesRs")
-	@ResponseBody
-	public Map<String, Object> getForPrintArticleRepliesRs(int id, int from) {
-		
-		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id, from);
-
-		Map<String, Object> rs = new HashMap<>();
-		
-		rs.put("resultCode", "S-1");
-		rs.put("msg", String.format("총 %d개의 댓글이 있습니다.", articleReplies.size()));
-		rs.put("articleReplies", articleReplies);
-
-		return rs;
-	}
-	
 	// 게시물 작성 기능
 	@RequestMapping("/usr/article/doWriteAjax")
 	@ResponseBody
-	public Map<String, Object> doWriteAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
+	public String doWriteAjax(@RequestParam Map<String, Object> param) {
 		
-		Map<String, Object> rs = articleService.write(param);
+		int newArticleId = articleService.write(param);
 		
-		return rs;
+		String redirectUrl = (String) param.get("redirectUrl");
+		redirectUrl = redirectUrl.replace("#id", newArticleId + "");
+		
+		return "redirect:" + redirectUrl;
 	}
 	
 	// 게시물 삭제
@@ -170,6 +159,24 @@ public class ArticleController {
 		model.addAttribute("locationReplace", redirectUrl);
 
 		return "common/redirect";
+	}
+	
+	
+	
+	// 게시물 상세보기 내 댓글 
+	@RequestMapping("/usr/article/getForPrintArticleRepliesRs")
+	@ResponseBody
+	public Map<String, Object> getForPrintArticleRepliesRs(int id, int from) {
+		
+		List<Reply> articleReplies = articleService.getForPrintArticleReplies(id, from);
+
+		Map<String, Object> rs = new HashMap<>();
+		
+		rs.put("resultCode", "S-1");
+		rs.put("msg", String.format("총 %d개의 댓글이 있습니다.", articleReplies.size()));
+		rs.put("articleReplies", articleReplies);
+
+		return rs;
 	}
 	
 	// 댓글 작성 기능
@@ -230,16 +237,4 @@ public class ArticleController {
 		return rs;
 	}
 	
-	// 파일 업로드
-		@RequestMapping("/usr/article/upload")
-		public String doUpload(Model model, String file) {
-					
-			System.out.println(file);
-			
-			String redirectUrl = "list?page=1";
-
-			model.addAttribute("locationReplace", redirectUrl);
-
-			return "common/redirect";
-		}
 }

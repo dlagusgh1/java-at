@@ -1,6 +1,12 @@
 server:
   port: 8085
 spring:
+  servlet:
+    multipart:
+      file-size-threshold: 1MB
+      location: C:/temp
+      max-file-size: 100MB
+      max-request-size: 100MB
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -13,4 +19,4 @@ spring:
 mybatis:
   type-aliases-package: com.sbs.jhs.at.dto
 custom:
-  logoText: 오디션 트리 
+  logoText: 오디션 트리

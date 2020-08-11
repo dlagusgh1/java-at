@@ -43,4 +43,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/usr/member/doJoin");
 
 	}
-} 
+}
