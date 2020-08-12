@@ -16,26 +16,50 @@
 					<th colspan=4>상세보기</th>
 				</tr>
 				<tr>
-					<td>번호</td>
+					<th>번호</th>
 					<td>${article.id}</td>
 				</tr>
 				<tr>
-					<td>제목</td>
+					<th>제목</th>
 					<td>${article.title}</td>
 				</tr>
 				<tr>
-					<td>내용</td>
+					<th>내용</th>
 					<td>${article.body}</td>
 				</tr>
 				<tr>
-					<td>작성일</td>
+					<th>작성일</th>
 					<td>${article.regDate}</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 </c:if>
+<!--  
+<div class="reply-list-box table-box con">
+	<table>
+		<colgroup>
+			<col width="80">
+			<col width="180">
+			<col width="180">
+			<col>
+			<col width="200">
+		</colgroup>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>날짜</th>
+				<th>작성자</th>
+				<th>내용</th>
+				<th>비고</th>
+			</tr>
+		</thead>
+		<tbody>
 
+		</tbody>
+	</table>
+</div>
+-->
 
 <!-- 게시물 네비게이션 -->
 <div class="button-box">
@@ -217,7 +241,7 @@
 		});
 	}
 
-	// 댓글 리스트 AJAX
+	// 댓글 수정 AJAX
 	var ReplyList__$box = $('.reply-list-box');
 	var ReplyList__$tbody = ReplyList__$box.find('tbody');
 
@@ -260,7 +284,6 @@
 		}, 'json');
 	}
 
-	// 댓글 수정 AJAX
 	function ReplyList__showModifyFormModal(el) {
 		$('html').addClass('reply-modify-form-modal-actived');
 		var $tr = $(el).closest('tr');
@@ -319,6 +342,7 @@
 		}, 'json');
 	}
 
+	// 댓글 리스트 AJAX
 	function ReplyList__drawReply(reply) {
 		var html = '';
 		html += '<tr data-id="' + reply.id + '">';

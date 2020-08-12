@@ -65,8 +65,6 @@
 		title = #{title}, 
 		`body`= #{body},
 		memberId = #{memberId},
-		relTypeCode = #{relTypeCode},
-		relId = #{relId},
 		displayStatus = 1
 	</insert>
 	
