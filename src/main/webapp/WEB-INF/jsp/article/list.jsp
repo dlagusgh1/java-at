@@ -115,33 +115,42 @@
 
 <!-- 게시물 작성 -->
 <h1 style="margin-top: 30px;">게시물 작성</h1>
-<div class="write-box">
-	<form action="" onsubmit="ArticleReply__submitWriteForm(this); return false;">
-		<div class="form-row">
-			<div class="label">제목</div>
-			<div class="input">
-				<input name="title" type="text" placeholder="제목을 입력해주세요." />
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">내용</div>
-			<div class="input">
-				<textarea class="article-write" name="body" placeholder="내용을 입력해주세요."></textarea>
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">파일 업로드</div>
-			<div class="input">
-				<input name="myFile" type="file" accept=".jpg, .png, .gif, .mp4"/>
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="input" style="display: flex; justify-content: center;">
-				<input class="submit-button" type="submit" value="작성"></input>
-				<a class="submit-button" href="list?page=1">취소</a>
-			</div>
-		</div>
-	</form>
-</div>
+
+<form class="table-box con form1" action="" onsubmit="ArticleReply__submitWriteForm(this); return false;">
+	<table>
+		<tbody>
+			<tr>
+				<th>제목</th>
+				<td>
+					<div class="form-control-box">
+						<input name="title" type="text" placeholder="제목을 입력해주세요." />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td>
+					<div class="form-control-box">
+						<textarea class="height-300" name="body" maxlength="300" placeholder="내용을 입력해주세요."></textarea>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>파일 업로드</th>
+				<td>
+					<div class="form-control-box">
+						<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__2">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>작성</th>
+				<td><input type="submit" value="작성"></td>
+				<td><a class="submit-button" href="list?page=1">취소</a></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+
 
 <%@ include file="../part/foot.jspf"%>
