@@ -28,6 +28,10 @@
 					<td>${article.body}</td>
 				</tr>
 				<tr>
+					<th>첨부 파일 내용</th>
+					<td><video controls src="/usr/file/streamVideo?id=1" ></video></td>
+				</tr>
+				<tr>
 					<th>작성일</th>
 					<td>${article.regDate}</td>
 				</tr>
@@ -35,31 +39,6 @@
 		</table>
 	</div>
 </c:if>
-<!--  
-<div class="reply-list-box table-box con">
-	<table>
-		<colgroup>
-			<col width="80">
-			<col width="180">
-			<col width="180">
-			<col>
-			<col width="200">
-		</colgroup>
-		<thead>
-			<tr>
-				<th>번호</th>
-				<th>날짜</th>
-				<th>작성자</th>
-				<th>내용</th>
-				<th>비고</th>
-			</tr>
-		</thead>
-		<tbody>
-
-		</tbody>
-	</table>
-</div>
--->
 
 <!-- 게시물 네비게이션 -->
 <div class="button-box">
@@ -187,6 +166,7 @@
 		}
 
 		var startUploadFiles = function(onSuccess) {
+			// 실행 1
 			if ( form.file__reply__0__common__attachment__1.value.length == 0 && form.file__reply__0__common__attachment__2.value.length == 0 ) {
 				onSuccess();
 				return;
@@ -207,9 +187,11 @@
 				type : 'POST',
 				success : onSuccess
 			});
+			// 실행 2
 		}
 
 		var startWriteReply = function(fileIdsStr, onSuccess) {
+			// 실행 4
 			$.ajax({
 				url : './../reply/doWriteReplyAjax',
 				data : {
@@ -222,22 +204,26 @@
 				type : 'POST',
 				success : onSuccess
 			});
+			// 실행 5
 		};
 
 		startUploadFiles(function(data) {
+			// 실행 3
 			var idsStr = '';
 			if ( data && data.body && data.body.fileIdsStr ) {
 				idsStr = data.body.fileIdsStr;
 			}
 			startWriteReply(idsStr, function(data) {
+				// 실행 7
 				if ( data.msg ) {
 					alert(data.msg);
 				}
-				
+				// 실행 8
 				form.body.value = '';
 				form.file__reply__0__common__attachment__1.value = '';
 				form.file__reply__0__common__attachment__2.value = '';
 			});
+			// 실행 6
 		});
 	}
 
@@ -284,6 +270,7 @@
 		}, 'json');
 	}
 
+	// 댓글 수정 - 수정 폼 보이기
 	function ReplyList__showModifyFormModal(el) {
 		$('html').addClass('reply-modify-form-modal-actived');
 		var $tr = $(el).closest('tr');
@@ -297,6 +284,7 @@
 		form.body.value = originBody;
 	}
 
+	// 댓글 수정 - 수정 폼 숨기기
 	function ReplyList__hideModifyFormModal() {
 		$('html').removeClass('reply-modify-form-modal-actived');
 	}
@@ -310,6 +298,7 @@
 		setTimeout(ReplyList__loadMore, 2000);
 	}
 
+	// 특정 게시물의 댓글 리스트 가져오기
 	function ReplyList__loadMore() {
 
 		$.get('../reply/getForPrintReplies', {
@@ -318,10 +307,11 @@
 		}, ReplyList__loadMoreCallback, 'json');
 	}
 
+	// 댓글 리스트 (댓글 컨트롤러에서 가져온 댓글 리스트를 ReplyList__drawReply에 각각 넣어서 출력되도록 전달)
 	function ReplyList__drawReplies(replies) {
 		for (var i = 0; i < replies.length; i++) {
 			var reply = replies[i];
-			ReplyList__drawReply(reply);
+			 ReplyList__drawReply(reply);
 		}
 	}
 
@@ -342,7 +332,7 @@
 		}, 'json');
 	}
 
-	// 댓글 리스트 AJAX
+	// 댓글 리스트 AJAX (받아온 각각의 댓글을 통해 댓글 리스트 생성)
 	function ReplyList__drawReply(reply) {
 		var html = '';
 		html += '<tr data-id="' + reply.id + '">';
