@@ -144,7 +144,7 @@ public class ArticleController {
 	@RequestMapping("/usr/article/modify")
 	public String modify(Model model, int id) {
 		
-		Article article = articleService.getForPrintArticle(id);
+		Article article = articleService.getForPrintArticleById(id);
 		
 		model.addAttribute("article", article);
 		
