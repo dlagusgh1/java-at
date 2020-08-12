@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.Reply;
+import com.sbs.jhs.at.dto.ResultData;
 import com.sbs.jhs.at.service.ArticleService;
 
 @Controller
@@ -67,12 +68,13 @@ public class ArticleController {
 			
 			return "article/list";
 		}
-		
+		int ArticleTotalCount = articleService.getForPrintListArticlesTotalCount();
 		int totalCount = articleService.getForPrintListArticlesCount();
 		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
 		
 		List<Article> articles = articleService.getForPrintArticles(limitFrom, itemsInAPage);
 		
+		model.addAttribute("ArticleTotalCount", ArticleTotalCount);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
@@ -114,14 +116,17 @@ public class ArticleController {
 	// 게시물 작성 기능
 	@RequestMapping("/usr/article/doWriteAjax")
 	@ResponseBody
-	public String doWriteAjax(@RequestParam Map<String, Object> param) {
+	public ResultData doWriteAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
+		
+		Map<String, Object> rsDataBody = new HashMap<>();
+		
+		param.put("memberId", request.getAttribute("loginedMemberId"));
 		
 		int newArticleId = articleService.write(param);
 		
-		String redirectUrl = (String) param.get("redirectUrl");
-		redirectUrl = redirectUrl.replace("#id", newArticleId + "");
-		
-		return "redirect:" + redirectUrl;
+		rsDataBody.put("id", newArticleId);
+
+		return new ResultData("S-1", String.format("%d번 글이 생성되었습니다.", newArticleId), rsDataBody);
 	}
 	
 	// 게시물 삭제

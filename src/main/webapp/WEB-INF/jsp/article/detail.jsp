@@ -57,11 +57,9 @@
 <c:if test="${isLogined}">
 	<h2 class="con">댓글 작성</h2>
 
-	<form class="table-box con form1"
-		onsubmit="ArticleWriteReplyForm__submit(this); return false;">
+	<form class="table-box con form1" onsubmit="ArticleWriteReplyForm__submit(this); return false;">
 		<input type="hidden" name="relTypeCode" value="article" /> 
 		<input type="hidden" name="relId" value="${article.id}" />
-
 		<table>
 			<tbody>
 				<tr>
@@ -129,13 +127,18 @@
 
 <!-- 댓글 수정 -->
 <div class="reply-modify-form-modal flex flex-ai-c flex-jc-c">
-	<form action="" class="form1 bg-white padding-10"
-		onsubmit="ReplyList__submitModifyForm(this); return false;">
+	<form action="" class="form1 bg-white padding-10" onsubmit="ReplyList__submitModifyForm(this); return false;">
 		<input type="hidden" name="id" />
 		<div class="form-row">
 			<div class="form-control-label">내용</div>
 			<div class="form-control-box">
 				<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-control-label">첨부1 비디오</div>
+			<div class="form-control-box">
+				<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__1">
 			</div>
 		</div>
 		<div class="form-row">

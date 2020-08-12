@@ -42,6 +42,12 @@
 		AND delStatus = 0
 	</select>
 	
+	<!-- 게시물 수 출력(삭제된 것 포함) -->
+	<select id="getForPrintListArticlesTotalCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM article
+	</select>
+	
 	<!-- 게시물 상세보기 -->
 	<select id="getForPrintArticle" resultType="Article">
 		SELECT *
@@ -52,14 +58,16 @@
 	</select>
 		
 	<!-- 게시물 작성 -->
-	<insert id="write" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+	<insert id="write" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO article
 		SET regDate = NOW(), 
 		updateDate = NOW(), 
 		title = #{title}, 
 		`body`= #{body},
-		displayStatus = 1,
-		delDate = NOW()
+		memberId = #{memberId},
+		relTypeCode = #{relTypeCode},
+		relId = #{relId},
+		displayStatus = 1
 	</insert>
 	
 	<!-- 게시물 삭제 -->

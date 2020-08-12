@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.jhs.at.dto.Article;
-import com.sbs.jhs.at.dto.Reply;
 
 @Mapper
 public interface ArticleDao {
@@ -21,8 +20,11 @@ public interface ArticleDao {
 	// 검색된 게시물 수 출력
 	int getForPrintListSearchArticlesCount(String searchKeywordType, String searchKeyword);
 	
-	//게시물 수 출력
+	// 게시물 수 출력
 	int getForPrintListArticlesCount();
+	
+	// 게시물 수 출력(삭제된 것 포함)
+	int getForPrintListArticlesTotalCount();
 	/* article list 끝 */
 	
 	
@@ -48,5 +50,6 @@ public interface ArticleDao {
 	// 게시물 수정
 	void modify(int id, String title, String body);
 	/* article modify 끝 */
+
 	
 }

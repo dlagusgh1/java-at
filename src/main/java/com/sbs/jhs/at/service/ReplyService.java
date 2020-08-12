@@ -1,7 +1,6 @@
 package com.sbs.jhs.at.service;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,6 +74,7 @@ public class ReplyService {
 		return actorCanModify(actor, reply);
 	}
 
+	// 댓글 작성
 	public int writeReply(Map<String, Object> param) {
 		replyDao.writeReply(param);
 		int id = Util.getAsInt(param.get("id"));
@@ -95,11 +95,13 @@ public class ReplyService {
 		return id;
 	}
 
+	// 댓글 삭제
 	public void deleteReply(int id) {
 		replyDao.deleteReply(id);
 		fileService.deleteFiles("reply", id);
 	}
 
+	// 특정 댓글 가져오기
 	public Reply getForPrintReplyById(int id) {
 		return replyDao.getForPrintReplyById(id);
 	}

@@ -7,33 +7,76 @@
 
 <script type="text/javascript">
 	// 게시물 작성 AJAX 
-	function ArticleReply__submitWriteForm(form) {
+	function ArticleWriteForm__submit(form) {
 		form.title.value = form.title.value.trim();
-		form.body.value = form.body.value.trim();
-		
 		if (form.title.value.length == 0) {
-			alert('젝목을 입력해주세요.');
+			alert('제목을 입력해주세요.');
 			form.title.focus();
-
 			return;
 		}
-
+		
+		form.body.value = form.body.value.trim();
 		if (form.body.value.length == 0) {
 			alert('내용을 입력해주세요.');
 			form.body.focus();
-
 			return;
 		}
 
-		$.post('./doWriteAjax', {
-			title : form.title.value,
-			body : form.body.value
-		}, function(data) {
-			
-		}, 'json');
+		var startUploadFiles = function(onSuccess) {
+			if ( form.file__article__0__common__attachment__1.value.length == 0 && form.file__article__0__common__attachment__2.value.length == 0 ) {
+				onSuccess();
+				return;
+			}
 
-		form.title.value = '';
-		form.body.value = '';
+			var fileUploadFormData = new FormData(form); 
+			
+			fileUploadFormData.delete("relTypeCode");
+			fileUploadFormData.delete("relId");
+			fileUploadFormData.delete("body");
+
+			$.ajax({
+				url : './../file/doUploadAjax',
+				data : fileUploadFormData,
+				processData : false,
+				contentType : false,
+				dataType:"json",
+				type : 'POST',
+				success : onSuccess
+			});
+		}
+
+		var startWrite = function(fileIdsStr, onSuccess) {
+			$.ajax({
+				url : './../article/doWriteAjax',
+				data : {
+					fileIdsStr: fileIdsStr,
+					title: form.title.value,
+					body: form.body.value,
+					relTypeCode: form.relTypeCode.value,
+					relId: form.relId.value
+				},
+				dataType:"json",
+				type : 'POST',
+				success : onSuccess
+			});
+		};
+
+		startUploadFiles(function(data) {
+			var idsStr = '';
+			if ( data && data.body && data.body.fileIdsStr ) {
+				idsStr = data.body.fileIdsStr;
+			}
+			startWrite(idsStr, function(data) {
+				if ( data.msg ) {
+					alert(data.msg);
+				}
+
+				form.title.value = '';
+				form.body.value = '';
+				form.file__article__0__common__attachment__1.value = '';
+				form.file__article__0__common__attachment__2.value = '';
+			});
+		});
 	}
 </script>
 
@@ -116,7 +159,9 @@
 <!-- 게시물 작성 -->
 <h1 style="margin-top: 30px;">게시물 작성</h1>
 
-<form class="table-box con form1" action="" onsubmit="ArticleReply__submitWriteForm(this); return false;">
+<form class="table-box con form1" onsubmit="ArticleWriteForm__submit(this); return false;">
+	<input type="hidden" name="relTypeCode" value="article" /> 
+	<input type="hidden" name="relId" value="${ArticleTotalCount + 1}" />
 	<table>
 		<tbody>
 			<tr>
@@ -136,17 +181,24 @@
 				</td>
 			</tr>
 			<tr>
-				<th>파일 업로드</th>
+				<th>첨부1 비디오</th>
 				<td>
 					<div class="form-control-box">
-						<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__2">
+						<input type="file" accept="video/*" capture name="file__article__0__common__attachment__1">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>첨부2 비디오</th>
+				<td>
+					<div class="form-control-box">
+						<input type="file" accept="video/*" capture name="file__article__0__common__attachment__2">
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<th>작성</th>
 				<td><input type="submit" value="작성"></td>
-				<td><a class="submit-button" href="list?page=1">취소</a></td>
 			</tr>
 		</tbody>
 	</table>

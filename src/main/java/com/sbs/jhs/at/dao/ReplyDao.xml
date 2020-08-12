@@ -22,14 +22,11 @@
 		INSERT INTO reply
 		SET regDate = NOW(),
 		updateDate = NOW(),
-		body =
-		#{body},
+		body = #{body},
 		memberId = #{memberId},
 		relTypeCode = #{relTypeCode},
-		relId =
-		#{relId},
-		displayStatus
-		= 1
+		relId = #{relId},
+		displayStatus = 1
 	</insert>
 
 	<select id="getForPrintReplyById" resultMap="reply">
