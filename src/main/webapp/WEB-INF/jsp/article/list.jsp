@@ -157,52 +157,53 @@
 </div>
 
 <!-- 게시물 작성 -->
-<h1 style="margin-top: 30px;">게시물 작성</h1>
-
-<form class="table-box con form1" onsubmit="ArticleWriteForm__submit(this); return false;">
-	<input type="hidden" name="relTypeCode" value="article" /> 
-	<input type="hidden" name="relId" value="${ArticleTotalCount + 1}" />
-	<table>
-		<tbody>
-			<tr>
-				<th>제목</th>
-				<td>
-					<div class="form-control-box">
-						<input name="title" type="text" placeholder="제목을 입력해주세요." />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td>
-					<div class="form-control-box">
-						<textarea class="height-300" name="body" maxlength="300" placeholder="내용을 입력해주세요."></textarea>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>첨부1 비디오</th>
-				<td>
-					<div class="form-control-box">
-						<input type="file" accept="video/*" capture name="file__article__0__common__attachment__1">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>첨부2 비디오</th>
-				<td>
-					<div class="form-control-box">
-						<input type="file" accept="video/*" capture name="file__article__0__common__attachment__2">
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th>작성</th>
-				<td><input type="submit" value="작성"></td>
-			</tr>
-		</tbody>
-	</table>
-</form>
+<c:if test="${isLogined}">
+	<h1 style="margin-top: 30px;">게시물 작성</h1>
+	<form class="table-box con form1" onsubmit="ArticleWriteForm__submit(this); return false;">
+		<input type="hidden" name="relTypeCode" value="article" /> 
+		<input type="hidden" name="relId" value="${ArticleTotalCount + 1}" />
+		<table>
+			<tbody>
+				<tr>
+					<th>제목</th>
+					<td>
+						<div class="form-control-box">
+							<input name="title" type="text" placeholder="제목을 입력해주세요." />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>
+						<div class="form-control-box">
+							<textarea class="height-300" name="body" maxlength="300" placeholder="내용을 입력해주세요."></textarea>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>첨부1 비디오</th>
+					<td>
+						<div class="form-control-box">
+							<input type="file" accept="video/*" capture name="file__article__0__common__attachment__1">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>첨부2 비디오</th>
+					<td>
+						<div class="form-control-box">
+							<input type="file" accept="video/*" capture name="file__article__0__common__attachment__2">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>작성</th>
+					<td><input type="submit" value="작성"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</c:if>
 
 
 <%@ include file="../part/foot.jspf"%>

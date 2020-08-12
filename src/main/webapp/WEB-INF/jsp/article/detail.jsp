@@ -46,9 +46,11 @@
 		<a href="detail?id=${param.id-1}">이전 글</a>
 	</c:if>
 		<a onclick="location.replace('list?page=1');">뒤로가기</a>
-	<c:if test="${article.delStatus == false}">
-		<a href="modify?id=${param.id}">게시물 수정</a>
-		<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;" href="delete?id=${article.id}">게시물 삭제</a>
+	<c:if test="${isLogined}">
+		<c:if test="${article.delStatus == false}">
+			<a href="modify?id=${param.id}">게시물 수정</a>
+			<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;" href="delete?id=${article.id}">게시물 삭제</a>
+		</c:if>
 	</c:if>
 	<c:if test="${article.id+1 != totalCount}">
 		<a href="detail?id=${param.id+1}">다음 글</a>
@@ -96,7 +98,6 @@
 			</tbody>
 		</table>
 	</form>
-
 </c:if>
 
 <!-- 댓글 리스트 -->
@@ -129,30 +130,32 @@
 </div>
 
 <!-- 댓글 수정 -->
-<div class="reply-modify-form-modal flex flex-ai-c flex-jc-c">
-	<form action="" class="form1 bg-white padding-10" onsubmit="ReplyList__submitModifyForm(this); return false;">
-		<input type="hidden" name="id" />
-		<div class="form-row">
-			<div class="form-control-label">내용</div>
-			<div class="form-control-box">
-				<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
+<c:if test="${isLogined}">
+	<div class="reply-modify-form-modal flex flex-ai-c flex-jc-c">
+		<form action="" class="form1 bg-white padding-10" onsubmit="ReplyList__submitModifyForm(this); return false;">
+			<input type="hidden" name="id" />
+			<div class="form-row">
+				<div class="form-control-label">내용</div>
+				<div class="form-control-box">
+					<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
+				</div>
 			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-control-label">첨부1 비디오</div>
-			<div class="form-control-box">
-				<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__1">
+			<div class="form-row">
+				<div class="form-control-label">첨부1 비디오</div>
+				<div class="form-control-box">
+					<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__1">
+				</div>
 			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-control-label">수정</div>
-			<div class="form-control-box">
-				<button type="submit">수정</button>
-				<button type="button" onclick="ReplyList__hideModifyFormModal();">취소</button>
+			<div class="form-row">
+				<div class="form-control-label">수정</div>
+				<div class="form-control-box">
+					<button type="submit">수정</button>
+					<button type="button" onclick="ReplyList__hideModifyFormModal();">취소</button>
+				</div>
 			</div>
-		</div>
-	</form>
-</div>
+		</form>
+	</div>
+</c:if>
 
 
 <script>
