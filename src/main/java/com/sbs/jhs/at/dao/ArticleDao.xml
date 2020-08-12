@@ -49,7 +49,7 @@
 	</select>
 	
 	<!-- 게시물 상세보기 -->
-	<select id="getForPrintArticle" resultType="Article">
+	<select id="getForPrintArticleById" resultType="Article">
 		SELECT *
 		FROM article
 		WHERE displayStatus = 1

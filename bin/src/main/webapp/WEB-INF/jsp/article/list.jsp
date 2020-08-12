@@ -1,177 +1,86 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<c:set var="pageTitle" value="게시물 리스트" />
 <%@ include file="../part/head.jspf"%>
-
-<style>
-	a {
-		color: inherit;
-		text-decoration: none;
-	}
-	
-	h1 {
-		margin: 10px;
-		text-align: center;
-	}
-	
-	.total {
-		display: flex;
-		justify-content: center;
-	}
-	
-	.table-box {
-		display: flex;
-		justify-content: center;
-	}
-		
-	.article-table { 
-		border-collapse: collapse;
-		border-top: 2px solid #168;
-		width: 600px;
-		text-align: center;
-		padding: 10px;
-		margin: 10px;
-	}	
-	.article-table th {
-		color: #168;
-		background: #f0f6f9;
-	}
-	
-	.article-table th, .article-table td {
-		border: 0.5px solid #ddd;
-		white-space:nowrap;
-		padding: 10px;
-	}
-	
-	.button-box {
-		display: flex;
-		justify-content: center;
-	}
-	
-	.write-button {
-		padding: 10px;
-		margin: 10px;
-		cursor: pointer;
-		background: #f0f6f9;
-		border: 1px solid #168;
-	}
-	
-	.write-button:hover {
-		color: white;
-		background: #afafaf;
-	}
-	
-	.page-box {
-		display: flex;
-		justify-content: center;
-	}
-	
-	.page-box tr > td > a {
-		font-size: 1.5rem;
-		padding: 10px;
-	}
-	
-	.search-box {
-		display: flex;
-		justify-content: center;
-	}
-	
-
-	.write-box {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-	}
-	
-	.write-box form {
-		width: 600px;
-		text-align: center;
-	}
-	
-	.write-box .form-row {
-		align-items: center;
-		display: flex;
-		margin: 20px;
-	}
-	
-	.write-box .form-row .submit-button {
-		cursor: pointer;
-		padding: 10px 50px;
-		margin: 10px;
-		background: #f0f6f9;
-		border: 1px solid #168;
-	}
-	
-	.write-box .form-row .submit-button:hover {
-		color: white;
-		background: #afafaf;
-	}
-	
-	.write-box .form-row>.label {
-		width: 100px;
-	}
-	
-	.write-box .form-row>.input {
-		flex-grow: 1;
-		flex-wrap: nowrap;
-		text-align: center;
-	}
-	
-	.write-box .form-row > .input > input {
-		display: block;
-		width: 100%;
-		padding: 10px;
-	}
-	
-	.write-box .form-row > .input > .submit-button {
-		display: block;
-		width: 200px;
-		padding: 10px;
-	}
-	
-	.article-write {
-		padding: 10px;
-		width: 100%;
-		height: 100px;
-		resize: none;
-	}
-</style>
-
 
 <script type="text/javascript">
 	// 게시물 작성 AJAX 
-	function ArticleReply__submitWriteForm(form) {
+	function ArticleWriteForm__submit(form) {
 		form.title.value = form.title.value.trim();
-		form.body.value = form.body.value.trim();
-		
 		if (form.title.value.length == 0) {
-			alert('젝목을 입력해주세요.');
+			alert('제목을 입력해주세요.');
 			form.title.focus();
-
 			return;
 		}
-
+		
+		form.body.value = form.body.value.trim();
 		if (form.body.value.length == 0) {
 			alert('내용을 입력해주세요.');
 			form.body.focus();
-
 			return;
 		}
 
-		$.post('./doWriteAjax', {
-			title : form.title.value,
-			body : form.body.value
-		}, function(data) {
-			
-		}, 'json');
+		var startUploadFiles = function(onSuccess) {
+			if ( form.file__article__0__common__attachment__1.value.length == 0 && form.file__article__0__common__attachment__2.value.length == 0 ) {
+				onSuccess();
+				return;
+			}
 
-		form.title.value = '';
-		form.body.value = '';
+			var fileUploadFormData = new FormData(form); 
+			
+			fileUploadFormData.delete("relTypeCode");
+			fileUploadFormData.delete("relId");
+			fileUploadFormData.delete("body");
+
+			$.ajax({
+				url : './../file/doUploadAjax',
+				data : fileUploadFormData,
+				processData : false,
+				contentType : false,
+				dataType:"json",
+				type : 'POST',
+				success : onSuccess
+			});
+		}
+
+		var startWrite = function(fileIdsStr, onSuccess) {
+			$.ajax({
+				url : './../article/doWriteAjax',
+				data : {
+					fileIdsStr: fileIdsStr,
+					title: form.title.value,
+					body: form.body.value,
+					relTypeCode: form.relTypeCode.value,
+					relId: form.relId.value
+				},
+				dataType:"json",
+				type : 'POST',
+				success : onSuccess
+			});
+		};
+
+		startUploadFiles(function(data) {
+			var idsStr = '';
+			if ( data && data.body && data.body.fileIdsStr ) {
+				idsStr = data.body.fileIdsStr;
+			}
+			startWrite(idsStr, function(data) {
+				if ( data.msg ) {
+					alert(data.msg);
+				}
+
+				form.title.value = '';
+				form.body.value = '';
+				form.file__article__0__common__attachment__1.value = '';
+				form.file__article__0__common__attachment__2.value = '';
+			});
+		});
 	}
 </script>
 
-
-<h1>게시물 리스트</h1>
+<!-- 게시물 리스트 내 검색 창-->
 <div class="search-box">
 	<div class="input-box">
 		<form action="list">
@@ -183,7 +92,8 @@
 	</div>
 </div>
 
-<div class="table-box">
+<!-- 게시물 리스트 -->
+<div class="table-box con">
 	<table class="article-table">
 		<tr>
 			<th>번호</th>
@@ -203,7 +113,7 @@
 	전체 게시물 수 : ${totalCount}
 </div>
 
-
+<!-- 게시물 리스트 네비게이션 -->
 <div class="page-box">
 	<table>
 		<tr>
@@ -246,34 +156,53 @@
 	</table>
 </div>
 
+<!-- 게시물 작성 -->
 <h1 style="margin-top: 30px;">게시물 작성</h1>
-<div class="write-box">
-	<form action="" onsubmit="ArticleReply__submitWriteForm(this); return false;">
-		<div class="form-row">
-			<div class="label">제목</div>
-			<div class="input">
-				<input name="title" type="text" placeholder="제목을 입력해주세요." />
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">내용</div>
-			<div class="input">
-				<textarea class="article-write" name="body" placeholder="내용을 입력해주세요."></textarea>
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">파일 업로드</div>
-			<div class="input">
-				<input name="myFile" type="file" accept=".jpg, .png, .gif, .mp4"/>
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="input" style="display: flex; justify-content: center;">
-				<input class="submit-button" type="submit" value="작성"></input>
-				<a class="submit-button" href="list?page=1">취소</a>
-			</div>
-		</div>
-	</form>
-</div>
+
+<form class="table-box con form1" onsubmit="ArticleWriteForm__submit(this); return false;">
+	<input type="hidden" name="relTypeCode" value="article" /> 
+	<input type="hidden" name="relId" value="${ArticleTotalCount + 1}" />
+	<table>
+		<tbody>
+			<tr>
+				<th>제목</th>
+				<td>
+					<div class="form-control-box">
+						<input name="title" type="text" placeholder="제목을 입력해주세요." />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td>
+					<div class="form-control-box">
+						<textarea class="height-300" name="body" maxlength="300" placeholder="내용을 입력해주세요."></textarea>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>첨부1 비디오</th>
+				<td>
+					<div class="form-control-box">
+						<input type="file" accept="video/*" capture name="file__article__0__common__attachment__1">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>첨부2 비디오</th>
+				<td>
+					<div class="form-control-box">
+						<input type="file" accept="video/*" capture name="file__article__0__common__attachment__2">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>작성</th>
+				<td><input type="submit" value="작성"></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+
 
 <%@ include file="../part/foot.jspf"%>

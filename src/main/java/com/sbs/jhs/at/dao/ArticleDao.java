@@ -30,7 +30,7 @@ public interface ArticleDao {
 	
 	/* article detail 시작 */
 	// 게시물 상세보기
-	Article getForPrintArticle(@Param("id") int id);
+	Article getForPrintArticleById(@Param("id") int id);
 	/* article detail 끝 */
 	
 	

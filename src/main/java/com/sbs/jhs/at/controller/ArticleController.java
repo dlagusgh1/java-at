@@ -105,8 +105,8 @@ public class ArticleController {
 	public String showDetail(Model model, @RequestParam Map<String, Object> param) {
 		
 		int id = Integer.parseInt((String) param.get("id"));
-		
-		Article article = articleService.getForPrintArticle(id);
+
+		Article article = articleService.getForPrintArticleById(id);
 
 		model.addAttribute("article", article);
 		

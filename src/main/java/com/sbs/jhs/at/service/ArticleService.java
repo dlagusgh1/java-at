@@ -55,13 +55,12 @@ public class ArticleService {
 	
 	/* article detail 시작 */
 	// 게시물 상세보기
-	public Article getForPrintArticle(int id) {
-		Article article = articleDao.getForPrintArticle(id);
+	public Article getForPrintArticleById(int id) {
+		Article article = articleDao.getForPrintArticleById(id);
 		
 		return article;
 	}
 	/* article detail 끝 */
-	
 	
 	/* article write 시작 */
 	// 게시물 작성

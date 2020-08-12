@@ -1,7 +1,10 @@
-@charset "utf-8";
+html {
+	/* 영문이면 roboto가 적용되고, 한글이면 Noto Sans KR가 적용되도록 아래와 같은 순서로 배치 */
+	font-family: "Roboto", "Noto Sans KR", sans-serif;
+}
 
 /* 노말라이즈 */
-body, ul, li {
+body, ul, li, h1 {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -12,33 +15,379 @@ a {
 	text-decoration: none;
 }
 
+label[for] {
+	cursor: pointer;
+	user-select: none;
+}
+
 /* 라이브러리 */
-.con {
-	width: 1200px;
+.block {
+	display: block;
 }
 
-.height-100px {
-	height: 100px;
+.inline-block {
+	display: inline-block;
 }
 
-.height-200px {
-	height: 200px;
-}
-
-.margin-top-30 {
-	margin-top:30px;
-}
-
-.text-align-center {
-	text-align:center;
-}
-
-/* 커스텀 */
 .con {
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.template-box {
-	display:none;
+.border-red {
+	border: 10px solid red;
+}
+
+html>head+body:nth-child(2) .height-300 {
+	min-height: 100px;
+}
+
+.bg-white {
+	background-color:white;
+}
+
+.padding-10 {
+	padding:10px;
+}
+
+/* flex 관련 */
+.flex {
+	display: flex;
+}
+
+.flex-ai-c {
+	align-items: center;
+}
+
+.flex-jc-c {
+	justify-content: center;
+}
+
+/* 테이블 관련 */
+.table-box > table {
+	width: 100%;
+	border-collapse: collapse;
+	border-top: 2px solid #168;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}
+
+.table-box > table th {
+	color: #168;
+	background: #f0f6f9;
+}
+
+.table-box>table th, .table-box>table td {
+	border: 0.5px solid black;
+	white-space:nowrap;
+	padding: 10px;
+}
+
+/* 폼 관련 */
+.form1 .form-control-box>input, .form1 .form-control-box>textarea {
+	width: 100%;
+	padding: 0;
+	display: block;
+	box-sizing: border-box;
+	padding: 10px;
+	cursor: pointer;
+}
+
+button, input {
+	cursor: pointer;
+}
+
+.form1 .form-control-box>textarea {
+	min-height: 300px;
+	resize: none;
+}
+
+.form1 .form-row {
+	display:flex;
+}
+
+.form1 .form-row > .form-control-label {
+	display:flex;
+	align-items: center;
+	padding:10px;
+}
+
+.form1 .form-row > .form-control-box {
+	display:flex;
+	align-items: center;
+	padding:10px;
+}
+
+/* 커스텀 */
+.con {
+	max-width: 1200px;
+}
+
+.page-title-box {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+
+/* article list */
+.total {
+	display: flex;
+	justify-content: center;
+}
+
+.button-box {
+	display: flex;
+	justify-content: center;
+}
+
+.write-button:hover {
+	color: white;
+	background: #168;
+}
+
+.page-box {
+	display: flex;
+	justify-content: center;
+}
+
+.page-box tr > td > a {
+	font-size: 1.5rem;
+	padding: 10px;
+}
+
+.search-box {
+	display: flex;
+	justify-content: center;
+}
+
+.write-box .form-row>.label {
+	width: 100px;
+}
+
+.write-box .form-row>.input {
+	flex-grow: 1;
+	flex-wrap: nowrap;
+	text-align: center;
+}
+
+.write-box .form-row > .input > input {
+	display: block;
+	width: 100%;
+	padding: 10px;
+}
+
+.write-box .form-row > .input > .submit-button {
+	display: block;
+	width: 200px;
+	padding: 10px;
+}
+
+.article-write {
+	padding: 10px;
+	width: 100%;
+	height: 100px;
+	resize: none;
+}
+
+/* article detail*/
+h1, h2, h3 {
+	margin: 10px;
+	text-align: center;
+}
+	
+.article-reply-list-box {
+	display: flex;
+	justify-content: center;
+}
+
+.table-box {
+	display: flex;
+	justify-content: center;
+}
+	
+.detail-table { 
+	border-collapse: collapse;
+	border-top: 2px solid #168;
+	width: 600px;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}	
+
+.detail-table th, .detail-table td {
+	border: 0.5px solid #ddd;
+	white-space:nowrap;
+	padding: 10px;
+}
+
+.detail-table th {
+	font-weight: bold;
+	color: #168;
+	background: #f0f6f9;
+}
+
+.detail-table tr td {
+	colspan: 2;
+}
+
+.detail-table tr td:first-child {
+	font-weight: bold;
+	color: #168;
+	background: #f0f6f9;
+}
+
+.button-box {
+	display: flex;
+	justify-content: center;
+}
+
+.button-box a {
+	padding: 10px;
+	margin: 10px;
+	cursor: pointer;
+	background: #f0f6f9;
+	border: 1px solid #168;
+}
+.button-box a:hover {
+	color: white;
+	background: #168;
+}
+
+.articleReply-table { 
+	border-collapse: collapse;
+	border-top: 2px solid #168;
+	width: 600px;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}	
+	
+.articleReply-table th, .articleReply-table td {
+	border: 0.5px solid #ddd;
+	white-space:nowrap;
+	padding: 10px;
+}
+
+.articleReply-table th {
+	font-weight: bold;
+	color: #168;
+	background: #f0f6f9;
+}
+
+.articleReply-write { 
+	border-collapse: collapse;
+	border-top: 2px solid #168;
+	width: 600px;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+}	
+
+.articleReply-write th, .articleReply-write td {
+	border: 0.5px solid #ddd;
+	white-space:nowrap;
+	padding: 10px;
+}
+
+.articleReply-write th {
+	font-weight: bold;
+	color: #168;
+	background: #f0f6f9;
+}
+
+.write-box {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.write-box form {
+	width: 600px;
+	text-align: center;
+}
+
+.write-box .form-row {
+	align-items: center;
+	display: flex;
+	margin: 20px;
+}
+
+.write-box .form-row .submit-button {
+	cursor: pointer;
+	padding: 10px 50px;
+	margin: 10px;
+	background: #f0f6f9;
+	border: 1px solid #168;
+}
+
+.write-box .form-row .submit-button:hover {
+	color: white;
+	background: #168;
+}
+
+.write-box .form-row>.label {
+	width: 100px;
+}
+
+.write-box .form-row>.input {
+	flex-grow: 1;
+	flex-wrap: nowrap;
+	text-align: center;
+}
+
+.write-box .form-row>.input>input {
+	display: block;
+	width: 200px;
+	box-sizing: border-box;
+	padding: 8px;
+}
+
+.reply-write {
+	padding: 10px;
+	width: 100%;
+	height: 100px;
+	resize: none;
+}
+
+.reply-modify {
+	padding: 5px;
+	width: 100%;
+	resize: none;
+}
+
+.page-box {
+	display: flex;
+	justify-content: center;
+}
+
+.page-box tr > td > a {
+	font-size: 1.5rem;
+	padding: 10px;
+}
+
+.article-reply-list-box tr .loading-delete-inline {
+	display: none;
+	font-weight: bold;
+	color: red;
+}
+
+/* article detail - 댓글 리스트 */
+.reply-list-box {
+	margin-bottom: 80px;
+}
+
+/* article detail - 댓글 수정 */
+.reply-modify-form-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: none;
+}
+
+.reply-modify-form-modal-actived .reply-modify-form-modal {
+	display: flex;
 }

@@ -28,23 +28,13 @@ public class ReplyService {
 
 		List<Integer> replyIds = replies.stream().map(reply -> reply.getId()).collect(Collectors.toList());
 		if (replyIds.size() > 0) {
-			Map<Integer, File> filesMap = fileService.getFilesMapKeyRelId("reply", replyIds, "common", "attachment", 1);
+			Map<Integer, Map<Integer, File>> filesMap = fileService.getFilesMapKeyRelIdAndFileNo("reply", replyIds, "common", "attachment");
 
 			for (Reply reply : replies) {
-				File file = filesMap.get(reply.getId());
+				Map<Integer, File> filesMap2 = filesMap.get(reply.getId());
 
-				if (file != null) {
-					reply.getExtra().put("file__common__attachment__1", file);
-				}
-			}
-			
-			filesMap = fileService.getFilesMapKeyRelId("reply", replyIds, "common", "attachment", 2);
-
-			for (Reply reply : replies) {
-				File file = filesMap.get(reply.getId());
-
-				if (file != null) {
-					reply.getExtra().put("file__common__attachment__2", file);
+				if (filesMap2 != null) {
+					reply.getExtra().put("file__common__attachment", filesMap2);
 				}
 			}
 		}
@@ -110,5 +100,4 @@ public class ReplyService {
 		replyDao.modifyReply(param);
 		return new ResultData("S-1", String.format("%d번 댓글을 수정하였습니다.", Util.getAsInt(param.get("id"))), param);
 	}
-	
 }
