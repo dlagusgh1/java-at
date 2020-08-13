@@ -35,8 +35,7 @@
 		</foreach>
 		AND relTypeCode = #{relTypeCode}
 		AND typeCode = #{typeCode}
-		AND
-		type2Code = #{type2Code}
+		AND type2Code = #{type2Code}
 		AND fileNo = #{fileNo}
 		ORDER BY relId
 	</select>
@@ -84,5 +83,13 @@
 		WHERE relId = #{relId}
 		AND relTypeCode = #{relTypeCode}
 	</delete>
+	
+	<select id="getForPrintFileByArticleId" resultType="File">
+		SELECT *
+		FROM `file`
+		WHERE relTypeCode = #{article}
+		AND relId = #{id}
+		AND delStatus = 0 
+	</select>
 
 </mapper>

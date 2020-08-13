@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.jhs.at.dao.FileDao;
+import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.File;
 import com.sbs.jhs.at.util.Util;
 
@@ -84,6 +85,10 @@ public class FileService {
 		}
 
 		return rs;
+	}
+
+	public List<File> getForPrintFileByArticleId(String article, int id) {
+		return fileDao.getForPrintFileByArticleId(article, id);
 	}
 
 }

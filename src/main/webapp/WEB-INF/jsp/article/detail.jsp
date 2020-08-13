@@ -27,14 +27,12 @@
 					<th>내용</th>
 					<td>${article.body}</td>
 				</tr>
-				<tr>
-					<th>첨부 1 비디오</th>
-					<td></td>
-				</tr>
-				<tr>
-					<th>첨부 2 비디오</th>
-					<td></td>
-				</tr>
+				<c:forEach items="${file}" var="files">
+					<tr>
+						<th>첨부 비디오(No : ${files.id})</th>
+						<td><div class="video-box"><video controls src="/usr/file/streamVideo?id=${files.id}">video not supported</video></div></td>							
+					</tr>	
+				</c:forEach>
 				<tr>
 					<th>작성일</th>
 					<td>${article.regDate}</td>

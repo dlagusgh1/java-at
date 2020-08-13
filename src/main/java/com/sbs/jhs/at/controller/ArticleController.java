@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.jhs.at.dto.Article;
-import com.sbs.jhs.at.dto.Reply;
+import com.sbs.jhs.at.dto.File;
 import com.sbs.jhs.at.dto.ResultData;
 import com.sbs.jhs.at.service.ArticleService;
 import com.sbs.jhs.at.service.FileService;
@@ -110,7 +110,10 @@ public class ArticleController {
 		int id = Integer.parseInt((String) param.get("id"));
 
 		Article article = articleService.getForPrintArticleById(id);
+		
+		List<File> file = fileService.getForPrintFileByArticleId("article", id);
 
+		model.addAttribute("file", file);
 		model.addAttribute("article", article);
 		
 		return "article/detail";

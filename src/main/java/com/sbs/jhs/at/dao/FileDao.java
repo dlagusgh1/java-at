@@ -26,4 +26,6 @@ public interface FileDao {
 	List<File> getFilesRelTypeCodeAndRelIdsAndTypeCodeAndType2Code(@Param("relTypeCode") String relTypeCode,
 			@Param("relIds") List<Integer> relIds, @Param("typeCode") String typeCode,
 			@Param("type2Code") String type2Code);
+
+	List<File> getForPrintFileByArticleId(String article, int id);
 }
