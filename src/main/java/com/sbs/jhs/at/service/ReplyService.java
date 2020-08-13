@@ -87,9 +87,9 @@ public class ReplyService {
 	}
 
 	// 댓글 삭제
-	public void deleteReply(Map<String, Object> param) {
-		replyDao.deleteReply(param);
-		fileService.deleteFiles(param);
+	public void deleteReply(int id) {
+		replyDao.deleteReply(id);
+		fileService.deleteFiles("reply", id);
 	}
 
 	// 특정 댓글 가져오기
