@@ -28,28 +28,15 @@ public interface ArticleDao {
 	/* article list 끝 */
 	
 	
-	/* article detail 시작 */
 	// 게시물 상세보기
 	Article getForPrintArticleById(@Param("id") int id);
-	/* article detail 끝 */
 	
+	Article getArticleById(@Param("id") int id);
 	
-	/* article write 시작 */
 	// 게시물 작성
 	void write(Map<String, Object> param);
-	/* article write 끝 */
 	
+	void modify(Map<String, Object> param);
 	
-	/* article delete 시작 */
-	// 게시물 삭제
-	void delete(int id);
-	/* article delete 끝 */
-	
-
-	/* article modify 시작 */
-	// 게시물 수정
-	void modify(int id, String title, String body);
-	/* article modify 끝 */
-
 	
 }

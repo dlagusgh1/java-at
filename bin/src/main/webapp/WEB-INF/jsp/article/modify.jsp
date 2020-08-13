@@ -65,7 +65,7 @@
 </style>
 
 <script type="text/javascript">
-	function submitModifyForm(form) {
+	function ArticleModifyForm__submit(form) {
 		form.title.value = form.title.value.trim();
 		if (form.title.value.length == 0) {
 			alert('제목을 입력해주세요.');
@@ -86,35 +86,59 @@
 	}
 </script>
 
-<h1>게시물 수정</h1>
-
-<div class="write-box">
-	<form action="doModify" method="POST" onsubmit="submitModifyForm(this); return false;">
-		<div class="form-row">
-			<div class="label">게시물 번호</div>
-			<div class="input">
-				<input name="id" type="hidden" value="${article.id}" />${article.id}
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">제목</div>
-			<div class="input">
-				<input name="title" type="text" value="${article.title}" />
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">내용</div>
-			<div class="input">
-				<textarea  name="body">${article.body}</textarea>
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="input" style="display: flex;">
-				<input class="submit-button" type="submit" value="수정">	
-				<a class="submit-button" href="detail?id=${article.id}">취소</a>
-			</div>
-		</div>
+<!-- 게시물 수정 -->
+<c:if test="${isLogined}">
+	<h1 style="margin-top: 30px;">게시물 수정</h1>
+	<form class="table-box con form1" action="doModify" method="POST" onsubmit="ArticleModifyForm__submit(this); return false;">
+		<table>
+			<tbody>
+				<tr>
+					<th>게시물 번호</th>
+					<td>
+						<div class="form-control-box">
+							<input name="id" type="hidden" value="${article.id}" />${article.id}
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td>
+						<div class="form-control-box">
+							<input name="title" type="text" value="${article.title}" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>
+						<div class="form-control-box">
+							<textarea  name="body">${article.body}</textarea>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>첨부1 비디오</th>
+					<td>
+						<div class="form-control-box">
+							<input type="file" accept="video/*" capture name="file__article__0__common__attachment__1">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>첨부2 비디오</th>
+					<td>
+						<div class="form-control-box">
+							<input type="file" accept="video/*" capture name="file__article__0__common__attachment__2">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>수정</th>
+					<td><input type="submit" value="수정"></td>
+				</tr>
+			</tbody>
+		</table>
 	</form>
-</div>
+</c:if>
 
 <%@ include file="../part/foot.jspf"%>

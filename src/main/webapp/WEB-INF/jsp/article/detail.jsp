@@ -33,7 +33,7 @@
 						<th>첨부 파일 1</th>
 						<td>
 							<div class="video-box">
-								<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}">video not supported</video>
+								<video controls	src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}">video not supported</video>
 							</div>
 						</td>
 					</tr>
@@ -55,19 +55,20 @@
 
 
 <!-- 게시물 네비게이션 -->
-<div class="button-box">
+<!-- 게시물 수정/삭제 -->
+<div class="btn-box con margin-top-20">
 	<c:if test="${article.id-1 != 0}">	
-		<a href="detail?id=${param.id-1}">이전 글</a>
+		<a class="btn btn-info" href="detail?id=${param.id-1}">이전 글</a>
 	</c:if>
-		<a onclick="location.replace('list?page=1');">뒤로가기</a>
-	<c:if test="${isLogined}">
-		<c:if test="${article.delStatus == false}">
-			<a href="modify?id=${param.id}">게시물 수정</a>
-			<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;" href="delete?id=${article.id}&relTypeCode=article&relId=${article.id}">게시물 삭제</a>
-		</c:if>
+	<a class="btn btn-info" onclick="location.replace('list?page=1');">뒤로가기</a>
+	<c:if test="${article.extra.actorCanModify}">
+		<a class="btn btn-info" href="modify?id=${article.id}">수정</a>
+	</c:if>
+	<c:if test="${article.extra.actorCanDelete}">
+		<a class="btn btn-info" href="doDelete?id=${article.id}" onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;">삭제</a>
 	</c:if>
 	<c:if test="${article.id+1 != totalCount}">
-		<a href="detail?id=${param.id+1}">다음 글</a>
+		<a class="btn btn-info" href="detail?id=${param.id+1}">다음 글</a>
 	</c:if>
 </div>
 

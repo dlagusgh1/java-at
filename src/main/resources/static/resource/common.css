@@ -47,6 +47,34 @@ html>head+body:nth-child(2) .height-300 {
 	min-height: 100px;
 }
 
+.margin-top-20 {
+	margin-top: 20px;
+}
+
+.margin-top-30 {
+	margin-top: 30px;
+}
+
+.padding-0-10 {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.padding-0-20 {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.padding-10-0 {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.padding-20-0 {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
 .bg-white {
 	background-color:white;
 }
@@ -67,6 +95,11 @@ html>head+body:nth-child(2) .height-300 {
 .flex-jc-c {
 	justify-content: center;
 }
+
+flex-jc-sb {
+    justify-content: space-between;
+}
+
 
 /* 테이블 관련 */
 .table-box > table {

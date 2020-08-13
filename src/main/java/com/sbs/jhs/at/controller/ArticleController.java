@@ -1,7 +1,5 @@
 package com.sbs.jhs.at.controller;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,11 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.jhs.at.dto.Article;
-import com.sbs.jhs.at.dto.File;
-import com.sbs.jhs.at.dto.Reply;
+import com.sbs.jhs.at.dto.Member;
 import com.sbs.jhs.at.dto.ResultData;
 import com.sbs.jhs.at.service.ArticleService;
 import com.sbs.jhs.at.service.FileService;
@@ -111,28 +107,30 @@ public class ArticleController {
 	
 	
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, @RequestParam Map<String, Object> param) {
+	public String showDetail(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req) {
 		
 		int id = Integer.parseInt((String) param.get("id"));
+		
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 
-		Article article = articleService.getForPrintArticleById(id);
+		Article article = articleService.getForPrintArticleById(loginedMember, id);
 
 		model.addAttribute("article", article);
-		
+
 		return "article/detail";
 	}
 	
-	// 게시물 작성 기능
+	// 게시물 작성 폼
 	@RequestMapping("/usr/article/write")
 	public String showWrite() {
 		return "article/write";
 	}
-
+	
+	// 게시물 작성 기능
 	@RequestMapping("/usr/article/doWrite")
-	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest request) {
-		
-		param.put("memberId", request.getAttribute("loginedMemberId"));
-		
+	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
+		param.put("memberId", loginedMemberId);
 		int newArticleId = articleService.write(param);
 
 		String redirectUri = (String) param.get("redirectUri");
@@ -141,44 +139,41 @@ public class ArticleController {
 		return "redirect:" + redirectUri;
 	}
 	
-	// 게시물 삭제
-	@RequestMapping("/usr/article/delete")
-	public String delete(@RequestParam Map<String, Object> param) {
-		
-		int id = Integer.parseInt((String) param.get("id"));
-		
-		articleService.delete(id);
-		
-		String relTypeCode = (String) param.get("relTypeCode");
-		int relId = (int) param.get("relId");
-		
-		fileService.deleteFiles(relTypeCode, relId);
-		
-		String redirectUrl = "list?page=1";
-
-		return "redirect:" + redirectUrl;
-	}
-	
 	// 게시물 수정 폼
 	@RequestMapping("/usr/article/modify")
-	public String modify(Model model, int id) {
+	public String showModify(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req) {
+		int id = Integer.parseInt((String) param.get("id"));
 		
-		Article article = articleService.getForPrintArticleById(id);
-		
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
+		Article article = articleService.getForPrintArticleById(loginedMember, id);
+
 		model.addAttribute("article", article);
-		
+
 		return "article/modify";
 	}
 	
-	// 게시물 수정 기능
 	@RequestMapping("/usr/article/doModify")
-	public String doModify(Model model, int id, String title, String body) {
+	public String doModify(@RequestParam Map<String, Object> param, HttpServletRequest req, int id, Model model) {
+		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr", "articleId", "id");
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		
-		articleService.modify(id, title, body);
+		ResultData checkActorCanModifyResultData = articleService.checkActorCanModify(loginedMember, id);
+		
+		if (checkActorCanModifyResultData.isFail() ) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("msg", checkActorCanModifyResultData.getMsg());
+			
+			return "common/redirect";
+		}
+		
+		articleService.modify(newParam);
+		
+		String redirectUri = (String) param.get("redirectUri");
 
-		String redirectUrl = "detail?id=" + id;
-
-		return "redirect:" + redirectUrl;
+		return "redirect:" + redirectUri;
 	}
+	
+	
+	
 	
 }
