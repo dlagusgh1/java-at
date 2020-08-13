@@ -28,7 +28,11 @@
 					<td>${article.body}</td>
 				</tr>
 				<tr>
-					<th>첨부 파일 내용</th>
+					<th>첨부 1 비디오</th>
+					<td></td>
+				</tr>
+				<tr>
+					<th>첨부 2 비디오</th>
 					<td></td>
 				</tr>
 				<tr>
@@ -49,7 +53,7 @@
 	<c:if test="${isLogined}">
 		<c:if test="${article.delStatus == false}">
 			<a href="modify?id=${param.id}">게시물 수정</a>
-			<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;" href="delete?id=${article.id}">게시물 삭제</a>
+			<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;" href="delete?id=${article.id}&relTypeCode=article&relId=${article.id}">게시물 삭제</a>
 		</c:if>
 	</c:if>
 	<c:if test="${article.id+1 != totalCount}">
@@ -143,7 +147,7 @@
 			<div class="form-row">
 				<div class="form-control-label">첨부1 비디오</div>
 				<div class="form-control-box">
-					<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__1">
+					<input type="file" accept="video/*" name="file__reply__0__common__attachment__1">
 				</div>
 			</div>
 			<div class="form-row">

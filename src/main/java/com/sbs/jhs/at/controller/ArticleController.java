@@ -17,11 +17,14 @@ import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.Reply;
 import com.sbs.jhs.at.dto.ResultData;
 import com.sbs.jhs.at.service.ArticleService;
+import com.sbs.jhs.at.service.FileService;
 
 @Controller
 public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private FileService fileService;
 	
 	// 게시물 리스트
 	@RequestMapping("/usr/article/list")
@@ -131,9 +134,13 @@ public class ArticleController {
 	
 	// 게시물 삭제
 	@RequestMapping("/usr/article/delete")
-	public String delete(Model model, int id) {
+	public String delete(@RequestParam Map<String, Object> param) {
+		
+		int id = Integer.parseInt((String) param.get("id"));
 		
 		articleService.delete(id);
+		
+		fileService.deleteFiles(param);
 		
 		String redirectUrl = "list?page=1";
 

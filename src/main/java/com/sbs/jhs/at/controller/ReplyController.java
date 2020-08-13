@@ -56,15 +56,18 @@ public class ReplyController {
 
 	@RequestMapping("/usr/reply/doDeleteReplyAjax")
 	@ResponseBody
-	public ResultData doDeleteReplyAjax(int id, HttpServletRequest req) {
+	public ResultData doDeleteReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest req) {
 		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		
+		int id = Integer.parseInt((String)param.get(("id")));
+				
 		Reply reply = replyService.getForPrintReplyById(id);
 
 		if (replyService.actorCanDelete(loginedMember, reply) == false) {
 			return new ResultData("F-1", String.format("%d번 댓글을 삭제할 권한이 없습니다.", id));
 		}
 
-		replyService.deleteReply(id);
+		replyService.deleteReply(param);
 
 		return new ResultData("S-1", String.format("%d번 댓글을 삭제하였습니다.", id));
 	}

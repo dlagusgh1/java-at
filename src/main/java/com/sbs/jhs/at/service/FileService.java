@@ -57,12 +57,11 @@ public class FileService {
 
 	public byte[] getFileBodyById(int id) {
 		File file = fileDao.getFileById(id);
-		System.out.println("body : " + file.getBody());
 		return file.getBody();
 	}
 
-	public void deleteFiles(String relTypeCode, int relId) {
-		fileDao.deleteFiles(relTypeCode, relId);
+	public void deleteFiles(Map<String, Object> param) {
+		fileDao.deleteFiles(param);
 	}
 
 	public File getFileById(int id) {

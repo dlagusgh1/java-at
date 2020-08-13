@@ -17,7 +17,7 @@ public interface ReplyDao {
 	void writeReply(Map<String, Object> param);
 
 	// 댓글 삭제
-	void deleteReply(@Param("id") int id);
+	void deleteReply(@Param("id") Map<String, Object> param);
 
 	// 특정 댓글 가져오기
 	Reply getForPrintReplyById(@Param("id") int id);

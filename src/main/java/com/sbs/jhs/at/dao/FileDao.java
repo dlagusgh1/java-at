@@ -21,7 +21,7 @@ public interface FileDao {
 
 	File getFileById(@Param("id") int id);
 
-	void deleteFiles(@Param("relTypeCode") String relTypeCode, @Param("relId") int relId);
+	void deleteFiles(Map<String, Object> param);
 
 	List<File> getFilesRelTypeCodeAndRelIdsAndTypeCodeAndType2Code(@Param("relTypeCode") String relTypeCode,
 			@Param("relIds") List<Integer> relIds, @Param("typeCode") String typeCode,

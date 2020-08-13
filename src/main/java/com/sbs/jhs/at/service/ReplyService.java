@@ -72,6 +72,7 @@ public class ReplyService {
 		String fileIdsStr = (String) param.get("fileIdsStr");
 
 		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+
 			List<Integer> fileIds = Arrays.asList(fileIdsStr.split(",")).stream().map(s -> Integer.parseInt(s.trim()))
 					.collect(Collectors.toList());
 
@@ -86,9 +87,9 @@ public class ReplyService {
 	}
 
 	// 댓글 삭제
-	public void deleteReply(int id) {
-		replyDao.deleteReply(id);
-		fileService.deleteFiles("reply", id);
+	public void deleteReply(Map<String, Object> param) {
+		replyDao.deleteReply(param);
+		fileService.deleteFiles(param);
 	}
 
 	// 특정 댓글 가져오기

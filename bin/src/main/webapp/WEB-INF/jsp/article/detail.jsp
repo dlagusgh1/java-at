@@ -141,7 +141,7 @@
 		<div class="form-row">
 			<div class="form-control-label">첨부1 비디오</div>
 			<div class="form-control-box">
-				<input type="file" accept="video/*" capture name="file__reply__0__common__attachment__1">
+				<input type="file" accept="video/*" name="file__reply__0__common__attachment__1">
 			</div>
 		</div>
 		<div class="form-row">
