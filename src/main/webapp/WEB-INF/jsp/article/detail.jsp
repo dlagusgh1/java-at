@@ -10,14 +10,15 @@
 </c:if>
 <c:if test="${article.delStatus == false}">
 	<div class="table-box con">
-		<table class="detail-table ">
+		<table>
 			<tbody>
-				<tr>
-					<th colspan=4>상세보기</th>
-				</tr>
 				<tr>
 					<th>번호</th>
 					<td>${article.id}</td>
+				</tr>
+				<tr>
+					<th>날짜</th>
+					<td>${article.regDate}</td>
 				</tr>
 				<tr>
 					<th>제목</th>
@@ -27,16 +28,26 @@
 					<th>내용</th>
 					<td>${article.body}</td>
 				</tr>
-				<c:forEach items="${file}" var="files">
+				<c:if test="${article.extra.file__common__attachment['1'] != null}">
 					<tr>
-						<th>첨부 비디오(No : ${files.id})</th>
-						<td><div class="video-box"><video controls src="/usr/file/streamVideo?id=${files.id}">video not supported</video></div></td>							
-					</tr>	
-				</c:forEach>
-				<tr>
-					<th>작성일</th>
-					<td>${article.regDate}</td>
-				</tr>
+						<th>첨부 파일 1</th>
+						<td>
+							<div class="video-box">
+								<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}">video not supported</video>
+							</div>
+						</td>
+					</tr>
+				</c:if>
+				<c:if test="${article.extra.file__common__attachment['2'] != null}">
+					<tr>
+						<th>첨부 파일 2</th>
+						<td>
+							<div class="video-box">
+								<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['2'].id}">video not supported</video>
+							</div>
+						</td>
+					</tr>
+				</c:if>
 			</tbody>
 		</table>
 	</div>
@@ -307,13 +318,16 @@
 		$('html').removeClass('reply-modify-form-modal-actived');
 	}
 
+	// 10초
+	ReplyList__loadMoreInterval = 10 * 1000;
+
 	function ReplyList__loadMoreCallback(data) {
 		if (data.body.replies && data.body.replies.length > 0) {
 			ReplyList__lastLodedId = data.body.replies[data.body.replies.length - 1].id;
 			ReplyList__drawReplies(data.body.replies);
 		}
 
-		setTimeout(ReplyList__loadMore, 2000);
+		setTimeout(ReplyList__loadMore, ReplyList__loadMoreInterval);
 	}
 
 	// 특정 게시물의 댓글 리스트 가져오기

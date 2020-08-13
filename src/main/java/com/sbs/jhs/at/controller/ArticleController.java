@@ -116,29 +116,29 @@ public class ArticleController {
 		int id = Integer.parseInt((String) param.get("id"));
 
 		Article article = articleService.getForPrintArticleById(id);
-		
-		List<File> file = fileService.getForPrintFileByArticleId("article", id);
 
-		model.addAttribute("file", file);
 		model.addAttribute("article", article);
 		
 		return "article/detail";
 	}
 	
 	// 게시물 작성 기능
-	@RequestMapping("/usr/article/doWriteAjax")
-	@ResponseBody
-	public ResultData doWriteAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
-		
-		Map<String, Object> rsDataBody = new HashMap<>();
+	@RequestMapping("/usr/article/write")
+	public String showWrite() {
+		return "article/write";
+	}
+
+	@RequestMapping("/usr/article/doWrite")
+	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest request) {
 		
 		param.put("memberId", request.getAttribute("loginedMemberId"));
 		
 		int newArticleId = articleService.write(param);
-		
-		rsDataBody.put("id", newArticleId);
-		
-		return new ResultData("S-1", String.format("%d번 글이 생성되었습니다.", newArticleId), rsDataBody);
+
+		String redirectUri = (String) param.get("redirectUri");
+		redirectUri = redirectUri.replace("#id", newArticleId + "");
+
+		return "redirect:" + redirectUri;
 	}
 	
 	// 게시물 삭제
@@ -149,7 +149,10 @@ public class ArticleController {
 		
 		articleService.delete(id);
 		
-		fileService.deleteFiles(param);
+		String relTypeCode = (String) param.get("relTypeCode");
+		int relId = (int) param.get("relId");
+		
+		fileService.deleteFiles(relTypeCode, relId);
 		
 		String redirectUrl = "list?page=1";
 
@@ -163,10 +166,6 @@ public class ArticleController {
 		Article article = articleService.getForPrintArticleById(id);
 		
 		model.addAttribute("article", article);
-		
-		List<File> file = fileService.getForPrintFileByArticleId("article", id);
-
-		model.addAttribute("file", file);
 		
 		return "article/modify";
 	}

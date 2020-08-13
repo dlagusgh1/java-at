@@ -48,6 +48,7 @@ var param = ${paramJson};
 			<c:if test="${isLogined}">
 				<a class="btn btn-info" href="/usr/member/doLogout">로그아웃</a>
 				<a class="btn btn-info" href="/usr/article/list">게시물 리스트</a>
+				<a class="btn btn-info" href="/usr/article/write">오디션 생성</a>
 			</c:if>
 			<c:if test="${isLogined == false}">
 				<a class="btn btn-info" href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a>

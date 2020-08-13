@@ -1,6 +1,7 @@
 package com.sbs.jhs.at.service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.sbs.jhs.at.dao.ArticleDao;
 import com.sbs.jhs.at.dto.Article;
+import com.sbs.jhs.at.dto.File;
 import com.sbs.jhs.at.util.Util;
 
 @Service
@@ -57,19 +59,32 @@ public class ArticleService {
 	// 게시물 상세보기
 	public Article getForPrintArticleById(int id) {
 		Article article = articleDao.getForPrintArticleById(id);
-		
+		List<File> files = fileService.getFilesMapKeyFileNo("article", article.getId(), "common", "attachment");
+
+		Map<String, File> filesMap = new HashMap<>();
+
+		for (File file : files) {
+			filesMap.put(file.getFileNo() + "", file);
+		}
+
+		if (article.getExtra() == null) {
+			article.setExtra(new HashMap<>());
+		}
+
+		article.getExtra().put("file__common__attachment", filesMap);
+
 		return article;
 	}
 	/* article detail 끝 */
 	
 	/* article write 시작 */
 	// 게시물 작성
-	public int write(Map<String, Object> param) {	
-		articleDao.write(param);	
+	public int write(Map<String, Object> param) {
+		articleDao.write(param);
 		int id = Util.getAsInt(param.get("id"));
-		
+
 		String fileIdsStr = (String) param.get("fileIdsStr");
-		
+
 		if (fileIdsStr != null && fileIdsStr.length() > 0) {
 			List<Integer> fileIds = Arrays.asList(fileIdsStr.split(",")).stream().map(s -> Integer.parseInt(s.trim()))
 					.collect(Collectors.toList());

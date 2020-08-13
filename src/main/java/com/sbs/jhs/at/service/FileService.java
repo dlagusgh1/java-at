@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.jhs.at.dao.FileDao;
-import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.File;
 import com.sbs.jhs.at.util.Util;
 
@@ -58,11 +57,12 @@ public class FileService {
 
 	public byte[] getFileBodyById(int id) {
 		File file = fileDao.getFileById(id);
+		System.out.println("body : " + file.getBody());
 		return file.getBody();
 	}
 
-	public void deleteFiles(Map<String, Object> param) {
-		fileDao.deleteFiles(param);
+	public void deleteFiles(String relTypeCode, int relId) {
+		fileDao.deleteFiles(relTypeCode, relId);
 	}
 
 	public File getFileById(int id) {
@@ -87,8 +87,9 @@ public class FileService {
 		return rs;
 	}
 
-	public List<File> getForPrintFileByArticleId(String article, int id) {
-		return fileDao.getForPrintFileByArticleId(article, id);
+	public List<File> getFilesMapKeyFileNo(String relTypeCode, int relId, String typeCode, String type2Code) {
+		List<File> files = fileDao.getFilesRelTypeCodeAndRelIdAndTypeCodeAndType2Code(relTypeCode, relId, typeCode, type2Code);
+		return files;
 	}
 
 }
