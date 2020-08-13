@@ -42,6 +42,7 @@
 	</div>
 </c:if>
 
+
 <!-- 게시물 네비게이션 -->
 <div class="button-box">
 	<c:if test="${article.id-1 != 0}">	
@@ -146,6 +147,12 @@
 				<div class="form-control-label">첨부1 비디오</div>
 				<div class="form-control-box">
 					<input type="file" accept="video/*" name="file__reply__0__common__attachment__1">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-control-label">첨부2 비디오</div>
+				<div class="form-control-box">
+					<input type="file" accept="video/*" name="file__reply__0__common__attachment__2">
 				</div>
 			</div>
 			<div class="form-row">
@@ -381,6 +388,7 @@
 	}
 
 	ReplyList__loadMore();
+
 </script>
 	
 <%@ include file="../part/foot.jspf"%>
