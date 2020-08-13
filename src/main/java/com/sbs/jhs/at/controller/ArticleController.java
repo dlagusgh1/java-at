@@ -158,6 +158,10 @@ public class ArticleController {
 		
 		model.addAttribute("article", article);
 		
+		List<File> file = fileService.getForPrintFileByArticleId("article", id);
+
+		model.addAttribute("file", file);
+		
 		return "article/modify";
 	}
 	
