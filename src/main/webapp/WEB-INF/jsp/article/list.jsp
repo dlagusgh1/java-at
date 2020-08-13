@@ -160,7 +160,7 @@
 <c:if test="${isLogined}">
 	<h1 style="margin-top: 30px;">게시물 작성</h1>
 	<form class="table-box con form1" onsubmit="ArticleWriteForm__submit(this); return false;">
-		<input type="hidden" name="relTypeCode" value="article" /> 
+		<input type="hidden" name="relTypeCode" value="article" /> 	
 		<input type="hidden" name="relId" value="${ArticleTotalCount + 1}" />
 		<table>
 			<tbody>

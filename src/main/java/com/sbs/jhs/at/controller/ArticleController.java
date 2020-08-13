@@ -1,6 +1,7 @@
 package com.sbs.jhs.at.controller;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.File;
+import com.sbs.jhs.at.dto.Reply;
 import com.sbs.jhs.at.dto.ResultData;
 import com.sbs.jhs.at.service.ArticleService;
 import com.sbs.jhs.at.service.FileService;
+import com.sbs.jhs.at.service.ReplyService;
+import com.sbs.jhs.at.util.Util;
 
 @Controller
 public class ArticleController {
@@ -25,6 +29,8 @@ public class ArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private ReplyService replyService;
 	
 	// 게시물 리스트
 	@RequestMapping("/usr/article/list")
@@ -131,7 +137,7 @@ public class ArticleController {
 		int newArticleId = articleService.write(param);
 		
 		rsDataBody.put("id", newArticleId);
-
+		
 		return new ResultData("S-1", String.format("%d번 글이 생성되었습니다.", newArticleId), rsDataBody);
 	}
 	
