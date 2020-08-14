@@ -38,8 +38,8 @@ public class MemberController {
 
 		int newMemberId = memberService.join(param);
 
-		String redirectUrl = (String) param.get("redirectUrl");
-		model.addAttribute("redirectUrl", redirectUrl);
+		String redirectUri = (String) param.get("redirectUri");
+		model.addAttribute("redirectUri", redirectUri);
 
 		return "common/redirect";
 	}
@@ -67,7 +67,9 @@ public class MemberController {
 		}
 		
 		session.setAttribute("loginedMemberId", member.getId());
-		model.addAttribute("redirectUrl", redirectUrl);
+		
+		String redirectUri = "/usr/home/main";
+		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("alertMsg", String.format("%s님 반갑습니다.", member.getNickname()));
 
 		return "common/redirect";
@@ -78,8 +80,8 @@ public class MemberController {
 		
 		session.removeAttribute("loginedMemberId");
 		
-		String redirectUrl = "/usr/home/main";
-		model.addAttribute("redirectUrl", redirectUrl);
+		String redirectUri = "/usr/member/login";
+		model.addAttribute("redirectUri", redirectUri);
 		model.addAttribute("alertMsg", String.format("로그아웃 되었습니다."));
 
 		return "common/redirect";
