@@ -36,8 +36,10 @@ public interface ArticleDao {
 	// 게시물 작성
 	void write(Map<String, Object> param);
 	
+	// 게시물 수정
 	void modify(Map<String, Object> param);
 
+	// 게시물 삭제
 	void delete(Map<String, Object> param);
 	
 	

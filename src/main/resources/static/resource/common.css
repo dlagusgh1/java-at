@@ -33,6 +33,10 @@ label[for] {
 	width: 100%;
 	display: block;
 }
+.video-box>img {
+	width: 100%;
+	display: block;
+}
 
 .con {
 	margin-left: auto;

@@ -32,9 +32,18 @@
 					<tr>
 						<th>첨부 파일 1</th>
 						<td>
-							<div class="video-box">
-								<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}">video not supported</video>
-							</div>
+						<c:choose>
+							<c:when test="${article.extra.file__common__attachment['1'].fileExtTypeCode.equals(\"img\")}">
+								<div class="img-box">
+									<img src="/usr/file/streamImg?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}" alt="??" />
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="video-box">
+									<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}">video not supported</video>
+								</div>
+							</c:otherwise>
+						</c:choose>		
 						</td>
 					</tr>
 				</c:if>
@@ -42,9 +51,18 @@
 					<tr>
 						<th>첨부 파일 2</th>
 						<td>
-							<div class="video-box">
-								<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['2'].id}">video not supported</video>
-							</div>
+							<c:choose>
+								<c:when test="${article.extra.file__common__attachment['2'].fileExtTypeCode.equals(\"img\")}">
+									<div class="img-box">
+										<img src="/usr/file/streamImg?id=${article.extra.file__common__attachment['2'].id}&updateDate=${article.extra.file__common__attachment['2'].updateDate}" alt="??" />
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="video-box">
+										<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['2'].id}&updateDate=${article.extra.file__common__attachment['2'].updateDate}">video not supported</video>
+									</div>
+								</c:otherwise>
+							</c:choose>		
 						</td>
 					</tr>
 				</c:if>
@@ -55,19 +73,20 @@
 
 
 <!-- 게시물 네비게이션 -->
-<div class="button-box">
+<!-- 게시물 수정/삭제 -->
+<div class="btn-box con margin-top-20">
 	<c:if test="${article.id-1 != 0}">	
-		<a href="detail?id=${param.id-1}">이전 글</a>
+		<a class="btn btn-info" href="detail?id=${param.id-1}">이전 글</a>
 	</c:if>
-		<a onclick="location.replace('list?page=1');">뒤로가기</a>
-	<c:if test="${isLogined}">
-		<c:if test="${article.delStatus == false}">
-			<a href="modify?id=${param.id}">게시물 수정</a>
-			<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;" href="delete?id=${article.id}&relTypeCode=article&relId=${article.id}">게시물 삭제</a>
-		</c:if>
+	<a class="btn btn-info" onclick="location.replace('list?page=1');">뒤로가기</a>
+	<c:if test="${article.extra.actorCanModify}">
+		<a class="btn btn-info" href="modify?id=${article.id}">수정</a>
+	</c:if>
+	<c:if test="${article.extra.actorCanDelete}">
+		<a class="btn btn-info" href="doDelete?id=${article.id}" onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;">삭제</a>
 	</c:if>
 	<c:if test="${article.id+1 != totalCount}">
-		<a href="detail?id=${param.id+1}">다음 글</a>
+		<a class="btn btn-info" href="detail?id=${param.id+1}">다음 글</a>
 	</c:if>
 </div>
 
@@ -146,35 +165,50 @@
 <!-- 댓글 수정 -->
 <c:if test="${isLogined}">
 	<div class="reply-modify-form-modal flex flex-ai-c flex-jc-c">
-		<form action="" class="form1 bg-white padding-10" onsubmit="ReplyList__submitModifyForm(this); return false;">
-			<input type="hidden" name="id" />
-			<div class="form-row">
-				<div class="form-control-label">내용</div>
-				<div class="form-control-box">
-					<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
-				</div>
+	<form action="" class="form1 bg-white padding-10"
+		onsubmit="ReplyList__submitModifyForm(this); return false;">
+		<input type="hidden" name="id" />
+		<div class="form-row">
+			<div class="form-control-label">내용</div>
+			<div class="form-control-box">
+				<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
 			</div>
-			<div class="form-row">
-				<div class="form-control-label">첨부1 비디오</div>
-				<div class="form-control-box">
-					<input type="file" accept="video/*" name="file__reply__0__common__attachment__1">
-				</div>
+		</div>
+		<div class="form-row">
+			<div class="form-control-label">첨부파일 1</div>
+			<div class="form-control-box">
+				<input type="file" accept="video/*"	data-name="file__reply__0__common__attachment__1" />
 			</div>
-			<div class="form-row">
-				<div class="form-control-label">첨부2 비디오</div>
-				<div class="form-control-box">
-					<input type="file" accept="video/*" name="file__reply__0__common__attachment__2">
-				</div>
+			<div class="video-box video-box-file-1"></div>
+		</div>
+		<div class="form-row">
+			<div class="form-control-label">첨부파일 1 삭제</div>
+			<div class="form-control-box">
+				<label><input type="checkbox" data-name="deleteFile__reply__0__common__attachment__1" value="Y" />삭제 </label>
 			</div>
-			<div class="form-row">
-				<div class="form-control-label">수정</div>
-				<div class="form-control-box">
-					<button type="submit">수정</button>
-					<button type="button" onclick="ReplyList__hideModifyFormModal();">취소</button>
-				</div>
+		</div>
+		<div class="form-row">
+			<div class="form-control-label">첨부파일 2</div>
+			<div class="form-control-box">
+				<input type="file" accept="video/*"	data-name="file__reply__0__common__attachment__2" />
 			</div>
-		</form>
-	</div>
+			<div class="video-box video-box-file-2"></div>
+		</div>
+		<div class="form-row">
+			<div class="form-control-label">첨부파일 2 삭제</div>
+			<div class="form-control-box">
+				<label><input type="checkbox" data-name="deleteFile__reply__0__common__attachment__2" value="Y" />삭제 </label>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-control-label">수정</div>
+			<div class="form-control-box">
+				<button type="submit">수정</button>
+				<button type="button" onclick="ReplyList__hideModifyFormModal();">취소</button>
+			</div>
+		</div>
+	</form>
+</div>
 </c:if>
 
 
@@ -283,23 +317,93 @@
 		var id = form.id.value;
 		var body = form.body.value;
 
+		var fileInput1 = form['file__reply__' + id + '__common__attachment__1'];
+		var fileInput2 = form['file__reply__' + id + '__common__attachment__2'];
+
+		var deleteFileInput1 = form["deleteFile__reply__" + id
+			+ "__common__attachment__1"];
+		var deleteFileInput2 = form["deleteFile__reply__" + id
+			+ "__common__attachment__2"];
+
+		if (deleteFileInput1.checked) {
+			fileInput1.value = '';
+		}
+
+		if (deleteFileInput2.checked) {
+			fileInput2.value = '';
+		}
+
 		ReplyList__submitModifyFormDone = true;
-		$.post('../reply/doModifyReplyAjax', {
-			id : id,
-			body : body
-		}, function(data) {
-			if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
-				// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
-				var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .reply-body');
-				$tr.empty().append(body);
+
+		var startUploadFiles = function(onSuccess) {
+			if (fileInput1.value.length == 0 && fileInput2.value.length == 0) {
+				if (deleteFileInput1.checked == false
+						&& deleteFileInput2.checked == false) {
+					onSuccess();
+					return;
+				}
 			}
 
-			ReplyList__hideModifyFormModal();
-			ReplyList__submitModifyFormDone = false;
-		}, 'json');
+			var fileUploadFormData = new FormData(form); 
+			
+			$.ajax({
+				url : './../file/doUploadAjax',
+				data : fileUploadFormData,
+				processData : false,
+				contentType : false,
+				dataType:"json",
+				type : 'POST',
+				success : onSuccess
+			});
+		}
+
+		var startModifyReply = function() {
+			$.post('../reply/doModifyReplyAjax', {
+				id : id,
+				body : body
+			}, function(data) {
+				if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
+					// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
+					var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .reply-body');
+					$tr.empty().append(body);
+
+					var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .video-box').empty();
+
+					if ( data && data.body && data.body.file__comment__attachment ) {
+						for ( var fileNo in data.body.file__comment__attachment ) {
+							var file = data.body.file__comment__attachment[fileNo];
+
+							var html = '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
+							$('.reply-list-box tbody > tr[data-id="' + id + '"] [data-file-no="' + fileNo + '"].video-box').append(html);
+						}
+					}
+					
+				}
+
+				ReplyList__hideModifyFormModal();
+				ReplyList__submitModifyFormDone = false;
+			}, 'json');
+		};
+
+		startUploadFiles(function(data) {
+			
+			var idsStr = '';
+			if ( data && data.body && data.body.fileIdsStr ) {
+				idsStr = data.body.fileIdsStr;
+			}
+
+			startModifyReply(idsStr, function(data) {
+				if ( data.msg ) {
+					alert(data.msg);
+				}
+				
+				ReplyList__submitModifyFormDone = false;
+
+				ReplyList__hideModifyFormModal();
+			});
+		});
 	}
 
-	// 댓글 수정 - 수정 폼 보이기
 	function ReplyList__showModifyFormModal(el) {
 		$('html').addClass('reply-modify-form-modal-actived');
 		var $tr = $(el).closest('tr');
@@ -309,11 +413,37 @@
 
 		var form = $('.reply-modify-form-modal form').get(0);
 
+		$(form).find('[data-name]').each(function(index, el) {
+			var $el = $(el);
+
+			var name = $el.attr('data-name');
+			name = name.replaceAll('__0__', '__' + id + '__');
+			$el.attr('name', name);
+
+			if ( $el.prop('type') == 'file' ) {
+				$el.val('');
+			}
+			else if ( $el.prop('type') == 'checkbox' ) {
+				$el.prop('checked', false);
+			}
+		});
+
+		for ( var fileNo = 1; fileNo <= 2; fileNo++ ) {
+			$('.reply-modify-form-modal .video-box-file-' + fileNo).empty();
+			
+			var videoName = 'reply__' + id + '__common__attachment__' + fileNo;
+
+			var $videoBox = $('.reply-list-box [data-video-name="' + videoName + '"]');
+			
+			if ( $videoBox.length > 0 ) {
+				$('.reply-modify-form-modal .video-box-file-' + fileNo).append($videoBox.html());
+			}
+		}
+
 		form.id.value = id;
 		form.body.value = originBody;
 	}
 
-	// 댓글 수정 - 수정 폼 숨기기
 	function ReplyList__hideModifyFormModal() {
 		$('html').removeClass('reply-modify-form-modal-actived');
 	}
@@ -330,7 +460,6 @@
 		setTimeout(ReplyList__loadMore, ReplyList__loadMoreInterval);
 	}
 
-	// 특정 게시물의 댓글 리스트 가져오기
 	function ReplyList__loadMore() {
 
 		$.get('../reply/getForPrintReplies', {
@@ -339,15 +468,13 @@
 		}, ReplyList__loadMoreCallback, 'json');
 	}
 
-	// 댓글 리스트 (댓글 컨트롤러에서 가져온 댓글 리스트를 ReplyList__drawReply에 각각 넣어서 출력되도록 전달)
 	function ReplyList__drawReplies(replies) {
 		for (var i = 0; i < replies.length; i++) {
 			var reply = replies[i];
-			 ReplyList__drawReply(reply);
+			ReplyList__drawReply(reply);
 		}
 	}
 
-	// 댓글 삭제 AJAX
 	function ReplyList__delete(el) {
 		if (confirm('삭제 하시겠습니까?') == false) {
 			return;
@@ -364,7 +491,6 @@
 		}, 'json');
 	}
 
-	// 댓글 리스트 AJAX (받아온 각각의 댓글을 통해 댓글 리스트 생성)
 	function ReplyList__drawReply(reply) {
 		var html = '';
 		html += '<tr data-id="' + reply.id + '">';
@@ -373,14 +499,20 @@
 		html += '<td>' + reply.extra.writer + '</td>';
 		html += '<td>';
 		html += '<div class="reply-body">' + reply.body + '</div>';
-		
-		if ( reply.extra.file__common__attachment ) {
-			for ( var no in reply.extra.file__common__attachment ) {
-				var file = reply.extra.file__common__attachment[no];
-	            html += '<div class="video-box"><video controls src="/usr/file/streamVideo?id=' + file.id + '">video not supported</video></div>';				
+
+		for ( var fileNo = 1; fileNo <= 2; fileNo++ ) {
+			html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
+
+			if ( reply.extra.file__common__attachment && reply.extra.file__common__attachment[fileNo] ) {
+				var file = reply.extra.file__common__attachment[fileNo];
+
+				html += '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
+	        }
+			else {
 			}
-            
-        }
+
+			html += '</div>';
+		}
 		
 		html += '</td>';
 		html += '<td>';
@@ -402,7 +534,6 @@
 	}
 
 	ReplyList__loadMore();
-
 </script>
 	
 <%@ include file="../part/foot.jspf"%>

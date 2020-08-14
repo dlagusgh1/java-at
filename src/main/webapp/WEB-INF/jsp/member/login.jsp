@@ -59,7 +59,7 @@
 </script>
 <form method="POST" class="table-box con form1" action="doLogin"
 	onsubmit="MemberLoginForm__submit(this); return false;">
-	<input type="hidden" name="redirectUri" value="/home/main">
+	<input type="hidden" name="redirectUri" value="/usr/home/main">
 	<input type="hidden" name="loginPwReal">
 
 	<table>

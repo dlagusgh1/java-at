@@ -102,7 +102,6 @@ public class ArticleController {
 	
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req) {
-		
 		int id = Integer.parseInt((String) param.get("id"));
 		
 		Member loginedMember = (Member)req.getAttribute("loginedMember");
@@ -120,7 +119,6 @@ public class ArticleController {
 		return "article/write";
 	}
 	
-	// 게시물 작성 기능
 	@RequestMapping("/usr/article/doWrite")
 	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest req) {
 		int loginedMemberId = (int)req.getAttribute("loginedMemberId");

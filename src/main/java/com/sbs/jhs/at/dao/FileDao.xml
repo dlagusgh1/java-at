@@ -9,8 +9,7 @@
 		INTO `file`
 		SET regDate = NOW(),
 		updateDate = NOW(),
-		relTypeCode =
-		#{relTypeCode},
+		relTypeCode = #{relTypeCode},
 		relId = #{relId},
 		originFileName = #{originFileName},
 		fileExt = #{fileExt},
@@ -20,8 +19,7 @@
 		fileExtTypeCode = #{fileExtTypeCode},
 		fileExtType2Code = #{fileExtType2Code},
 		fileNo = #{fileNo},
-		`body` =
-		#{body}
+		`body` = #{body}
 	</insert>
 
 	<update id="update">
@@ -53,8 +51,7 @@
 		</foreach>
 		AND relTypeCode = #{relTypeCode}
 		AND typeCode = #{typeCode}
-		AND
-		type2Code = #{type2Code}
+		AND type2Code = #{type2Code}
 		AND fileNo = #{fileNo}
 		ORDER BY relId
 	</select>
@@ -73,8 +70,7 @@
 		</foreach>
 		AND relTypeCode = #{relTypeCode}
 		AND typeCode = #{typeCode}
-		AND
-		type2Code = #{type2Code}
+		AND type2Code = #{type2Code}
 		ORDER BY relId, fileNo
 	</select>
 
@@ -90,8 +86,7 @@
 		AND relId = #{relId}
 		AND relTypeCode = #{relTypeCode}
 		AND typeCode = #{typeCode}
-		AND
-		type2Code = #{type2Code}
+		AND type2Code = #{type2Code}
 		ORDER BY fileNo
 	</select>
 
@@ -118,8 +113,7 @@
 	<delete id="deleteFiles">
 		DELETE FROM file
 		WHERE relId = #{relId}
-		AND relTypeCode
-		= #{relTypeCode}
+		AND relTypeCode = #{relTypeCode}
 	</delete>
 
 	<delete id="deleteFile">
@@ -130,11 +124,9 @@
 	<select id="getFileId" resultType="int">
 		SELECT id
 		FROM file
-		WHERE
-		relTypeCode = #{relTypeCode}
+		WHERE relTypeCode = #{relTypeCode}
 		AND relId = #{relId}
-		AND typeCode =
-		#{typeCode}
+		AND typeCode = #{typeCode}
 		AND type2Code = #{type2Code}
 		AND fileNo = #{fileNo}
 	</select>

@@ -35,8 +35,7 @@ public class ArticleService {
 	private void updateForPrintInfo(Member actor, Article article) {
 		Util.putExtraVal(article, "actorCanDelete", actorCanDelete(actor, article));
 		Util.putExtraVal(article, "actorCanModify", actorCanModify(actor, article));
-
-		System.out.println(Util.getExtraVal(article, "actorCanModify", "ㅋㅋ"));
+		
 	}
 
 	// 액터가 해당 댓글을 수정할 수 있는지 알려준다.

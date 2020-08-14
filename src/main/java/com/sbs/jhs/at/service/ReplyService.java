@@ -28,7 +28,8 @@ public class ReplyService {
 
 		List<Integer> replyIds = replies.stream().map(reply -> reply.getId()).collect(Collectors.toList());
 		if (replyIds.size() > 0) {
-			Map<Integer, Map<Integer, File>> filesMap = fileService.getFilesMapKeyRelIdAndFileNo("reply", replyIds, "common", "attachment");
+			Map<Integer, Map<Integer, File>> filesMap = fileService.getFilesMapKeyRelIdAndFileNo("reply", replyIds,
+					"common", "attachment");
 
 			for (Reply reply : replies) {
 				Map<Integer, File> filesMap2 = filesMap.get(reply.getId());
@@ -64,7 +65,6 @@ public class ReplyService {
 		return actorCanModify(actor, reply);
 	}
 
-	// 댓글 작성
 	public int writeReply(Map<String, Object> param) {
 		replyDao.writeReply(param);
 		int id = Util.getAsInt(param.get("id"));
@@ -72,7 +72,6 @@ public class ReplyService {
 		String fileIdsStr = (String) param.get("fileIdsStr");
 
 		if (fileIdsStr != null && fileIdsStr.length() > 0) {
-
 			List<Integer> fileIds = Arrays.asList(fileIdsStr.split(",")).stream().map(s -> Integer.parseInt(s.trim()))
 					.collect(Collectors.toList());
 
@@ -86,18 +85,16 @@ public class ReplyService {
 		return id;
 	}
 
-	// 댓글 삭제
 	public void deleteReply(int id) {
 		replyDao.deleteReply(id);
 		fileService.deleteFiles("reply", id);
 	}
 
-	// 특정 댓글 가져오기
 	public Reply getForPrintReplyById(int id) {
 		Reply reply = replyDao.getForPrintReplyById(id);
 
 		Map<Integer, File> filesMap = fileService.getFilesMapKeyFileNo("reply", id, "common", "attachment");
-		Util.putExtraVal(reply, "file__comment__attachment", filesMap);
+		Util.putExtraVal(reply, "file__common__attachment", filesMap);
 
 		return reply;
 	}
@@ -118,10 +115,10 @@ public class ReplyService {
 				fileService.changeRelId(fileId, id);
 			}
 		}
-
+		
 		Reply reply = getForPrintReplyById(id);
-
-		param.put("file__comment__attachment", reply.getExtra().get("file__comment__attachment"));
+		
+		param.put("file__common__attachment", reply.getExtra().get("file__common__attachment"));
 
 		return new ResultData("S-1", String.format("%d번 댓글을 수정하였습니다.", Util.getAsInt(param.get("id"))), param);
 	}

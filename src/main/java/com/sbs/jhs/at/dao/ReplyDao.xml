@@ -5,7 +5,8 @@
 <mapper namespace="com.sbs.jhs.at.dao.ReplyDao">
 	<select id="getForPrintReplies" resultMap="reply">
 	    <![CDATA[
-		SELECT AR.*, M.nickname AS extra__writer
+		SELECT AR.*,
+		M.nickname AS extra__writer
 		FROM reply AS AR
 		INNER JOIN member AS M
 		ON AR.memberId = M.id
@@ -31,7 +32,7 @@
 	<select id="getForPrintReplyById" resultMap="reply">
 		SELECT AR.*,
 		M.nickname AS extra__writer
-		FROM reply AS AR
+		FROM reply AS AR 
 		INNER JOIN member AS M
 		ON AR.memberId = M.id
 		WHERE AR.id = #{id}

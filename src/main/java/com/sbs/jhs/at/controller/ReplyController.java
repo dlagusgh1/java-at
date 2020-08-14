@@ -58,7 +58,6 @@ public class ReplyController {
 	@ResponseBody
 	public ResultData doDeleteReplyAjax(int id, HttpServletRequest req) {
 		Member loginedMember = (Member) req.getAttribute("loginedMember");
-		
 		Reply reply = replyService.getForPrintReplyById(id);
 
 		if (replyService.actorCanDelete(loginedMember, reply) == false) {
