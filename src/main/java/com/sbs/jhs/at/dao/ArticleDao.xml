@@ -86,4 +86,10 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="delete">
+		UPDATE `article`
+		SET delStatus = 1,
+		delDate = NOW()
+		WHERE id = #{id}
+	</update>
 </mapper>

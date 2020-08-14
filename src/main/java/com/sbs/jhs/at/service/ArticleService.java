@@ -118,10 +118,35 @@ public class ArticleService {
 	}
 	/* article write 끝 */
 	
+	public boolean actorCanDelete(Member actor, int id) {
+		Article article = articleDao.getArticleById(id);
+
+		return actorCanDelete(actor, article);
+	}
+	
+	public ResultData checkActorCanDelete(Member actor, int id) {
+		boolean actorCanDelete = actorCanDelete(actor, id);
+
+		if (actorCanDelete) {
+			return new ResultData("S-1", "가능합니다.", "id", id);
+		}
+
+		return new ResultData("F-1", "권한이 없습니다.", "id", id);
+	}
+	
 	public boolean actorCanModify(Member actor, int id) {
 		Article article = articleDao.getArticleById(id);
 
 		return actorCanModify(actor, article);
+	}
+	
+	public void delete(Map<String, Object> param) {
+		articleDao.delete(param);
+		
+		int id = Util.getAsInt(param.get("id"));
+
+		fileService.deleteFiles("article", id);
+		
 	}
 
 	public ResultData checkActorCanModify(Member actor, int id) {

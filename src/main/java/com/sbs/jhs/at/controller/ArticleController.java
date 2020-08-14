@@ -152,6 +152,7 @@ public class ArticleController {
 		return "article/modify";
 	}
 	
+	// 게시물 수정 기능
 	@RequestMapping("/usr/article/doModify")
 	public String doModify(@RequestParam Map<String, Object> param, HttpServletRequest req, int id, Model model) {
 		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr", "articleId", "id");
@@ -173,7 +174,29 @@ public class ArticleController {
 		return "redirect:" + redirectUri;
 	}
 	
-	
-	
+	// 게시물 삭제 기능
+	@RequestMapping("/usr/article/doDelete")
+	public String doDelete(@RequestParam Map<String, Object> param, HttpServletRequest req, int id, Model model) {
+		
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
+		
+		ResultData checkActorCanDelteResultData = articleService.checkActorCanDelete(loginedMember, id);
+		
+		if (checkActorCanDelteResultData.isFail() ) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("msg", checkActorCanDelteResultData.getMsg());
+			
+			return "common/redirect";
+		}
+		
+		articleService.delete(param);
+		
+		String redirectUri = "/usr/article/list";
+		model.addAttribute("redirectUri", redirectUri);
+		model.addAttribute("alertMsg", String.format("%s번 게시물이 삭제되었습니다.", param.get("id")));
+
+		return "common/redirect";
+	}
+
 	
 }

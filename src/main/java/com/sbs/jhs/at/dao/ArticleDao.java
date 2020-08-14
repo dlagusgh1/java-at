@@ -37,6 +37,8 @@ public interface ArticleDao {
 	void write(Map<String, Object> param);
 	
 	void modify(Map<String, Object> param);
+
+	void delete(Map<String, Object> param);
 	
 	
 }
