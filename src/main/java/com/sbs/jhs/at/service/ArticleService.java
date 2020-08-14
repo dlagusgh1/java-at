@@ -81,7 +81,7 @@ public class ArticleService {
 
 		updateForPrintInfo(actor, article);
 
-		List<File> files = fileService.getFilesMapKeyFileNo("article", article.getId(), "common", "attachment");
+		List<File> files = fileService.getFiles("article", article.getId(), "common", "attachment");
 
 		Map<String, File> filesMap = new HashMap<>();
 

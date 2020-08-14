@@ -100,6 +100,9 @@ flex-jc-sb {
     justify-content: space-between;
 }
 
+.flex-1-0-0 {
+	flex:1 0 0;
+}
 
 /* 테이블 관련 */
 .table-box > table {
@@ -143,6 +146,7 @@ button, input {
 
 .form1 .form-row {
 	display:flex;
+	flex-wrap: wrap;
 }
 
 .form1 .form-row > .form-control-label {
@@ -449,4 +453,16 @@ h1, h2, h3 {
 
 .reply-modify-form-modal-actived .reply-modify-form-modal {
 	display: flex;
+}
+
+.reply-modify-form-modal .form-control-label {
+	width: 120px;
+}
+
+.reply-modify-form-modal .form-control-box {
+	flex: 1 0 0;
+}
+
+.reply-modify-form-modal .video-box {
+	width: 100px;
 }

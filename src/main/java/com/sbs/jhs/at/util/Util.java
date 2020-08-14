@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -204,19 +203,6 @@ public class Util {
 			return Integer.parseInt(req.getParameter(paramName));
 		} catch (NumberFormatException e) {
 			return elseValue;
-		}
-	}
-
-	public static void printEx(String errName, HttpServletResponse resp, Exception e) {
-		try {
-			resp.getWriter()
-					.append("<h1 style='color:red; font-weight:bold; text-align:left;'>[에러 : " + errName + "]</h1>");
-
-			resp.getWriter().append("<pre style='text-align:left; font-weight:bold; font-size:1.3rem;'>");
-			e.printStackTrace(resp.getWriter());
-			resp.getWriter().append("</pre>");
-		} catch (IOException e1) {
-			e1.printStackTrace();
 		}
 	}
 

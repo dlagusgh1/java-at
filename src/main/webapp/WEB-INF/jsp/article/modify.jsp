@@ -9,11 +9,20 @@
 <script>
 	var ArticleModifyForm__submitDone = false;
 	function ArticleModifyForm__submit(form) {
+		if (ArticleModifyForm__submitDone) {
+			alert('처리중입니다.');
+			return;
+		}
 
-		var fileInput1 = form["file__article__" + param.id + "__common__attachment__1"];
-		var fileInput2 = form["file__article__" + param.id + "__common__attachment__2"];
-		var deleteFileInput1 = form["deleteFile__article__" + param.id + "__common__attachment__1"];
-		var deleteFileInput2 = form["deleteFile__article__" + param.id + "__common__attachment__2"];
+		var fileInput1 = form["file__article__" + param.id
+				+ "__common__attachment__1"];
+		var fileInput2 = form["file__article__" + param.id
+				+ "__common__attachment__2"];
+
+		var deleteFileInput1 = form["deleteFile__article__" + param.id
+				+ "__common__attachment__1"];
+		var deleteFileInput2 = form["deleteFile__article__" + param.id
+				+ "__common__attachment__2"];
 
 		if (deleteFileInput1.checked) {
 			fileInput1.value = '';
@@ -21,12 +30,6 @@
 
 		if (deleteFileInput2.checked) {
 			fileInput2.value = '';
-		}
-
-		
-		if (ArticleModifyForm__submitDone) {
-			alert('처리중입니다.');
-			return;
 		}
 
 		form.title.value = form.title.value.trim();
@@ -66,8 +69,11 @@
 
 		var startUploadFiles = function(onSuccess) {
 			if (fileInput1.value.length == 0 && fileInput2.value.length == 0) {
-				onSuccess();
-				return;
+				if (deleteFileInput1.checked == false
+						&& deleteFileInput2.checked == false) {
+					onSuccess();
+					return;
+				}
 			}
 
 			var fileUploadFormData = new FormData(form);
@@ -99,10 +105,11 @@
 		});
 	}
 </script>
-<form class="table-box con form1" method="POST" action="doModify" onsubmit="ArticleModifyForm__submit(this); return false;">
-	<input type="hidden" name="fileIdsStr" /> 
-	<input type="hidden" name="redirectUri" value="/usr/article/detail?id=${article.id}" /> 
-	<input type="hidden" name="id" value="${article.id}" />
+<form class="table-box con form1" method="POST" action="doModify"
+	onsubmit="ArticleModifyForm__submit(this); return false;">
+	<input type="hidden" name="fileIdsStr" /> <input type="hidden"
+		name="redirectUri" value="/usr/article/detail?id=${article.id}" /> <input
+		type="hidden" name="id" value="${article.id}" />
 	<table>
 		<tbody>
 			<tr>
@@ -133,12 +140,11 @@
 				<th>첨부 파일 1</th>
 				<td>
 					<div class="form-control-box">
-						<input type="file" accept="video/*"
-							name="file__article__${article.id}__common__attachment__1" />
+						<input type="file" accept="video/*" name="file__article__${article.id}__common__attachment__1" />
 					</div> 
 					<c:if test="${article.extra.file__common__attachment['1'] != null}">
 						<div class="video-box">
-							<video controls	src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}">video not supported</video>
+							<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}">video not supported</video>
 						</div>
 					</c:if>
 				</td>
@@ -157,8 +163,8 @@
 					<div class="form-control-box">
 						<input type="file" accept="video/*"
 							name="file__article__${article.id}__common__attachment__2" />
-					</div> <c:if
-						test="${article.extra.file__common__attachment['2'] != null}">
+					</div> 
+					<c:if test="${article.extra.file__common__attachment['2'] != null}">
 						<div class="video-box">
 							<video controls	src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['2'].id}&updateDate=${article.extra.file__common__attachment['2'].updateDate}">video not supported</video>
 						</div>
@@ -175,6 +181,7 @@
 			</tr>
 		</tbody>
 	</table>
+
 	<div class="btn-box margin-top-20">
 		<button type="submit" class="btn btn-primary">수정</button>
 	</div>
