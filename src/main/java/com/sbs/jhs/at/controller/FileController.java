@@ -52,6 +52,14 @@ public class FileController {
 		return videoStreamService.prepareContent(new ByteArrayInputStream(file.getBody()), file.getFileSize(),
 				file.getFileExt(), httpRangeList);
 	}
+	
+	@RequestMapping("/usr/file/streamImg")
+	public ResponseEntity<byte[]> streamImg(@RequestHeader(value = "Range", required = false) String httpRangeList, int id) {
+		
+		File file = Util.getCacheData(fileCache, id);
+
+		return videoStreamService.prepareContent(new ByteArrayInputStream(file.getBody()), file.getFileSize(),file.getFileExt(), httpRangeList);
+	}
 
 	@RequestMapping("/usr/file/doUploadAjax")
 	@ResponseBody

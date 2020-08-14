@@ -32,9 +32,18 @@
 					<tr>
 						<th>첨부 파일 1</th>
 						<td>
-							<div class="video-box">
-								<video controls	src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}">video not supported</video>
-							</div>
+						<c:choose>
+							<c:when test="${article.extra.file__common__attachment['1'].fileExtTypeCode.equals(\"img\")}">
+								<div class="img-box">
+									<img src="/usr/file/streamImg?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}" alt="??" />
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="video-box">
+									<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}">video not supported</video>
+								</div>
+							</c:otherwise>
+						</c:choose>		
 						</td>
 					</tr>
 				</c:if>
@@ -42,9 +51,18 @@
 					<tr>
 						<th>첨부 파일 2</th>
 						<td>
-							<div class="video-box">
-								<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['2'].id}">video not supported</video>
-							</div>
+							<c:choose>
+								<c:when test="${article.extra.file__common__attachment['2'].fileExtTypeCode.equals(\"img\")}">
+									<div class="img-box">
+										<img src="/usr/file/streamImg?id=${article.extra.file__common__attachment['2'].id}&updateDate=${article.extra.file__common__attachment['2'].updateDate}" alt="??" />
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="video-box">
+										<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['2'].id}&updateDate=${article.extra.file__common__attachment['2'].updateDate}">video not supported</video>
+									</div>
+								</c:otherwise>
+							</c:choose>		
 						</td>
 					</tr>
 				</c:if>

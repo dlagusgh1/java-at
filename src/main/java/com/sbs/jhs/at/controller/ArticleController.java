@@ -15,18 +15,12 @@ import com.sbs.jhs.at.dto.Article;
 import com.sbs.jhs.at.dto.Member;
 import com.sbs.jhs.at.dto.ResultData;
 import com.sbs.jhs.at.service.ArticleService;
-import com.sbs.jhs.at.service.FileService;
-import com.sbs.jhs.at.service.ReplyService;
 import com.sbs.jhs.at.util.Util;
 
 @Controller
 public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
-	@Autowired
-	private FileService fileService;
-	@Autowired
-	private ReplyService replyService;
 	
 	// 게시물 리스트
 	@RequestMapping("/usr/article/list")

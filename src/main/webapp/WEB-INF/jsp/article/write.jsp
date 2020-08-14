@@ -113,8 +113,7 @@
 				<th>첨부1 비디오</th>
 				<td>
 					<div class="form-control-box">
-						<input type="file" accept="video/*"
-							name="file__article__0__common__attachment__1">
+						<input type="file" accept="video/*, image/*" name="file__article__0__common__attachment__1">
 					</div>
 				</td>
 			</tr>
@@ -122,8 +121,7 @@
 				<th>첨부2 비디오</th>
 				<td>
 					<div class="form-control-box">
-						<input type="file" accept="video/*"
-							name="file__article__0__common__attachment__2">
+						<input type="file" accept="video/*, image/*" name="file__article__0__common__attachment__2">
 					</div>
 				</td>
 			</tr>
