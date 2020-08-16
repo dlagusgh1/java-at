@@ -511,7 +511,7 @@
 
 				var fileExtType = file.fileExtTypeCode;
 				
-				if ( fileExtType == "img" ) {
+				if ( fileExtType != "video" ) {
 					html += '<img src="/usr/file/streamImg?id=' + file.id + '&updateDate=' + file.updateDate + '" alt="??">';
 				} else {
 					html += '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
