@@ -34,21 +34,39 @@
 		var maxSize = maxSizeMb * 1024 * 1024 //50MB
 		
 		if (form.file__article__0__common__attachment__1.value) {
-			if ( form.file__article__0__common__attachment__1.files[0].size > maxSize ) {
+			if (form.file__article__0__common__attachment__1.files[0].size > maxSize) {
 				alert(maxSizeMb + "MB 이하의 파일을 업로드 해주세요.");
 				return;
 			} 
 		}
 
 		if (form.file__article__0__common__attachment__2.value) {
-			if ( form.file__article__0__common__attachment__2.files[0].size > maxSize ) {
+			if (form.file__article__0__common__attachment__2.files[0].size > maxSize) {
 				alert(maxSizeMb + "MB 이하의 파일을 업로드 해주세요.");
 				return;
 			} 
 		}
 
+		if (form.file__article__0__common__attachment__3.value) {
+			if (form.file__article__0__common__attachment__3.files[0].size > maxSize) {
+				alert(maxSizeMb + "MB 이하의 파일을 업로드 해주세요.");
+				return;
+			}
+		}
+
 		var startUploadFiles = function(onSuccess) {
-			if ( form.file__article__0__common__attachment__1.value.length == 0 && form.file__article__0__common__attachment__2.value.length == 0 ) {
+
+			var needToUpload = form.file__article__0__common__attachment__1.value.length > 0;
+
+			if (!needToUpload) {
+				needToUpload = form.file__article__0__common__attachment__2.value.length > 0;
+			}
+			
+			if (!needToUpload) {
+				needToUpload = form.file__article__0__common__attachment__3.value.length > 0;
+			}
+			
+			if (needToUpload == false) {
 				onSuccess();
 				return;
 			}
@@ -112,7 +130,7 @@
 				<th>첨부1 비디오</th>
 				<td>
 					<div class="form-control-box">
-						<input type="file" accept="video/*, image/*" name="file__article__0__common__attachment__1">
+						<input type="file" accept="video/*" name="file__article__0__common__attachment__1">
 					</div>
 				</td>
 			</tr>
@@ -120,7 +138,15 @@
 				<th>첨부2 비디오</th>
 				<td>
 					<div class="form-control-box">
-						<input type="file" accept="video/*, image/*" name="file__article__0__common__attachment__2">
+						<input type="file" accept="video/*" name="file__article__0__common__attachment__2">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>첨부3 이미지</th>
+				<td>
+					<div class="form-control-box">
+						<input type="file" accept="image/*"	name="file__article__0__common__attachment__3">
 					</div>
 				</td>
 			</tr>
