@@ -6,26 +6,6 @@
 <c:set var="pageTitle" value="${board.name} 게시물 상세내용" />
 <%@ include file="../part/head.jspf"%>
 
-<style>
-	.table-first-col {
-		width:100px;
-	}
-	
-	.table-first-col-tight {
-		width:100px;
-	}
-	
-	@media ( max-width:800px ) {
-		.table-first-col {
-			width:65px;
-		}
-		
-		.table-first-col-tight {
-			width:30px;
-		}
-	}
-</style>
-
 <c:if test="${article.delStatus != false}">
 	<h1>삭제된 게시물 입니다.</h1>
 </c:if>
@@ -247,10 +227,6 @@
 			}
 
 			var fileUploadFormData = new FormData(form); 
-			
-			fileUploadFormData.delete("relTypeCode");
-			fileUploadFormData.delete("relId");
-			fileUploadFormData.delete("body");
 
 			$.ajax({
 				url : './../file/doUploadAjax',
@@ -498,6 +474,8 @@
 				$('.reply-modify-form-modal .video-box-file-' + fileNo).append($videoBox.html());
 			}
 
+			$('.reply-modify-form-modal .img-box-file-' + fileNo).empty();
+			
 			var imgName = 'reply__' + id + '__common__attachment__' + fileNo;
 			var $imgBox = $('.reply-list-box [data-img-name="' + imgName + '"]');
 			
