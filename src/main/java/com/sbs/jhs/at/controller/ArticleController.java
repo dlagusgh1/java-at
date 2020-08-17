@@ -110,11 +110,9 @@ public class ArticleController {
 		if ( listUrl == null ) {
 			listUrl = "./" + boardCode + "-list";
 		}
-		
 		model.addAttribute("listUrl", listUrl);
-
-		Board board = articleService.getBoardByCode(boardCode);
 		
+		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
 		
 		int id = Integer.parseInt((String) param.get("id"));
