@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* 노말라이즈 */
 body, ul, li, h1 {
 	margin: 0;
@@ -29,6 +31,10 @@ label[for] {
 	display: block;
 }
 
+.text-align-center {
+	text-align:center;
+}
+
 .video-box>video {
 	width: 100%;
 	display: block;
@@ -49,6 +55,10 @@ label[for] {
 
 html>head+body:nth-child(2) .height-300 {
 	min-height: 100px;
+}
+
+.margin-top-10 {
+	margin-top: 10px;
 }
 
 .margin-top-20 {
@@ -104,6 +114,10 @@ flex-jc-sb {
     justify-content: space-between;
 }
 
+.flex-column {
+	flex-direction: column;
+}
+
 .flex-1-0-0 {
 	flex:1 0 0;
 }
@@ -157,6 +171,7 @@ button, input {
 	display:flex;
 	align-items: center;
 	padding:10px;
+	font-weight:bold;
 }
 
 .form1 .form-row > .form-control-box {
@@ -202,6 +217,9 @@ button, input {
 	background-color: #ffc10;
 }
 
+.btn + .btn {
+	margin-left:10px;
+}
 
 /* article list */
 .total {
@@ -451,6 +469,9 @@ h1, h2, h3 {
 }
 
 /* article detail - 댓글 수정 */
+.reply-modify-form-modal-actived, reply-modify-form-modal-actived > body {
+	overflow:hidden;
+}
 .reply-modify-form-modal {
 	position: fixed;
 	top: 0;
@@ -459,6 +480,20 @@ h1, h2, h3 {
 	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.4);
 	display: none;
+	z-index:20;
+}
+
+.reply-modify-form-modal > div {
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translateX(-50%) translateY(-50%);
+	max-width:100vw;
+	min-width:320px;
+	max-height:100vh;
+	overflow-y:auto;
+	border:3px solid black;
+	box-sizing: border-box;
 }
 
 .reply-modify-form-modal-actived .reply-modify-form-modal {
@@ -466,7 +501,7 @@ h1, h2, h3 {
 }
 
 .reply-modify-form-modal .form-control-label {
-	width: 120px;
+	width: 60px;
 }
 
 .reply-modify-form-modal .form-control-box {

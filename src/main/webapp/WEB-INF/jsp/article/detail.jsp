@@ -1,4 +1,4 @@
-<%@ page import="com.sbs.jhs.at.util.Util" %>
+<%@ page import="com.sbs.jhs.at.util.Util"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -6,12 +6,36 @@
 <c:set var="pageTitle" value="${board.name} 게시물 상세내용" />
 <%@ include file="../part/head.jspf"%>
 
+<style>
+	.table-first-col {
+		width:100px;
+	}
+	
+	.table-first-col-tight {
+		width:100px;
+	}
+	
+	@media ( max-width:800px ) {
+		.table-first-col {
+			width:65px;
+		}
+		
+		.table-first-col-tight {
+			width:30px;
+		}
+	}
+</style>
+
 <c:if test="${article.delStatus != false}">
 	<h1>삭제된 게시물 입니다.</h1>
 </c:if>
 <c:if test="${article.delStatus == false}">
-	<div class="table-box con">
+
+<div class="article-detail-box table-box con">
 		<table>
+			<colgroup>
+				<col class="table-first-col">
+			</colgroup>
 			<tbody>
 				<tr>
 					<th>번호</th>
@@ -80,7 +104,7 @@
 		<a class="btn btn-info" href="detail?id=${param.id-1}">이전 글</a>
 	</c:if>
 	<c:if test="${article.extra.actorCanModify}">
-		<a class="btn btn-info" href="${board.code}-modify?id=${article.id}&listUrl=${Util.getUriEncoded(listUrl)}">수정</a>
+		<a class="btn btn-info"	href="${board.code}-modify?id=${article.id}&listUrl=${Util.getUriEncoded(listUrl)}">수정</a>
 	</c:if>
 	<c:if test="${article.extra.actorCanDelete}">
 		<a class="btn btn-info" href="${board.code}-doDelete?id=${article.id}" onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;">삭제</a>
@@ -100,6 +124,9 @@
 		<input type="hidden" name="relTypeCode" value="article" /> 
 		<input type="hidden" name="relId" value="${article.id}" />
 		<table>
+			<colgroup>
+				<col class="table-first-col">
+			</colgroup>
 			<tbody>
 				<tr>
 					<th>내용</th>
@@ -127,7 +154,7 @@
 				</tr>
 				<tr>
 					<th>작성</th>
-					<td><input type="submit" value="작성"></td>
+					<td><input class="btn btn-primary" type="submit" value="작성"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -142,19 +169,19 @@
 <div class="reply-list-box table-box con">
 	<table>
 		<colgroup>
-			<col width="80">
-			<col width="180">
-			<col width="180">
+			<col class="table-first-col table-first-col-tight">
+			<col width="180" class="visible-on-md-up">
+			<col width="180" class="visible-on-md-up">
 			<col>
-			<col width="200">
+			<col width="200" class="visible-on-md-up">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>번호</th>
-				<th>날짜</th>
-				<th>작성자</th>
+				<th class="visible-on-md-up">날짜</th>
+				<th class="visible-on-md-up">작성자</th>
 				<th>내용</th>
-				<th>비고</th>
+				<th class="visible-on-md-up">비고</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -165,51 +192,53 @@
 
 <!-- 댓글 수정 -->
 <c:if test="${isLogined}">
-	<div class="reply-modify-form-modal flex flex-ai-c flex-jc-c">
-	<form action="" class="form1 bg-white padding-10"
-		onsubmit="ReplyList__submitModifyForm(this); return false;">
-		<input type="hidden" name="id" />
-		<div class="form-row">
-			<div class="form-control-label">내용</div>
-			<div class="form-control-box">
-				<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
-			</div>
+	<div class="reply-modify-form-modal">
+		<div class="bg-white">
+			<h1 class="text-align-center">댓글 수정</h1>
+			<form action="" class="form1 padding-10" onsubmit="ReplyList__submitModifyForm(this); return false;">
+				<input type="hidden" name="id" />
+				<div class="form-row">
+					<div class="form-control-label">내용</div>
+					<div class="form-control-box">
+						<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-control-label">첨부파일1</div>
+					<div class="form-control-box">
+						<input type="file" accept="video/*"	data-name="file__reply__0__common__attachment__1" />
+					</div>
+					<div class="video-box video-box-file-1"></div>
+				</div>
+				<div class="form-row">
+					<div class="form-control-label">첨부파일1 삭제</div>
+					<div class="form-control-box">
+						<label><input type="checkbox" data-name="deleteFile__reply__0__common__attachment__1" value="Y" />삭제 </label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-control-label">첨부파일2</div>
+					<div class="form-control-box">
+						<input type="file" accept="video/*"	data-name="file__reply__0__common__attachment__2" />
+					</div>
+					<div class="video-box video-box-file-2"></div>
+				</div>
+				<div class="form-row">
+					<div class="form-control-label">첨부파일2 삭제</div>
+					<div class="form-control-box">
+						<label><input type="checkbox" data-name="deleteFile__reply__0__common__attachment__2" value="Y" />삭제 </label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-control-label">수정</div>
+					<div class="form-control-box">
+						<button class="btn btn-primary" type="submit">수정</button>
+						<button class="btn btn-info" type="button" onclick="ReplyList__hideModifyFormModal();">취소</button>
+					</div>
+				</div>
+			</form>
 		</div>
-		<div class="form-row">
-			<div class="form-control-label">첨부파일 1</div>
-			<div class="form-control-box">
-				<input type="file" accept="video/*, image/*" data-name="file__reply__0__common__attachment__1" />
-			</div>
-			<div class="video-box video-box-file-1"></div>
-		</div>
-		<div class="form-row">
-			<div class="form-control-label">첨부파일 1 삭제</div>
-			<div class="form-control-box">
-				<label><input type="checkbox" data-name="deleteFile__reply__0__common__attachment__1" value="Y" />삭제 </label>
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-control-label">첨부파일 2</div>
-			<div class="form-control-box">
-				<input type="file" accept="video/*, image/*"	data-name="file__reply__0__common__attachment__2" />
-			</div>
-			<div class="video-box video-box-file-2"></div>
-		</div>
-		<div class="form-row">
-			<div class="form-control-label">첨부파일 2 삭제</div>
-			<div class="form-control-box">
-				<label><input type="checkbox" data-name="deleteFile__reply__0__common__attachment__2" value="Y" />삭제 </label>
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-control-label">수정</div>
-			<div class="form-control-box">
-				<button type="submit">수정</button>
-				<button type="button" onclick="ReplyList__hideModifyFormModal();">취소</button>
-			</div>
-		</div>
-	</form>
-</div>
+	</div>
 </c:if>
 
 
@@ -499,10 +528,12 @@
 		var html = '';
 		html += '<tr data-id="' + reply.id + '">';
 		html += '<td>' + reply.id + '</td>';
-		html += '<td>' + reply.regDate + '</td>';
-		html += '<td>' + reply.extra.writer + '</td>';
+		html += '<td class="visible-on-md-up">' + reply.regDate + '</td>';
+		html += '<td class="visible-on-md-up">' + reply.extra.writer + '</td>';
 		html += '<td>';
 		html += '<div class="reply-body">' + reply.body + '</div>';
+		html += '<div class="visible-on-sm-down">날짜 : ' + reply.regDate + '</div>';
+		html += '<div class="visible-on-sm-down">작성 : ' + reply.extra.writer + '</div>';
 
 		for ( var fileNo = 1; fileNo <= 2; fileNo++ ) {
 			html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
@@ -523,9 +554,20 @@
 
 			html += '</div>';
 		}
+
+		html += '<div class="visible-on-sm-down margin-top-10">';
+		if (reply.extra.actorCanDelete) {
+			html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
+		}
+		
+		if (reply.extra.actorCanModify) {
+			html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
+		}
+		
+		html += '</div>';
 		
 		html += '</td>';
-		html += '<td>';
+		html += '<td class="visible-on-md-up">';
 
 		if (reply.extra.actorCanDelete) {
 			html += '<button type="button" onclick="ReplyList__delete(this);">삭제</button>';

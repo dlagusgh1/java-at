@@ -102,9 +102,9 @@
 			return;
 		}
 
-		if (form.cellphoneNo.value.length < 8) {
+		if (form.cellphoneNo.value.length < 10) {
 			form.cellphoneNo.focus();
-			alert('휴대폰번호를 8자 이상 입력해주세요.');
+			alert('휴대폰번호를 10자 이상 입력해주세요.');
 
 			return;
 		}
@@ -129,7 +129,7 @@
 
 	<table>
 		<colgroup>
-			<col width="100">
+			<col width="70">
 		</colgroup>
 		<tbody>
 			<tr>
@@ -192,6 +192,7 @@
 				<th>가입</th>
 				<td>
 					<button class="btn btn-primary" type="submit">가입</button>
+					<button class="btn btn-info" type="button" onclick="history.back();">취소</button>
 				</td>
 			</tr>
 		</tbody>
