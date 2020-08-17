@@ -51,8 +51,21 @@ public class FileController {
 	
 	@RequestMapping(value = "/usr/file/showImg", method = RequestMethod.GET)
 	public void showImg3(HttpServletResponse response, int id) throws IOException {
-		InputStream in = new ByteArrayInputStream(fileService.getFileBodyById(id));
-		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+		File file = Util.getCacheData(fileCache, id);
+
+		InputStream in = new ByteArrayInputStream(file.getBody());
+
+		switch (file.getFileExtType2Code()) {
+		case "jpg":
+			response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+			break;
+		case "png":
+			response.setContentType(MediaType.IMAGE_PNG_VALUE);
+			break;
+		case "gif":
+			response.setContentType(MediaType.IMAGE_GIF_VALUE);
+			break;
+		}
 		IOUtils.copy(in, response.getOutputStream());
 	}
 	
@@ -97,9 +110,9 @@ public class FileController {
 				String fileExt = Util.getFileExtFromFileName(multipartFile.getOriginalFilename()).toLowerCase();
 				int fileSize = (int) multipartFile.getSize();
 				
-				boolean needToUpdate = relId != 0;
+				boolean fileUpdated = false;
 
-				if (needToUpdate) {
+				if (relId != 0) {
 					int oldFileId = fileService.getFileId(relTypeCode, relId, typeCode, type2Code, fileNo);
 					
 					if ( oldFileId > 0 ) {
@@ -107,9 +120,12 @@ public class FileController {
 								fileBytes, fileSize);
 
 						fileCache.refresh(oldFileId);
+						fileUpdated = true;
 					}
 
-				} else {
+				}	
+				
+				if (fileUpdated == false) {
 					int fileId = fileService.saveFile(relTypeCode, relId, typeCode, type2Code, fileNo, originFileName,
 							fileExtTypeCode, fileExtType2Code, fileExt, fileBytes, fileSize);
 
