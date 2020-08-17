@@ -14,15 +14,11 @@
 			return;
 		}
 
-		var fileInput1 = form["file__article__" + param.id
-				+ "__common__attachment__1"];
-		var fileInput2 = form["file__article__" + param.id
-				+ "__common__attachment__2"];
+		var fileInput1 = form["file__article__" + param.id + "__common__attachment__1"];
+		var fileInput2 = form["file__article__" + param.id + "__common__attachment__2"];
 
-		var deleteFileInput1 = form["deleteFile__article__" + param.id
-				+ "__common__attachment__1"];
-		var deleteFileInput2 = form["deleteFile__article__" + param.id
-				+ "__common__attachment__2"];
+		var deleteFileInput1 = form["deleteFile__article__" + param.id + "__common__attachment__1"];
+		var deleteFileInput2 = form["deleteFile__article__" + param.id + "__common__attachment__2"];
 
 		if (deleteFileInput1.checked) {
 			fileInput1.value = '';
@@ -69,8 +65,7 @@
 
 		var startUploadFiles = function(onSuccess) {
 			if (fileInput1.value.length == 0 && fileInput2.value.length == 0) {
-				if (deleteFileInput1.checked == false
-						&& deleteFileInput2.checked == false) {
+				if (deleteFileInput1.checked == false && deleteFileInput2.checked == false) {
 					onSuccess();
 					return;
 				}
@@ -107,9 +102,9 @@
 </script>
 <form class="table-box con form1" method="POST" action="doModify"
 	onsubmit="ArticleModifyForm__submit(this); return false;">
-	<input type="hidden" name="fileIdsStr" /> <input type="hidden"
-		name="redirectUri" value="/usr/article/detail?id=${article.id}" /> <input
-		type="hidden" name="id" value="${article.id}" />
+	<input type="hidden" name="fileIdsStr" /> 
+	<input type="hidden" name="redirectUri" value="/usr/article/detail?id=${article.id}" /> 
+	<input type="hidden" name="id" value="${article.id}" />
 	<table>
 		<tbody>
 			<tr>
@@ -140,12 +135,21 @@
 				<th>첨부 파일 1</th>
 				<td>
 					<div class="form-control-box">
-						<input type="file" accept="video/*" name="file__article__${article.id}__common__attachment__1" />
+						<input type="file" accept="video/*, image/*" name="file__article__${article.id}__common__attachment__1" />
 					</div> 
 					<c:if test="${article.extra.file__common__attachment['1'] != null}">
-						<div class="video-box">
-							<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}">video not supported</video>
-						</div>
+						<c:choose>
+							<c:when test="${article.extra.file__common__attachment['1'].fileExtTypeCode.equals(\"img\")}">
+								<div class="img-box">
+									<img src="/usr/file/streamImg?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}" alt="??" />
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="video-box">
+									<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['1'].id}&updateDate=${article.extra.file__common__attachment['1'].updateDate}">video not supported</video>
+								</div>
+							</c:otherwise>
+						</c:choose>						
 					</c:if>
 				</td>
 			</tr>
@@ -161,13 +165,21 @@
 				<th>첨부 파일 2</th>
 				<td>
 					<div class="form-control-box">
-						<input type="file" accept="video/*"
-							name="file__article__${article.id}__common__attachment__2" />
+						<input type="file" accept="video/*, image/*" name="file__article__${article.id}__common__attachment__2" />
 					</div> 
 					<c:if test="${article.extra.file__common__attachment['2'] != null}">
-						<div class="video-box">
-							<video controls	src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['2'].id}&updateDate=${article.extra.file__common__attachment['2'].updateDate}">video not supported</video>
-						</div>
+						<c:choose>
+							<c:when test="${article.extra.file__common__attachment['2'].fileExtTypeCode.equals(\"img\")}">
+								<div class="img-box">
+									<img src="/usr/file/streamImg?id=${article.extra.file__common__attachment['2'].id}&updateDate=${article.extra.file__common__attachment['2'].updateDate}" alt="??" />
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="video-box">
+									<video controls src="/usr/file/streamVideo?id=${article.extra.file__common__attachment['2'].id}&updateDate=${article.extra.file__common__attachment['2'].updateDate}">video not supported</video>
+								</div>
+							</c:otherwise>
+						</c:choose>	
 					</c:if>
 				</td>
 			</tr>

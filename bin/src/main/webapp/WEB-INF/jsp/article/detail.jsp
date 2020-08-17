@@ -112,7 +112,7 @@
 					<th>첨부1 비디오</th>
 					<td>
 						<div class="form-control-box">
-							<input type="file" accept="video/*" name="file__reply__0__common__attachment__1">
+							<input type="file" accept="video/*, image/*" name="file__reply__0__common__attachment__1">
 						</div>
 					</td>
 				</tr>
@@ -120,7 +120,7 @@
 					<th>첨부2 비디오</th>
 					<td>
 						<div class="form-control-box">
-							<input type="file" accept="video/*" name="file__reply__0__common__attachment__2">
+							<input type="file" accept="video/*, image/*" name="file__reply__0__common__attachment__2">
 						</div>
 					</td>
 				</tr>
@@ -177,7 +177,7 @@
 		<div class="form-row">
 			<div class="form-control-label">첨부파일 1</div>
 			<div class="form-control-box">
-				<input type="file" accept="video/*"	data-name="file__reply__0__common__attachment__1" />
+				<input type="file" accept="video/*, image/*" data-name="file__reply__0__common__attachment__1" />
 			</div>
 			<div class="video-box video-box-file-1"></div>
 		</div>
@@ -190,7 +190,7 @@
 		<div class="form-row">
 			<div class="form-control-label">첨부파일 2</div>
 			<div class="form-control-box">
-				<input type="file" accept="video/*"	data-name="file__reply__0__common__attachment__2" />
+				<input type="file" accept="video/*, image/*"	data-name="file__reply__0__common__attachment__2" />
 			</div>
 			<div class="video-box video-box-file-2"></div>
 		</div>
@@ -219,6 +219,7 @@
 		if ( ArticleWriteReplyForm__submitDone ) {
 			alert('처리중입니다.');
 		}
+		
 		form.body.value = form.body.value.trim();
 		if (form.body.value.length == 0) {
 			alert('댓글을 입력해주세요.');
@@ -320,10 +321,8 @@
 		var fileInput1 = form['file__reply__' + id + '__common__attachment__1'];
 		var fileInput2 = form['file__reply__' + id + '__common__attachment__2'];
 
-		var deleteFileInput1 = form["deleteFile__reply__" + id
-			+ "__common__attachment__1"];
-		var deleteFileInput2 = form["deleteFile__reply__" + id
-			+ "__common__attachment__2"];
+		var deleteFileInput1 = form["deleteFile__reply__" + id + "__common__attachment__1"];
+		var deleteFileInput2 = form["deleteFile__reply__" + id + "__common__attachment__2"];
 
 		if (deleteFileInput1.checked) {
 			fileInput1.value = '';
@@ -335,11 +334,12 @@
 
 		ReplyList__submitModifyFormDone = true;
 
-		var startUploadFiles = function(onSuccess) {
+		// 파일 업로드 시작
+		var startUploadFiles = function() {
 			if (fileInput1.value.length == 0 && fileInput2.value.length == 0) {
 				if (deleteFileInput1.checked == false
 						&& deleteFileInput2.checked == false) {
-					onSuccess();
+					onUploadFilesComplete();
 					return;
 				}
 			}
@@ -353,55 +353,58 @@
 				contentType : false,
 				dataType:"json",
 				type : 'POST',
-				success : onSuccess
+				success : onUploadFilesComplete
 			});
 		}
 
-		var startModifyReply = function() {
-			$.post('../reply/doModifyReplyAjax', {
-				id : id,
-				body : body
-			}, function(data) {
-				if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
-					// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
-					var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .reply-body');
-					$tr.empty().append(body);
-
-					var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .video-box').empty();
-
-					if ( data && data.body && data.body.file__comment__attachment ) {
-						for ( var fileNo in data.body.file__comment__attachment ) {
-							var file = data.body.file__comment__attachment[fileNo];
-
-							var html = '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
-							$('.reply-list-box tbody > tr[data-id="' + id + '"] [data-file-no="' + fileNo + '"].video-box').append(html);
-						}
-					}
-					
-				}
-
-				ReplyList__hideModifyFormModal();
-				ReplyList__submitModifyFormDone = false;
-			}, 'json');
-		};
-
-		startUploadFiles(function(data) {
+		// 파일 업로드 완료시 실행되는 함수
+		var onUploadFilesComplete = function(data) {
 			
-			var idsStr = '';
+			var fileIdsStr = '';
 			if ( data && data.body && data.body.fileIdsStr ) {
-				idsStr = data.body.fileIdsStr;
+				fileIdsStr = data.body.fileIdsStr;
 			}
 
-			startModifyReply(idsStr, function(data) {
-				if ( data.msg ) {
-					alert(data.msg);
-				}
-				
-				ReplyList__submitModifyFormDone = false;
+			startModifyReply(fileIdsStr);
+		};
 
-				ReplyList__hideModifyFormModal();
-			});
-		});
+		// 댓글 수정 시작
+		var startModifyReply = function(fileIdsStr) {
+			$.post('../reply/doModifyReplyAjax', {
+				id : id,
+				body : body,
+				fileIdsStr: fileIdsStr
+			}, onModifyReplyComplete, 'json');
+		};
+
+		// 댓글 수정이 완료되면 실행되는 함수
+		var onModifyReplyComplete = function(data) {
+			if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
+				// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
+				var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .reply-body');
+				$tr.empty().append(body);
+
+				var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .video-box').empty();
+
+				if ( data && data.body && data.body.file__common__attachment ) {
+					for ( var fileNo in data.body.file__common__attachment ) {
+						var file = data.body.file__common__attachment[fileNo];
+
+						var html = '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
+						$('.reply-list-box tbody > tr[data-id="' + id + '"] [data-file-no="' + fileNo + '"].video-box').append(html);
+					}
+				}
+			}
+
+			if ( data.msg ) {
+				alert(data.msg);
+			}
+
+			ReplyList__hideModifyFormModal();
+			ReplyList__submitModifyFormDone = false;
+		};
+
+		startUploadFiles();
 	}
 
 	function ReplyList__showModifyFormModal(el) {
@@ -502,11 +505,17 @@
 
 		for ( var fileNo = 1; fileNo <= 2; fileNo++ ) {
 			html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
-
+		
 			if ( reply.extra.file__common__attachment && reply.extra.file__common__attachment[fileNo] ) {
 				var file = reply.extra.file__common__attachment[fileNo];
 
-				html += '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
+				var fileExtType = file.fileExtTypeCode;
+				
+				if ( fileExtType != "video" ) {
+					html += '<img src="/usr/file/streamImg?id=' + file.id + '&updateDate=' + file.updateDate + '" alt="??">';
+				} else {
+					html += '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
+				}
 	        }
 			else {
 			}

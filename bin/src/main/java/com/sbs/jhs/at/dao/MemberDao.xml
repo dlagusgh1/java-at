@@ -32,8 +32,7 @@
 		loginId = #{loginId},
 		loginPw = #{loginPw},
 		`name` = #{name},
-		nickname =
-		#{nickname},
+		nickname = #{nickname},
 		email = #{email},
 		cellphoneNo = #{cellphoneNo}
 	</insert>

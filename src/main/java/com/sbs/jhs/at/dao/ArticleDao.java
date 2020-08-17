@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.jhs.at.dto.Article;
+import com.sbs.jhs.at.dto.Board;
 
 @Mapper
 public interface ArticleDao {
@@ -42,5 +43,6 @@ public interface ArticleDao {
 	// 게시물 삭제
 	void delete(Map<String, Object> param);
 	
+	Board getBoardByCode(String boardCode);	
 	
 }

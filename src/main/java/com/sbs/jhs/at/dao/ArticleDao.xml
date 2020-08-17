@@ -5,12 +5,14 @@
 <mapper namespace="com.sbs.jhs.at.dao.ArticleDao">
 	
 	<!-- 게시물 리스트 -->
-	<select id="getForPrintArticles" resultType="Article">
-		SELECT *
-		FROM article
-		WHERE displayStatus = 1
-		AND delStatus = 0
-		ORDER BY id DESC
+	<select id="getForPrintArticles" resultMap="article">
+		SELECT A.*,
+		M.nickname AS extra__writer
+		FROM article AS A
+		INNER JOIN member AS M
+		ON A.memberId = M.id
+		WHERE A.displayStatus = 1
+		ORDER BY A.id DESC
 		LIMIT #{limitFrom}, #{itemsInAPage}
 	</select>
 	
@@ -49,12 +51,14 @@
 	</select>
 	
 	<!-- 게시물 상세보기 -->
-	<select id="getForPrintArticleById" resultType="Article">
-		SELECT *
-		FROM article
-		WHERE displayStatus = 1
-		AND delStatus = 0
-		AND id = #{id}
+	<select id="getForPrintArticleById" resultMap="article">
+		SELECT A.*,
+		M.nickname AS extra__writer
+		FROM article AS A
+		INNER JOIN member AS M
+		ON A.memberId = M.id
+		WHERE A.displayStatus = 1
+		WHERE A.id = #{id}
 	</select>
 	
 	<select id="getArticleById" resultType="Article">
@@ -73,6 +77,7 @@
 		title = #{title}, 
 		`body`= #{body},
 		memberId = #{memberId},
+		boardId = #{boardId},
 		displayStatus = 1
 	</insert>
 	
@@ -92,4 +97,25 @@
 		delDate = NOW()
 		WHERE id = #{id}
 	</update>
+	
+	<select id="getBoardByCode" resultType="Board">
+		SELECT *
+		FROM board
+		WHERE `code` = #{code}
+	</select>
+	
+	<resultMap type="Article" id="article">
+		<id property="id" column="id" />
+		<id property="regDate" column="regDate" />
+		<id property="updateDate" column="updateDate" />
+		<id property="delDate" column="delDate" />
+		<id property="delStatus" column="delStatus" />
+		<id property="title" column="title" />
+		<id property="body" column="body" />
+		<id property="memberId" column="memberId" />
+		<id property="boardId" column="boardId" />
+		<association property="extra" javaType="map">
+			<id property="writer" column="extra__writer" />
+		</association>
+	</resultMap>
 </mapper>

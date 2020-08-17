@@ -1,8 +1,9 @@
+<%@ page import="com.sbs.jhs.at.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="pageTitle" value="게시물 상세내용" />
+<c:set var="pageTitle" value="${board.name} 게시물 상세내용" />
 <%@ include file="../part/head.jspf"%>
 
 <c:if test="${article.delStatus != false}">
@@ -78,13 +79,13 @@
 	<c:if test="${article.id-1 != 0}">	
 		<a class="btn btn-info" href="detail?id=${param.id-1}">이전 글</a>
 	</c:if>
-	<a class="btn btn-info" onclick="location.replace('list?page=1');">뒤로가기</a>
 	<c:if test="${article.extra.actorCanModify}">
-		<a class="btn btn-info" href="modify?id=${article.id}">수정</a>
+		<a class="btn btn-info" href="${board.code}-modify?id=${article.id}&listUrl=${Util.getUriEncoded(listUrl)}">수정</a>
 	</c:if>
 	<c:if test="${article.extra.actorCanDelete}">
-		<a class="btn btn-info" href="doDelete?id=${article.id}" onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;">삭제</a>
+		<a class="btn btn-info" href="${board.code}-doDelete?id=${article.id}" onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;">삭제</a>
 	</c:if>
+	<a href="${listUrl}" class="btn btn-info">리스트</a>
 	<c:if test="${article.id+1 != totalCount}">
 		<a class="btn btn-info" href="detail?id=${param.id+1}">다음 글</a>
 	</c:if>
@@ -451,8 +452,8 @@
 		$('html').removeClass('reply-modify-form-modal-actived');
 	}
 
-	// 10초
-	ReplyList__loadMoreInterval = 10 * 1000;
+	// 1초
+	ReplyList__loadMoreInterval = 1 * 1000;
 
 	function ReplyList__loadMoreCallback(data) {
 		if (data.body.replies && data.body.replies.length > 0) {
